@@ -121,9 +121,12 @@ function linkOrText(label, url) {
 function setting(id) { return D.settings.filter(function (x) { return x.id === id; })[0]; }
 function entry(st, id) { return st.entries.filter(function (e) { return e.id === id; })[0]; }
 function recordOf(st) { return entry(st, st.record_id); }
-function bestReported() {
-  return D.literature.filter(function (r) { return r.setting === D.benchmark; })
-    .sort(function (a, b) { return a.reported_cost - b.reported_cost; })[0];
+/* Claims that still stand: no verified submission reproduces them and none is disputed. */
+function openClaims(id) {
+  return D.literature.filter(function (r) { return r.setting === id && !r.verified_by && !r.disputed; });
+}
+function bestClaim(id) {
+  return openClaims(id).sort(function (a, b) { return a.reported_cost - b.reported_cost; })[0];
 }
 function niceTicks(lo, hi, n) {
   var span = hi - lo, step = Math.pow(10, Math.floor(Math.log10(span / n)));
@@ -280,7 +283,7 @@ function secondControllerPlot(box, e, sigma, opts) {
 /* ---------- home: the gap, the headline numbers and the record controller ---------- */
 function renderHero() {
   var st = setting(D.benchmark), rec = recordOf(st), lb = st.lower_bounds, lin = entry(st, "affine-optimal");
-  var bestRep = bestReported();
+  var bestRep = bestClaim(D.benchmark);
 
   var box = clear("gap");
   var W = fitWidth(box, 540), H = 110, m = { l: 12, r: 12 };
@@ -349,7 +352,7 @@ function initLeaderboard() {
   });
   sel.value = current;
   sel.addEventListener("change", function () { selectSetting(sel.value); });
-  ["show-claimed", "show-verified"].forEach(function (id) { document.getElementById(id).addEventListener("change", renderBoard); });
+  ["show-claimed", "show-verified", "show-disputed"].forEach(function (id) { document.getElementById(id).addEventListener("change", renderBoard); });
   renderBoard();
   window.addEventListener("hashchange", function () {
     var id = settingFromHash();
@@ -437,7 +440,7 @@ function claimedRow(p, rank) {
   var row = h("tr", null,
     h("td", { class: "num", text: String(rank) }),
     h("td", { class: "num" }, h("span", { class: "cost", text: fmtReported(p) })),
-    h("td", null, evidenceTag("Claimed")),
+    h("td", null, evidenceTag("Claimed"), p.disputed ? [" ", h("span", { class: "tag", text: "disputed" })] : null),
     h("td", { math: p.method }),
     h("td", { text: shortAuthors(p.authors) }),
     h("td", { class: "nowrap", text: String(p.year) }),
@@ -450,23 +453,31 @@ function claimedRow(p, rank) {
       h("dt", { text: "Paper" }), h("dd", null, linkOrText(p.title, p.url), ". " + p.venue + "."),
       h("dt", { text: "Shape of the controller" }), h("dd", { math: p.structure }),
       h("dt", { text: "Cost as printed" }), h("dd", { text: p.reported_as }),
+      p.disputed ? [h("dt", { text: "Disputed" }), h("dd", null, mt(p.disputed.reason), " (" + p.disputed.date + ")"),
+        p.disputed.note ? [h("dt", { text: "Note and scripts" }), h("dd", null, linkOrText(p.disputed.note, p.disputed.note))] : null] : null,
       p.notes ? [h("dt", { text: "Notes" }), h("dd", { math: p.notes })] : null) };
   });
 }
 function renderBoard() {
   var st = setting(current), rec = recordOf(st), lbs = st.lower_bounds;
   var papers = D.literature.filter(function (r) { return r.setting === st.id; });
-  var claims = papers.filter(function (r) { return !r.verified_by; });
+  var claims = papers.filter(function (r) { return !r.verified_by && !r.disputed; });
+  var disputed = papers.filter(function (r) { return !r.verified_by && r.disputed; });
   var paperOf = {};
   papers.forEach(function (r) { if (r.verified_by) paperOf[r.verified_by] = r; });
-  var bestClaim = claims.slice().sort(function (a, b) { return a.reported_cost - b.reported_cost; })[0];
+  var best = bestClaim(st.id);
   add(clear("scorebar"), [h("span", null, "Best verified ", h("b", { text: fmtCost(rec.result.cost) })),
-    bestClaim ? h("span", null, "Best claimed ", h("b", { text: fmtReported(bestClaim) })) : null,
+    best ? h("span", null, "Best claimed ", h("b", { text: fmtReported(best) })) : null,
     h("span", null, "Best lower bound ", h("b", { text: fmtBound(lbs.best_value) }))]);
 
+  /* Disputed claims are hidden unless their box is ticked; the box says how many there are. */
+  document.getElementById("n-disputed").textContent = String(disputed.length);
+  document.getElementById("disputed-toggle").hidden = !disputed.length;
   var showClaimed = document.getElementById("show-claimed").checked, showVerified = document.getElementById("show-verified").checked;
+  var showDisputed = document.getElementById("show-disputed").checked;
   var rows = (showVerified ? st.entries.map(function (e) { return { cost: e.result.cost, e: e }; }) : [])
     .concat(showClaimed ? claims.map(function (p) { return { cost: p.reported_cost, p: p }; }) : [])
+    .concat(showDisputed ? disputed.map(function (p) { return { cost: p.reported_cost, p: p }; }) : [])
     .sort(function (a, b) { return (a.cost - b.cost) || ((a.e ? 0 : 1) - (b.e ? 0 : 1)); });
   var tb = clear("board-rows");
   if (!rows.length) tb.append(h("tr", null, h("td", { colspan: 9, class: "empty", text: "Tick an evidence level to show entries." })));
@@ -522,19 +533,20 @@ function historyChart(box, pts, o) {
   var tip = h("div", { class: "tip", role: "status" });
   plot.append(svg, tip);
   pts.filter(function (p) { return p.y >= o.y[0] && p.y <= o.y[1] && p.x >= o.x[0] && p.x <= o.x[1]; }).forEach(function (p) {
-    var color = p.kind === "reported" ? cssVar("--s1") : cssVar("--s2");
+    var color = p.kind === "verified" ? cssVar("--s2") : cssVar("--s1"), ring = p.kind === "disputed";
+    var kind = { reported: "claimed", disputed: "claimed, disputed", verified: "numerically verified" }[p.kind];
     var pos = W >= 420 ? o.label(p) : null;
     if (pos) {
       var right = pos.charAt(1) === "r", above = pos.charAt(0) === "a";
       svg.append(s("text", { class: "lbl", x: X(p.x) + (right ? 11 : -11), y: Y(p.y) + (above ? -8 : 18), "text-anchor": right ? "start" : "end", text: p.short }));
     }
-    var g = s("g", { class: "pt", tabindex: 0, "aria-label": plain(p.label) + ", " + p.year + ": " + p.value + (p.kind === "reported" ? " (claimed)" : " (numerically verified)") });
+    var g = s("g", { class: "pt", tabindex: 0, "aria-label": plain(p.label) + ", " + p.year + ": " + p.value + " (" + kind + ")" });
     g.append(s("circle", { class: "hit", cx: X(p.x), cy: Y(p.y), r: 12 }));
-    g.append(s("circle", { class: "dot", cx: X(p.x), cy: Y(p.y), r: 4.5, fill: color }));
+    g.append(s("circle", { class: ring ? "dot ring" : "dot", cx: X(p.x), cy: Y(p.y), r: 4.5, fill: ring ? cssVar("--page") : color }));
     function show() {
       tip.textContent = "";
       var row = h("div", { class: "row" }); var k = h("i"); k.style.background = color;
-      row.append(k, h("span", { class: "v", text: p.value }), h("span", { class: "l", text: p.kind === "reported" ? "claimed" : "numerically verified" }));
+      row.append(k, h("span", { class: "v", text: p.value }), h("span", { class: "l", text: kind }));
       tip.append(row, h("div", { class: "l", math: p.label + " (" + p.year + ")" }));
       if (p.note) tip.append(h("div", { class: "l", math: p.note }));
       var bw = plot.getBoundingClientRect().width, sc = bw / W, px = X(p.x) * sc, tw = tip.offsetWidth, th = tip.offsetHeight;
@@ -557,20 +569,25 @@ function renderHistoryCharts() {
   var place = { "mehmetoglu-2014": "bl", "tseng-tang-2017": "br" };
   historyChart(clear("hist-zoom"), HIST, { x: [2000, yNow + 2], y: [0.16685, 0.16740], xTicks: [2000, 2005, 2010, 2015, 2020, 2025],
     aria: "Benchmark costs since 2001 between 0.16685 and 0.16740",
-    label: function (p) { return p.kind === "reported" ? (place[p.id] || "ar") : (p.id === st.record_id ? "al" : null); } });
+    label: function (p) { return p.kind !== "verified" ? (place[p.id] || "ar") : (p.id === st.record_id ? "al" : null); } });
 }
 function renderHistory() {
   var st = setting(D.benchmark);
   D.literature.filter(function (r) { return r.setting === D.benchmark; }).forEach(function (r) {
-    HIST.push({ kind: "reported", id: r.id, x: r.year, y: r.reported_cost, year: r.year, value: fmtReported(r), label: r.authors, short: r.short || r.authors, note: r.method });
+    /* a disputed claim is drawn as a ring at its printed cost, and the line of best claimed costs skips it */
+    HIST.push({ kind: r.disputed ? "disputed" : "reported", id: r.id, x: r.year, y: r.reported_cost, year: r.year, value: fmtReported(r),
+      label: r.authors, short: (r.short || r.authors) + (r.disputed ? ", disputed" : ""), note: r.disputed ? r.disputed.reason : r.method });
   });
   st.entries.forEach(function (e) {
     var yr = +e.date.slice(0, 4);
     HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: "verified here", note: (e.authors || []).join(", ") });
   });
   var lg = clear("hist-legend");
-  [["--s1", "Claimed"], ["--s2", "Numerically verified"]].forEach(function (x) {
-    var k = h("span", { class: "key" }); k.style.background = "var(" + x[0] + ")";
+  var keys = [["--s1", "Claimed"], ["--s2", "Numerically verified"]];
+  if (HIST.some(function (p) { return p.kind === "disputed"; })) keys.splice(1, 0, ["ring", "Claimed, disputed"]);
+  keys.forEach(function (x) {
+    var k = h("span", { class: x[0] === "ring" ? "key ring" : "key" });
+    if (x[0] !== "ring") k.style.background = "var(" + x[0] + ")";
     lg.append(h("span", null, k, x[1]));
   });
   renderHistoryCharts();
@@ -597,13 +614,15 @@ function renderContribute() {
       navigator.clipboard.writeText(D.agent_prompt).then(function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy prompt"; }, 1600); });
     });
   }
-  var st = setting(D.benchmark), rec = recordOf(st), bestRep = bestReported();
+  var st = setting(D.benchmark), rec = recordOf(st), bestRep = bestClaim(D.benchmark);
+  var first = "A verified cost below $" + rec.result.cost.toFixed(7) + "$ at the benchmark.";
+  if (bestRep && bestRep.reported_cost < rec.result.cost) first += " In particular, a controller file that reproduces the $" + fmtReported(bestRep) + "$ claimed by " +
+    andJoin(bestRep.authors) + " would settle whether that value or the verified record is the better one.";
   var ul = clear("targets");
   [
-    ["A verified cost below $" + rec.result.cost.toFixed(7) + "$ at the benchmark. In particular, a controller file that reproduces the $" + fmtReported(bestRep) + "$ claimed by " +
-      andJoin(bestRep.authors) + " would settle whether that value or the verified record is the better one."],
+    [first],
     ["A proven lower bound above $" + fmtBound(st.lower_bounds.best_value) + "$ at the benchmark. Bounds are added by pull request to ", h("code", { text: "witsenhausen/bounds.py" }), ", with a reference or a proof."],
-    ["A controller file that reproduces one of the ", { href: "leaderboard.html", text: "claimed costs on the leaderboard" }, "."],
+    ["A controller file that reproduces one of the ", { href: "leaderboard.html", text: "claimed costs on the leaderboard" }, ", or a check showing that a printed cost is wrong, which marks the claim as disputed."],
     ["A new result about the optimum for the ", { href: "theory.html", text: "log in Section 5" }, ", or a correction to an entry."]
   ].forEach(function (parts) { ul.append(h("li", null, rich(parts))); });
 }

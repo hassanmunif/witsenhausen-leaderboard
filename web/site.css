@@ -84,6 +84,8 @@ pre, code, .katex, svg { -webkit-text-stroke: 0; }
 .key { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .claims strong { font-weight: 700; }
 .claims .sub { color: var(--muted); }
+/* a disputed claim: drawn as a ring in the history chart and its legend */
+.key.ring { background: transparent; box-shadow: inset 0 0 0 1.7px var(--s1); }
 .pagehead .no, .pager .no { margin-right: 0.55em; }
 
 /* ---------- section pages ---------- */
@@ -195,6 +197,8 @@ tr.detail svg.chart .dot { stroke: var(--band); }
 svg.chart .hit { fill: transparent; }
 svg.chart g.pt:focus { outline: none; }
 svg.chart g.pt:focus .dot, svg.chart g.pt:hover .dot { stroke: var(--ink); }
+svg.chart .dot.ring { stroke: var(--s1); stroke-width: 1.8; }
+svg.chart g.pt:focus .dot.ring, svg.chart g.pt:hover .dot.ring { stroke: var(--ink); }
 .tip { position: absolute; pointer-events: none; z-index: 5; background: var(--page); color: var(--ink); border: 1px solid var(--ink-2); border-radius: 3px; padding: 5px 9px; font-size: 0.88rem; line-height: 1.35; min-width: 150px; max-width: 290px; opacity: 0; }
 .tip.on { opacity: 1; }
 .tip .v { font-weight: 700; }

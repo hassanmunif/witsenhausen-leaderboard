@@ -1,5 +1,5 @@
 {
-  "note": "Costs exactly as reported in each paper (computed with that paper's own numerics). They become 'verified' only when a controller file is submitted and re-scored by the reference evaluator. Text fields may contain inline LaTeX between dollar signs.",
+  "note": "Costs exactly as reported in each paper (computed with that paper's own numerics). They become 'verified' only when a controller file is submitted and re-scored by the reference evaluator. Text fields may contain inline LaTeX between dollar signs. A claim with evidence that its printed cost is not the cost of the paper's controller has a 'disputed' record: the date, a one-sentence reason, and note, the path of a note in notes/ that explains the check and links its scripts. A disputed claim keeps its printed cost, is hidden on the leaderboard unless Disputed is ticked, and never counts as the best claimed cost.",
   "results": [
     {
       "id": "witsenhausen-1968-linear",
@@ -142,7 +142,12 @@
       "reported_cost": 0.166897,
       "reported_as": "0.166897",
       "verified_by": null,
-      "notes": "Best reported value to date; controller data not found online. A $30\\times$ faster solver followed (Tseng, ACC 2020).",
+      "disputed": {
+        "date": "2026-11-17",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.5\\times 10^{-5}$. Adding that part back puts the controller at about $0.166922$, level with the verified record.",
+        "note": "notes/tseng-tang-2017.md"
+      },
+      "notes": "The same value appears in Tseng (ACC 2020), whose solver is open source; no controller file for this problem is published.",
       "short": "Tseng & Tang"
     },
     {

@@ -7,7 +7,7 @@ A verified leaderboard for [Witsenhausen's counterexample](https://en.wikipedia.
 The site is written like a short paper split into pages. A home page shows the gap between the best verified cost and the best proven lower bound, and the record controller. Each numbered section is its own page:
 
 1. **The problem** (`problem.html`): the formal statement, with a TikZ block diagram and numbered equations, and the formulas of the lower bounds.
-2. **Leaderboard** (`leaderboard.html`): controllers ranked by cost and lower bounds ranked by value, each with an evidence level: *Numerically verified* (the evaluator recomputed the cost from a submitted file), *Peer-reviewed* (a bound proved in a peer-reviewed paper) or *Claimed* (stated but not checked, such as a cost printed in a paper). Tick boxes filter the controllers by evidence level, and a dropdown picks the parameter setting, which the address keeps (`leaderboard.html#k0.50_s5`).
+2. **Leaderboard** (`leaderboard.html`): controllers ranked by cost and lower bounds ranked by value, each with an evidence level: *Numerically verified* (the evaluator recomputed the cost from a submitted file), *Peer-reviewed* (a bound proved in a peer-reviewed paper) or *Claimed* (stated but not checked, such as a cost printed in a paper). A claimed cost with evidence against it is marked *disputed* and is hidden unless its box is ticked. Tick boxes filter the controllers by evidence level, and a dropdown picks the parameter setting, which the address keeps (`leaderboard.html#k0.50_s5`).
 3. **How a cost is verified** (`verification.html`): the evaluator's formulas and its independent checks.
 4. **Record history** (`history.html`): a chart of how the best benchmark cost (k = 0.2, σ = 5) has fallen since 1968, separating costs reported in papers from costs verified here.
 5. **Theory** (`theory.html`): a log of theoretical results, each marked peer-reviewed or preprint.
@@ -36,6 +36,8 @@ On the benchmark, the evaluator reproduces the published values for the best lin
 **Record rule.** A verified submission sets a new record only if its cost is below the standing record by more than 10⁻⁹ plus both error estimates. Otherwise it ties.
 
 **Costs from papers** (`data/literature.json`) appear on the leaderboard as *Claimed*, as printed. If your submission reproduces one of them, say so in the pull request: the paper's row is then shown as reproduced by your verified entry (its `verified_by` field is set to your submission).
+
+**Disputed claims.** If there is evidence that a printed cost is not the cost of the paper's controller, the row gets a `disputed` record: `date`, a one-sentence `reason`, and `note`, the path of a Markdown note in `notes/` that explains the check and links its scripts. The row stays *Claimed* with its printed cost. It is hidden on the leaderboard unless *Disputed* is ticked, is drawn as a ring on the history chart, and never counts as the best claimed cost. The first one is `notes/tseng-tang-2017.md`, checked by the scripts in `scripts/reexamine/`.
 
 ## Lower bounds
 
@@ -108,6 +110,8 @@ The site build needs only the Python standard library. It fills `web/layout.html
 
 `scripts/make_baselines.py` regenerates the exact baselines (best linear, two-point). `scripts/optimize_reference.py` is the reference optimizer behind the "curved sloped steps" entries. It needs `pip install "jax[cpu]"`.
 
+`scripts/reexamine/` holds the checks behind disputed claims. Each runs from the repository root in under a minute, for example `python scripts/reexamine/tseng_tang_tails.py`.
+
 ## Layout
 
 ```
@@ -128,6 +132,8 @@ web/vendor/          KaTeX and the Latin Modern fonts (third-party; see web/vend
 .github/workflows/   checks for pull requests (verify.yml) and site deployment (pages.yml)
 site/                built site (generated, not committed: GitHub builds it)
 scripts/             scoring, site build and preview, figure build, baselines, reference optimizer
+scripts/reexamine/   checks behind disputed claims (numpy + scipy)
+notes/               one note per disputed claim
 ```
 
 ## Licence

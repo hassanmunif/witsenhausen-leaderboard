@@ -8,6 +8,7 @@
     <li><span class="ev peer">Peer-reviewed</span>: the proof of the bound was published in a peer-reviewed paper; its value here is computed numerically and rounded down.</li>
     <li><span class="ev claimed">Claimed</span>: stated but not checked, such as a cost printed in a paper whose controller has not been submitted.</li>
   </ul>
+  <p>A claimed cost is marked <span class="tag">disputed</span> when there is evidence that the printed number is not the cost of the paper’s controller. Disputed claims are hidden unless you tick Disputed, and their details give the reason.</p>
 </div>
 <div class="controls"><label for="setting">Setting</label><select id="setting"></select></div>
 <div class="scorebar" id="scorebar"></div>
@@ -17,6 +18,7 @@
   <div class="ticks" role="group" aria-label="Evidence levels to show">
     <label><input type="checkbox" id="show-claimed" checked> Claimed</label>
     <label><input type="checkbox" id="show-verified" checked> Numerically verified</label>
+    <label id="disputed-toggle"><input type="checkbox" id="show-disputed"> <span>Disputed (<span id="n-disputed">0</span>)</span></label>
   </div>
 </div>
 <div class="tablewrap"><table class="bt" id="board">
