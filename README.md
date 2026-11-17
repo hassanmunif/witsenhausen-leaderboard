@@ -41,13 +41,14 @@ On the benchmark, the evaluator reproduces the published values for the best lin
 
 ## Lower bounds
 
-`witsenhausen/bounds.py` computes three proven bounds, all valid for every controller pair. Their values are computed numerically, and the site reports the best of them, rounded down:
+`witsenhausen/bounds.py` computes four proven bounds, all valid for every controller pair. Their values are computed numerically, and the site reports the strongest of them, rounded down:
 
 | Bound | Source |
 |---|---|
 | Grover–Sahai | Theorem 2 of Grover, Park & Sahai, *The finite-dimensional Witsenhausen counterexample* (arXiv:1003.0514) |
 | Grover–Park–Sahai, m = 1 | Theorem 3 of the same paper (sphere-packing bound), scalar case |
 | Witsenhausen's bound | Theorem 3 of Witsenhausen (1968): the second controller is told \|X0\|. Generalised by Wu & Verdú (2011), Theorem 4 |
+| Grover–Wagner–Sahai, m = 1 | Corollary 1 of Grover, Wagner & Sahai, *Information embedding and the triple role of control* (IEEE Trans. Inf. Theory, 2015; arXiv:1306.5018), which holds for every vector length. Fixing γ and relaxing the corollary's infimum gives a closed form, and every γ in (0, 1) gives a valid bound. `tests/test_bounds.py` checks it against a direct minimisation of the corollary |
 
 ## Submitting a controller
 

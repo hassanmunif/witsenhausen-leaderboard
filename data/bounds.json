@@ -1,6 +1,6 @@
 {
  "k0.20_s5": {
-  "version": "1",
+  "version": "2",
   "k": 0.2,
   "sigma": 5.0,
   "bounds": {
@@ -9,50 +9,64 @@
     "value": 0.02760480760964073,
     "argmin_power": 0.66956209022909,
     "label": "Grover–Sahai",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Holds for every vector length.",
-    "value_rounded_down": 0.027604,
     "equation": 7,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 2",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Holds for every vector length.",
+    "value_rounded_down": 0.027604
    },
    "grover_park_sahai": {
     "name": "grover_park_sahai",
     "value": 0.03428022160734292,
     "argmin_power": 0.6794715294471155,
     "label": "Grover–Park–Sahai, scalar case",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Sphere-packing bound.",
-    "value_rounded_down": 0.03428,
     "equation": 8,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 3 with $m = 1$",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Sphere-packing bound.",
+    "value_rounded_down": 0.03428
    },
    "genie_two_point": {
     "name": "genie_two_point",
     "value": 0.020894863981563146,
     "grid_margin": 5.099965000154995e-07,
     "label": "Witsenhausen",
-    "source": "https://doi.org/10.1137/0306011",
-    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
-    "value_rounded_down": 0.020894,
     "equation": 9,
+    "source": "https://doi.org/10.1137/0306011",
     "source_label": "Witsenhausen (1968), Theorem 3",
     "authors": "H. S. Witsenhausen",
     "year": 1968,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
+    "value_rounded_down": 0.020894
+   },
+   "grover_wagner_sahai": {
+    "name": "grover_wagner_sahai",
+    "value": 0.037080752707174994,
+    "gamma": 0.9653564516724669,
+    "label": "Grover–Wagner–Sahai, scalar case",
+    "equation": 10,
+    "source": "https://arxiv.org/abs/1306.5018",
+    "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+    "authors": "P. Grover, A. B. Wagner, A. Sahai",
+    "year": 2015,
+    "evidence": "Peer-reviewed",
+    "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    "value_rounded_down": 0.037079999999999995
    }
   },
-  "best": "grover_park_sahai",
-  "best_value": 0.03428,
-  "seconds": 20.5
+  "best": "grover_wagner_sahai",
+  "best_value": 0.037079999999999995,
+  "seconds": 16.2
  },
  "k0.10_s5": {
-  "version": "1",
+  "version": "2",
   "k": 0.1,
   "sigma": 5.0,
   "bounds": {
@@ -61,50 +75,64 @@
     "value": 0.007059030127183298,
     "argmin_power": 0.7005177062614129,
     "label": "Grover–Sahai",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Holds for every vector length.",
-    "value_rounded_down": 0.007058999999999999,
     "equation": 7,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 2",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Holds for every vector length.",
+    "value_rounded_down": 0.007058999999999999
    },
    "grover_park_sahai": {
     "name": "grover_park_sahai",
     "value": 0.011145975254667229,
     "argmin_power": 0.9216,
     "label": "Grover–Park–Sahai, scalar case",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Sphere-packing bound.",
-    "value_rounded_down": 0.011144999999999999,
     "equation": 8,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 3 with $m = 1$",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Sphere-packing bound.",
+    "value_rounded_down": 0.011144999999999999
    },
    "genie_two_point": {
     "name": "genie_two_point",
     "value": 0.007243903946153283,
     "grid_margin": 5.024965000154996e-07,
     "label": "Witsenhausen",
-    "source": "https://doi.org/10.1137/0306011",
-    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
-    "value_rounded_down": 0.007243899999999999,
     "equation": 9,
+    "source": "https://doi.org/10.1137/0306011",
     "source_label": "Witsenhausen (1968), Theorem 3",
     "authors": "H. S. Witsenhausen",
     "year": 1968,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
+    "value_rounded_down": 0.007243899999999999
+   },
+   "grover_wagner_sahai": {
+    "name": "grover_wagner_sahai",
+    "value": 0.009536544162123904,
+    "gamma": 0.964458261531111,
+    "label": "Grover–Wagner–Sahai, scalar case",
+    "equation": 10,
+    "source": "https://arxiv.org/abs/1306.5018",
+    "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+    "authors": "P. Grover, A. B. Wagner, A. Sahai",
+    "year": 2015,
+    "evidence": "Peer-reviewed",
+    "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    "value_rounded_down": 0.0095365
    }
   },
   "best": "grover_park_sahai",
   "best_value": 0.011144999999999999,
-  "seconds": 21.3
+  "seconds": 16.9
  },
  "k0.30_s5": {
-  "version": "1",
+  "version": "2",
   "k": 0.3,
   "sigma": 5.0,
   "bounds": {
@@ -113,50 +141,64 @@
     "value": 0.05988355962497223,
     "argmin_power": 0.6224734376375223,
     "label": "Grover–Sahai",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Holds for every vector length.",
-    "value_rounded_down": 0.059883,
     "equation": 7,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 2",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Holds for every vector length.",
+    "value_rounded_down": 0.059883
    },
    "grover_park_sahai": {
     "name": "grover_park_sahai",
     "value": 0.06480382490695374,
     "argmin_power": 0.5629615651709401,
     "label": "Grover–Park–Sahai, scalar case",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Sphere-packing bound.",
-    "value_rounded_down": 0.064803,
     "equation": 8,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 3 with $m = 1$",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Sphere-packing bound.",
+    "value_rounded_down": 0.064803
    },
    "genie_two_point": {
     "name": "genie_two_point",
     "value": 0.03664883484092467,
     "grid_margin": 5.224965000154995e-07,
     "label": "Witsenhausen",
-    "source": "https://doi.org/10.1137/0306011",
-    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
-    "value_rounded_down": 0.036648,
     "equation": 9,
+    "source": "https://doi.org/10.1137/0306011",
     "source_label": "Witsenhausen (1968), Theorem 3",
     "authors": "H. S. Witsenhausen",
     "year": 1968,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
+    "value_rounded_down": 0.036648
+   },
+   "grover_wagner_sahai": {
+    "name": "grover_wagner_sahai",
+    "value": 0.07971221849516083,
+    "gamma": 0.9667665275420609,
+    "label": "Grover–Wagner–Sahai, scalar case",
+    "equation": 10,
+    "source": "https://arxiv.org/abs/1306.5018",
+    "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+    "authors": "P. Grover, A. B. Wagner, A. Sahai",
+    "year": 2015,
+    "evidence": "Peer-reviewed",
+    "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    "value_rounded_down": 0.07971199999999999
    }
   },
-  "best": "grover_park_sahai",
-  "best_value": 0.064803,
-  "seconds": 21.7
+  "best": "grover_wagner_sahai",
+  "best_value": 0.07971199999999999,
+  "seconds": 17.4
  },
  "k0.40_s5": {
-  "version": "1",
+  "version": "2",
   "k": 0.4,
   "sigma": 5.0,
   "bounds": {
@@ -165,50 +207,64 @@
     "value": 0.10138304638372145,
     "argmin_power": 0.5646755808102271,
     "label": "Grover–Sahai",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Holds for every vector length.",
-    "value_rounded_down": 0.10138000000000001,
     "equation": 7,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 2",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Holds for every vector length.",
+    "value_rounded_down": 0.10138000000000001
    },
    "grover_park_sahai": {
     "name": "grover_park_sahai",
     "value": 0.10232113097775142,
     "argmin_power": 0.5274282602163463,
     "label": "Grover–Park–Sahai, scalar case",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Sphere-packing bound.",
-    "value_rounded_down": 0.10232000000000001,
     "equation": 8,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 3 with $m = 1$",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Sphere-packing bound.",
+    "value_rounded_down": 0.10232000000000001
    },
    "genie_two_point": {
     "name": "genie_two_point",
     "value": 0.05233376990648292,
     "grid_margin": 5.399965000154997e-07,
     "label": "Witsenhausen",
-    "source": "https://doi.org/10.1137/0306011",
-    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
-    "value_rounded_down": 0.052333,
     "equation": 9,
+    "source": "https://doi.org/10.1137/0306011",
     "source_label": "Witsenhausen (1968), Theorem 3",
     "authors": "H. S. Witsenhausen",
     "year": 1968,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
+    "value_rounded_down": 0.052333
+   },
+   "grover_wagner_sahai": {
+    "name": "grover_wagner_sahai",
+    "value": 0.13336067844836716,
+    "gamma": 0.9685747425125733,
+    "label": "Grover–Wagner–Sahai, scalar case",
+    "equation": 10,
+    "source": "https://arxiv.org/abs/1306.5018",
+    "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+    "authors": "P. Grover, A. B. Wagner, A. Sahai",
+    "year": 2015,
+    "evidence": "Peer-reviewed",
+    "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    "value_rounded_down": 0.13336
    }
   },
-  "best": "grover_park_sahai",
-  "best_value": 0.10232000000000001,
-  "seconds": 21.4
+  "best": "grover_wagner_sahai",
+  "best_value": 0.13336,
+  "seconds": 16.2
  },
  "k0.50_s5": {
-  "version": "1",
+  "version": "2",
   "k": 0.5,
   "sigma": 5.0,
   "bounds": {
@@ -217,46 +273,60 @@
     "value": 0.149285842974505,
     "argmin_power": 0.5017401805337491,
     "label": "Grover–Sahai",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Holds for every vector length.",
-    "value_rounded_down": 0.14928000000000002,
     "equation": 7,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 2",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Holds for every vector length.",
+    "value_rounded_down": 0.14928000000000002
    },
    "grover_park_sahai": {
     "name": "grover_park_sahai",
     "value": 0.14928584327198763,
     "argmin_power": 0.5017206947115387,
     "label": "Grover–Park–Sahai, scalar case",
-    "source": "https://www.arxiv.org/abs/1003.0514",
-    "note": "Sphere-packing bound.",
-    "value_rounded_down": 0.14928000000000002,
     "equation": 8,
+    "source": "https://www.arxiv.org/abs/1003.0514",
     "source_label": "Grover, Park & Sahai, Theorem 3 with $m = 1$",
     "authors": "P. Grover, S. Y. Park, A. Sahai",
     "year": 2010,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "Sphere-packing bound.",
+    "value_rounded_down": 0.14928000000000002
    },
    "genie_two_point": {
     "name": "genie_two_point",
     "value": 0.06659541712239393,
     "grid_margin": 5.624965000154996e-07,
     "label": "Witsenhausen",
-    "source": "https://doi.org/10.1137/0306011",
-    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
-    "value_rounded_down": 0.066595,
     "equation": 9,
+    "source": "https://doi.org/10.1137/0306011",
     "source_label": "Witsenhausen (1968), Theorem 3",
     "authors": "H. S. Witsenhausen",
     "year": 1968,
-    "evidence": "Peer-reviewed"
+    "evidence": "Peer-reviewed",
+    "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
+    "value_rounded_down": 0.066595
+   },
+   "grover_wagner_sahai": {
+    "name": "grover_wagner_sahai",
+    "value": 0.19365274745849193,
+    "gamma": 0.9706504654006023,
+    "label": "Grover–Wagner–Sahai, scalar case",
+    "equation": 10,
+    "source": "https://arxiv.org/abs/1306.5018",
+    "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+    "authors": "P. Grover, A. B. Wagner, A. Sahai",
+    "year": 2015,
+    "evidence": "Peer-reviewed",
+    "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    "value_rounded_down": 0.19365000000000002
    }
   },
-  "best": "grover_park_sahai",
-  "best_value": 0.14928000000000002,
-  "seconds": 20.7
+  "best": "grover_wagner_sahai",
+  "best_value": 0.19365000000000002,
+  "seconds": 16.3
  }
 }

@@ -89,7 +89,8 @@ function clear(id) { var e = document.getElementById(id); e.textContent = ""; re
 function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
 /* ---------- formatting ---------- */
-function fmtCost(c) { return c.toFixed(9); }
+/* Verified costs: twelve decimals, so rounding stays below the evaluator's error estimate (about 1e-11). */
+function fmtCost(c) { return c.toFixed(12); }
 /* Four significant digits, rounded down: a lower bound is never shown higher than its computed value. */
 function fmtBound(v) {
   if (!(v > 0) || !isFinite(v)) return String(v);
@@ -310,7 +311,7 @@ function renderHero() {
   mark(lin.result.cost, ink2, "best linear " + lin.result.cost.toFixed(2), 0, "end");
   box.append(svg);
   clear("gapcap").append(mt("Its width, $" + (rec.result.cost - lb.best_value).toFixed(4) + "$, measures how far the problem is from solved. The best verified cost is $" +
-    (rec.result.cost / lb.best_value).toFixed(2) + "$ times the best proven bound."));
+    (rec.result.cost / lb.best_value).toFixed(2) + "$ times the strongest proven bound tracked here."));
 
   var claims = clear("claims");
   function claim(color, strong) {
@@ -326,7 +327,7 @@ function renderHero() {
     rich(["is the best claimed cost, by ", { href: "leaderboard.html", text: andJoin(bestRep.authors) + " (" + bestRep.year + ")" }, ". It has not been verified here yet."]));
   var eq = lb.bounds[lb.best].equation;
   claim(ink, fmtBound(lb.best_value),
-    rich(["is the best proven lower bound, ", { href: "problem.html#eq-" + eq, text: "equation (" + eq + ")" }, " in Section 1."]));
+    rich(["is the strongest proven lower bound tracked here, ", { href: "problem.html#eq-" + eq, text: "equation (" + eq + ")" }, " in Section 1."]));
 
   controllerPlot(clear("hero-plot"), rec, st.sigma, { height: 370 });
   var hc = clear("hero-cap");
@@ -339,7 +340,8 @@ function renderHero() {
 /* ---------- leaderboard: controllers ranked by cost and lower bounds ranked by value, each with an evidence level.
    The address keeps the setting: leaderboard.html#k0.50_s5. ---------- */
 var current = null;
-function fmtReported(r) { return Number(r.reported_cost).toFixed(9); }
+/* A paper's cost exactly as printed, without digits the paper did not give. */
+function fmtReported(r) { return r.reported_as || String(r.reported_cost); }
 function settingFromHash() {
   var id = decodeURIComponent(location.hash.slice(1));
   return id && setting(id) ? id : null;

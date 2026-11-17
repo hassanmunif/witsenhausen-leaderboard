@@ -31,7 +31,7 @@ from witsenhausen import EVALUATOR_VERSION, evaluate, load_submission, posterior
 from witsenhausen.bounds import BOUND_INFO, all_bounds  # noqa: E402
 from witsenhausen.evaluator import _TAIL_Z, _f_range, _piece_moments, _x_window  # noqa: E402
 
-BOUNDS_VERSION = "1"
+BOUNDS_VERSION = "2"
 CLAIM_TOLERANCE = 1e-6
 
 # Acceptance limits. A controller is only scored if the evaluation stays small enough to run in the

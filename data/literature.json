@@ -144,7 +144,7 @@
       "verified_by": null,
       "disputed": {
         "date": "2026-11-17",
-        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.5\\times 10^{-5}$. Adding that part back puts the controller at about $0.166922$, level with the verified record.",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.5\\times 10^{-5}$. Adding that part back gives an estimated $0.166922$, within about $10^{-6}$ of the verified record. The controller is not published, so its exact cost is unverified.",
         "note": "notes/tseng-tang-2017.md"
       },
       "notes": "The same value appears in Tseng (ACC 2020), whose solver is open source; no controller file for this problem is published.",
@@ -165,7 +165,7 @@
       "verified_by": null,
       "disputed": {
         "date": "2026-11-17",
-        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $3.2\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.052324$, slightly above the verified record.",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $3.2\\times 10^{-5}$ at this setting. Adding that part back gives an estimated $0.052324$, slightly above the verified record. The controller is not published, so its exact cost is unverified.",
         "note": "notes/tseng-tang-2017.md"
       },
       "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
@@ -186,7 +186,7 @@
       "verified_by": null,
       "disputed": {
         "date": "2026-11-17",
-        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.1\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.314845$, level with the verified record.",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.1\\times 10^{-5}$ at this setting. Adding that part back gives an estimated $0.314845$, within about $10^{-6}$ of the verified record. The controller is not published, so its exact cost is unverified.",
         "note": "notes/tseng-tang-2017.md"
       },
       "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
@@ -207,7 +207,7 @@
       "verified_by": null,
       "disputed": {
         "date": "2026-11-17",
-        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.9\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.477671$, level with the verified record.",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.9\\times 10^{-5}$ at this setting. Adding that part back gives an estimated $0.477671$, within about $10^{-6}$ of the verified record. The controller is not published, so its exact cost is unverified.",
         "note": "notes/tseng-tang-2017.md"
       },
       "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
@@ -228,7 +228,7 @@
       "verified_by": null,
       "disputed": {
         "date": "2026-11-17",
-        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.7\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.640991$, level with the verified record.",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.7\\times 10^{-5}$ at this setting. Adding that part back gives an estimated $0.640991$, within about $10^{-6}$ of the verified record. The controller is not published, so its exact cost is unverified.",
         "note": "notes/tseng-tang-2017.md"
       },
       "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
@@ -244,10 +244,10 @@
       "url": "https://arxiv.org/abs/2009.13680",
       "method": "Person-by-person optimality equations (Gauss–Hermite quadrature)",
       "structure": "7 levels",
-      "reported_cost": 0.171269,
-      "reported_as": "0.171269",
+      "reported_cost": 0.171268523376388,
+      "reported_as": "0.171268523376388",
       "verified_by": null,
-      "notes": "Extended in arXiv:2509.11013 (2025). The paper also lists $0.166927$ for Lee–Lau–Ho's levels, at a point that does not solve its equations.",
+      "notes": "Extended in arXiv:2509.11013 (2025). The paper also lists $0.166926978333592$ for Lee–Lau–Ho's levels, at a point that does not solve its equations.",
       "short": "Telsang et al."
     }
   ]

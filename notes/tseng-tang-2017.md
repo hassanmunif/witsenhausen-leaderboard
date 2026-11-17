@@ -4,7 +4,7 @@
 
 ## Summary
 
-Tseng and Tang [1] report a cost of 0.166897 at the benchmark $k = 0.2$, $\sigma = 5$, about $2.6 \times 10^{-5}$ below the next best printed cost. That number is not the exact cost of their controller. Their numerics leave out the noise beyond $\pm 5$ standard deviations, and for a step controller that part of the cost is about $2.5 \times 10^{-5}$. Scored the same way, the verified reference controllers on this site reproduce the paper's Table II to the printed precision for $k = 0.2$ to $0.5$. Adding back what the cutoff leaves out puts their controller at about $0.166922$: level with the verified record, $0.166922312$, and with Mehmetoglu et al., $0.16692291$. The leaderboard keeps these costs as *Claimed*, with their printed values, and marks them *disputed*, at the benchmark and at $k = 0.1$, $0.3$, $0.4$ and $0.5$.
+Tseng and Tang [1] report a cost of 0.166897 at the benchmark $k = 0.2$, $\sigma = 5$, about $2.6 \times 10^{-5}$ below the next best printed cost. That number is not the exact cost of their controller. Their numerics leave out the noise beyond $\pm 5$ standard deviations, and for a step controller that part of the cost is about $2.5 \times 10^{-5}$. Scored the same way, the verified reference controllers on this site reproduce the paper's Table II to the printed precision for $k = 0.2$ to $0.5$. Adding back what the cutoff leaves out gives an estimated $0.166922$ for their controller, within about $10^{-6}$ of the verified record, $0.166922312$, and of Mehmetoglu et al., $0.16692291$. Their controller is not published, so its exact cost is unverified. The leaderboard keeps these costs as *Claimed*, with their printed values, and marks them *disputed*, at the benchmark and at $k = 0.1$, $0.3$, $0.4$ and $0.5$.
 
 ## What the paper and its code do
 
@@ -55,7 +55,7 @@ The two checks agree to about $10^{-7}$.
 
 ## What this shows and what it does not
 
-The controller of Tseng and Tang is not published, so its exact cost cannot be computed here. The checks show that its cost with the cutoff equals that of the verified reference controller to within the printed precision, and that the cutoff leaves out about $2.5 \times 10^{-5}$ for a controller of this shape. Its exact cost is therefore about 0.166922, within about $10^{-6}$ of the verified record, so it is not a better controller. The search algorithm itself is not in question, only the way the reported cost was computed.
+The controller of Tseng and Tang is not published, so its exact cost cannot be computed here. The checks show that its cost with the cutoff equals that of the verified reference controller to within the printed precision, and that the cutoff leaves out about $2.5 \times 10^{-5}$ for a controller of this shape. Its exact cost is therefore estimated at about 0.166922, within about $10^{-6}$ of the verified record. So the printed number does not show a controller $2.5 \times 10^{-5}$ better than the others, but this check cannot order the controllers more finely than about $10^{-6}$. The search algorithm itself is not in question, only the way the reported cost was computed.
 
 ## References
 

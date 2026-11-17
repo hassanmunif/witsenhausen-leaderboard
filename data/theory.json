@@ -99,7 +99,7 @@
    "venue": "Proc. IEEE CDC-ECC 2011",
    "url": "https://skoge.folk.ntnu.no/prost/proceedings/cdc-ecc-2011/data/papers/1145.pdf",
    "evidence": "Peer-reviewed",
-   "claim": "The optimal first controller $f$ is strictly increasing with a real-analytic left inverse, so no piecewise-linear $f$ is exactly optimal. Their Theorem 4 is a family of lower bounds that includes Witsenhausen’s 1968 bound."
+   "claim": "The optimal first controller $f$ is strictly increasing with a real-analytic left inverse, so a piecewise-linear $f$ can be exactly optimal only if it is affine. Their Theorem 4 is a family of lower bounds that includes Witsenhausen’s 1968 bound."
   },
   {
    "year": 2015,
@@ -109,7 +109,7 @@
    "venue": "IEEE Trans. Information Theory 61(4), 2015 (arXiv:1306.5018)",
    "url": "https://doi.org/10.1109/TIT.2015.2402279",
    "evidence": "Peer-reviewed",
-   "claim": "Asymptotic optimal cost of the vector problem pinned down within a factor of $1.3$."
+   "claim": "Asymptotic optimal cost of the vector problem pinned down within a factor of $1.3$. Its Corollary 1 holds for every vector length, so it also bounds the scalar problem; in dimension one it gives the closed-form bound used here as (10)."
   },
   {
    "year": 2015,
@@ -176,9 +176,9 @@
    "kind": "Structure of the optimum",
    "authors": "M. Zhao, M. Le Treust, T. J. Oechtering",
    "title": "Low-power optimal strategy for Witsenhausen counterexample",
-   "venue": "arXiv:2509.02381",
+   "venue": "Proc. 64th IEEE CDC 2025, 4503–4509; arXiv:2509.02381",
    "url": "https://arxiv.org/abs/2509.02381",
-   "evidence": "Preprint",
+   "evidence": "Peer-reviewed",
    "claim": "A low-power estimation strategy is first-order optimal as the control power $P \\to 0$, and it explains the near-optimal sawtooth shape of $u_1$."
   }
  ]

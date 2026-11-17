@@ -36,6 +36,22 @@ genie_two_point(k, sigma)
         h(a) = a^2 E[1 - tanh(a (a + W))]
              = sqrt(2 pi) a^2 phi(a) * int phi(y) / cosh(a y) dy   (Witsenhausen's form).
 
+grover_wagner_sahai(k, sigma)
+    Corollary 1 of Grover, Wagner & Sahai, "Information embedding and the
+    triple role of control" (IEEE Trans. Inf. Theory 61(4), 2015;
+    arXiv:1306.5018).  The corollary holds for every vector length m, so
+    also for m = 1.  It bounds the estimation error at control power P by an
+    infimum over the correlation c = E[X0 U1] of a supremum over gamma.
+    Fixing gamma in (0, 1) and relaxing the constraints of the infimum (on c,
+    on P >= 0 and on E[X1^2] >= 0) gives a closed form:
+
+        J* >= k^2 [ 2 sigma sqrt((1-gamma) / (gamma (1 + k^2 gamma)))
+                    - (1-gamma) (sigma^2 + gamma) / gamma ].
+
+    Every gamma in (0, 1) gives a valid bound, so the search over gamma only
+    chooses which valid bound to report; no step of it can overstate the
+    bound.  At sigma = 5 the relaxations cost nothing (tests/test_bounds.py).
+
 Numerics: the outer infimum over P (or the inner minimum over a) is taken
 on a fine grid and refined locally; the inner suprema (sigma_G, L) only need
 to be feasible, not optimal, for the bound to stay valid.  Reported values
@@ -53,7 +69,7 @@ from scipy.optimize import minimize, minimize_scalar
 from scipy.special import expit
 from scipy.stats import chi2
 
-__all__ = ["grover_sahai", "grover_park_sahai", "genie_two_point", "all_bounds", "round_down"]
+__all__ = ["grover_sahai", "grover_park_sahai", "genie_two_point", "grover_wagner_sahai", "all_bounds", "round_down"]
 
 
 def round_down(x: float, digits: int = 5) -> float:
@@ -177,6 +193,24 @@ def genie_two_point(k: float, sigma: float) -> dict:
     return {"name": "genie_two_point", "value": val, "grid_margin": float(margin)}
 
 
+# ------------------------------------------------------ Grover-Wagner-Sahai, m = 1
+def _gws_closed_form(k: float, sigma: float, g):
+    g = np.asarray(g, dtype=float)
+    return k * k * (2.0 * sigma * np.sqrt((1.0 - g) / (g * (1.0 + k * k * g))) - (1.0 - g) * (sigma * sigma + g) / g)
+
+
+def grover_wagner_sahai(k: float, sigma: float) -> dict:
+    g = expit(np.linspace(-15.0, 15.0, 6001))  # gamma in (0, 1), dense near both ends
+    v = _gws_closed_form(k, sigma, g)
+    i = int(np.argmax(v))
+    lo, hi = float(g[max(i - 1, 0)]), float(g[min(i + 1, g.size - 1)])
+    res = minimize_scalar(lambda t: -float(_gws_closed_form(k, sigma, t)), bounds=(lo, hi),
+                          method="bounded", options={"xatol": 1e-15})
+    gamma = float(res.x) if -res.fun > v[i] else float(g[i])
+    val = float(_gws_closed_form(k, sigma, gamma))
+    return {"name": "grover_wagner_sahai", "value": max(val, 0.0), "gamma": gamma}
+
+
 BOUND_INFO = {
     "grover_sahai": {
         "label": "Grover–Sahai",
@@ -208,12 +242,22 @@ BOUND_INFO = {
         "evidence": "Peer-reviewed",
         "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
     },
+    "grover_wagner_sahai": {
+        "label": "Grover–Wagner–Sahai, scalar case",
+        "equation": 10,
+        "source": "https://arxiv.org/abs/1306.5018",
+        "source_label": "Grover, Wagner & Sahai, Corollary 1 with $m = 1$",
+        "authors": "P. Grover, A. B. Wagner, A. Sahai",
+        "year": 2015,
+        "evidence": "Peer-reviewed",
+        "note": "Closed form at one $\\gamma$; every $\\gamma$ in $(0, 1)$ gives a valid bound.",
+    },
 }
 
 
 def all_bounds(k: float, sigma: float) -> dict:
     out = {}
-    for fn in (grover_sahai, grover_park_sahai, genie_two_point):
+    for fn in (grover_sahai, grover_park_sahai, genie_two_point, grover_wagner_sahai):
         r = fn(k, sigma)
         r.update(BOUND_INFO[r["name"]])
         r["value_rounded_down"] = round_down(r["value"])
