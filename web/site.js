@@ -501,7 +501,8 @@ function renderBoard() {
   var paperOf = {};
   papers.forEach(function (r) { if (r.verified_by) paperOf[r.verified_by] = r; });
   var best = bestClaim(st.id);
-  add(clear("scorebar"), [h("span", null, "Best verified ", h("b", { text: fmtCost(rec.result.cost) })),
+  /* a setting can have no verified entry yet (tests/test_data.py keeps the published ones from it) */
+  add(clear("scorebar"), [h("span", null, "Best verified ", h("b", { text: rec ? fmtCost(rec.result.cost) : "none yet" })),
     best ? h("span", null, "Best claimed ", h("b", { text: fmtReported(best) })) : null,
     h("span", null, "Best lower bound ", h("b", { text: fmtBound(lbs.best_value) }))]);
 

@@ -56,8 +56,8 @@ On the benchmark, the evaluator reproduces the published values for the best lin
 
 1. Add `submissions/<setting-id>/<your-name>.json`. Folder names are in `data/settings.json` (`k0.20_s5` is the benchmark).
 2. Run `python scripts/score_all.py --check` to see your verified cost.
-3. Open a pull request. CI re-scores every submission. It fails on malformed files, on a `setting` that does not match the folder, on dates not written YYYY-MM-DD, on controllers too large to evaluate quickly (more than 100,000 pieces, or values spread too widely), on results that cannot be right (non-finite, negative, or an error estimate above 10⁻⁶), and on a `claimed_cost` that is not a number or is more than 10⁻⁶ from the verified cost.
-4. After the merge, GitHub Actions re-scores everything and redeploys the site, and your entry appears with its verified cost.
+3. Open a pull request. CI runs the tests, re-scores every submission, builds the site and checks its pages (see *Checks* below). It fails on malformed files, on a `setting` that does not match the folder, on dates not written YYYY-MM-DD, on controllers too large to evaluate quickly (more than 100,000 pieces, or values spread too widely), on results that cannot be right (non-finite, negative, or an error estimate above 10⁻⁶), and on a `claimed_cost` that is not a number or is more than 10⁻⁶ from the verified cost.
+4. After the merge, GitHub Actions does the same again and redeploys the site, and your entry appears with its verified cost.
 
 A submission looks like this:
 
@@ -97,10 +97,19 @@ Text fields such as `name`, `method` and `notes` may contain inline LaTeX betwee
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                   # evaluator tests (about a minute)
+python -m pytest -q                   # evaluator, scorer and data tests (about a minute)
 python -m witsenhausen score submissions/k0.20_s5/reference-curved-steps.json
 python scripts/score_all.py --check   # re-score every submission -> data/results.json
 ```
+
+## Checks
+
+The same checks run on every pull request (`verify.yml`) and on every push to `main` before the site is deployed (`pages.yml`), so a change that breaks them never goes live:
+
+- `python -m pytest -q` tests the evaluator and the scorer, and `tests/test_data.py` checks that the data files agree: every `verified_by` names a submission in the same setting, every printed cost matches its number, disputed claims have a reason and an existing note, the theory log is in order, dollar signs come in pairs, every setting has submissions, and `data/bounds.json` matches the code (a changed bound needs a new `BOUNDS_VERSION`).
+- `python scripts/check_site.py` checks the built site. It parses every formula on the pages and in the data with the bundled KaTeX (needs Node.js), opens every page, and the leaderboard of every setting, in headless Chrome, Edge or Chromium (served from a local web server), and fails on a script error, a file that does not load, a formula that does not render, or a table or chart that is not drawn. It also follows every link inside the site, including anchors such as `problem.html#eq-6`. Without a browser or Node.js it skips those parts; CI runs it with `--strict`, which fails instead.
+
+To run them locally: `python -m pytest -q`, then `python scripts/build_site.py` and `python scripts/check_site.py`.
 
 ## Previewing the site
 
@@ -121,7 +130,7 @@ The site build needs only the Python standard library. It fills `web/layout.html
 
 ```
 witsenhausen/        evaluator, controller formats, lower bounds (numpy + scipy only)
-tests/               evaluator correctness tests
+tests/               tests of the evaluator, the scorer and the data files
 submissions/<id>/    one JSON file per controller and setting
 data/settings.json   parameter settings and the record rule
 data/literature.json results as reported in papers
@@ -136,7 +145,7 @@ web/figures/         TikZ source of the diagram and its compiled SVG
 web/vendor/          KaTeX and the Latin Modern fonts (third-party; see web/vendor/README.md)
 .github/workflows/   checks for pull requests (verify.yml) and site deployment (pages.yml)
 site/                built site (generated, not committed: GitHub builds it)
-scripts/             scoring, site build and preview, figure build, baselines, reference optimizer
+scripts/             scoring, site build, checks and preview, figure build, baselines, reference optimizer
 scripts/reexamine/   checks behind disputed claims (numpy + scipy)
 scripts/ports/       controllers from papers turned into submission files
 notes/               one note per disputed claim

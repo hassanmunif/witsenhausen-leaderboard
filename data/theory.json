@@ -17,7 +17,7 @@
    "authors": "Y.-C. Ho, K.-C. Chu",
    "title": "Team decision theory and information structures in optimal control problems, Part I",
    "venue": "IEEE Trans. Automatic Control 17(1), 15–22",
-   "url": null,
+   "url": "https://doi.org/10.1109/TAC.1972.1099850",
    "evidence": "Peer-reviewed",
    "claim": "With partially nested information, LQG teams have linear optimal policies. The counterexample is not partially nested."
   },
@@ -37,7 +37,7 @@
    "authors": "R. Bansal, T. Başar",
    "title": "Stochastic teams with nonclassical information revisited: when is an affine law optimal?",
    "venue": "IEEE Trans. Automatic Control 32(6), 554–559",
-   "url": null,
+   "url": "https://doi.org/10.1109/TAC.1987.1104636",
    "evidence": "Peer-reviewed",
    "claim": "Identifies cost structures close to Witsenhausen's for which affine laws are optimal."
   },
@@ -47,7 +47,7 @@
    "authors": "S. K. Mitter, A. Sahai",
    "title": "Information and control: Witsenhausen revisited",
    "venue": "Learning, Control and Hybrid Systems, LNCIS 241, 281–293 (Springer)",
-   "url": null,
+   "url": "https://doi.org/10.1007/BFb0109735",
    "evidence": "Peer-reviewed",
    "claim": "Quantization-based strategies can beat the best linear strategy by an arbitrarily large factor."
   },
