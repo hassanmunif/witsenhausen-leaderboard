@@ -23,14 +23,18 @@ grover_park_sahai(k, sigma)
         c(L) = 1 / P(chi2_1 <= L^2),  d(L) = P(chi2_3 <= L^2) / P(chi2_1 <= L^2).
 
 genie_two_point(k, sigma)
-    A genie tells the second controller xi = |X0|.  Given xi, X1 takes the
+    Witsenhausen's own lower bound: Theorem 3 of Witsenhausen, "A counterexample
+    in stochastic optimum control" (SIAM J. Control, 1968). Wu & Verdu (CDC-ECC
+    2011, Theorem 4) generalise it; the coupling Y' = -Y recovers it.  The
+    argument: a genie tells the second controller xi = |X0|.  Given xi, X1 takes the
     two values f(xi), f(-xi) with probability 1/2 each, so the second stage
     costs at least h(a) with a = (f(xi) - f(-xi))/2, where h(a) is the MMSE
     of an equiprobable +-a signal in unit Gaussian noise.  Since
     ((f(xi)-xi)^2 + (f(-xi)+xi)^2)/2 >= (a - xi)^2,
 
         J* >= E[V(|X0|)],   V(xi) = min_a  k^2 (a - xi)^2 + h(a),
-        h(a) = a^2 E[1 - tanh(a (a + W))].
+        h(a) = a^2 E[1 - tanh(a (a + W))]
+             = sqrt(2 pi) a^2 phi(a) * int phi(y) / cosh(a y) dy   (Witsenhausen's form).
 
 Numerics: the outer infimum over P (or the inner minimum over a) is taken
 on a fine grid and refined locally; the inner suprema (sigma_G, L) only need
@@ -195,14 +199,14 @@ BOUND_INFO = {
         "note": "Sphere-packing bound.",
     },
     "genie_two_point": {
-        "label": "Genie-aided two-point bound",
+        "label": "Witsenhausen",
         "equation": 9,
-        "source": "witsenhausen/bounds.py",
-        "source_label": "Derivation in witsenhausen/bounds.py",
-        "authors": "Leaderboard maintainers",
-        "year": 2026,
-        "evidence": "Claimed",
-        "note": "The second controller is told $|x_0|$.",
+        "source": "https://doi.org/10.1137/0306011",
+        "source_label": "Witsenhausen (1968), Theorem 3",
+        "authors": "H. S. Witsenhausen",
+        "year": 1968,
+        "evidence": "Peer-reviewed",
+        "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
     },
 }
 

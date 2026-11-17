@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-17T01:15:38Z",
+ "generated_at": "2026-11-17T13:39:43Z",
  "evaluator_version": "1.0.0",
  "record_rule": {
   "tolerance": 1e-09,
@@ -46,7 +46,7 @@
       "n_nodes": 26144,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.314,
+     "eval_seconds": 1.086,
      "plot": {
       "segments": [
        [
@@ -2528,7 +2528,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.002,
      "plot": {
       "segments": [
        [
@@ -4530,7 +4530,7 @@
       "n_nodes": 38928,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.013,
+     "eval_seconds": 0.009,
      "plot": {
       "segments": [
        [
@@ -6547,15 +6547,15 @@
       "name": "genie_two_point",
       "value": 0.020894863981563146,
       "grid_margin": 5.099965000154995e-07,
-      "label": "Genie-aided two-point bound",
-      "source": "witsenhausen/bounds.py",
-      "note": "The second controller is told $|x_0|$.",
+      "label": "Witsenhausen",
+      "source": "https://doi.org/10.1137/0306011",
+      "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
       "value_rounded_down": 0.020894,
       "equation": 9,
-      "source_label": "Derivation in witsenhausen/bounds.py",
-      "authors": "Leaderboard maintainers",
-      "year": 2026,
-      "evidence": "Claimed"
+      "source_label": "Witsenhausen (1968), Theorem 3",
+      "authors": "H. S. Witsenhausen",
+      "year": 1968,
+      "evidence": "Peer-reviewed"
      }
     },
     "best": "grover_park_sahai",
@@ -6608,7 +6608,7 @@
       "n_nodes": 30096,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.161,
+     "eval_seconds": 0.155,
      "plot": {
       "segments": [
        [
@@ -8838,7 +8838,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.002,
      "plot": {
       "segments": [
        [
@@ -10840,7 +10840,7 @@
       "n_nodes": 7056,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.002,
      "plot": {
       "segments": [
        [
@@ -12857,15 +12857,15 @@
       "name": "genie_two_point",
       "value": 0.007243903946153283,
       "grid_margin": 5.024965000154996e-07,
-      "label": "Genie-aided two-point bound",
-      "source": "witsenhausen/bounds.py",
-      "note": "The second controller is told $|x_0|$.",
+      "label": "Witsenhausen",
+      "source": "https://doi.org/10.1137/0306011",
+      "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
       "value_rounded_down": 0.007243899999999999,
       "equation": 9,
-      "source_label": "Derivation in witsenhausen/bounds.py",
-      "authors": "Leaderboard maintainers",
-      "year": 2026,
-      "evidence": "Claimed"
+      "source_label": "Witsenhausen (1968), Theorem 3",
+      "authors": "H. S. Witsenhausen",
+      "year": 1968,
+      "evidence": "Peer-reviewed"
      }
     },
     "best": "grover_park_sahai",
@@ -12918,7 +12918,7 @@
       "n_nodes": 26192,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.125,
+     "eval_seconds": 0.129,
      "plot": {
       "segments": [
        [
@@ -17198,7 +17198,7 @@
       "n_nodes": 39744,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.006,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -19215,15 +19215,15 @@
       "name": "genie_two_point",
       "value": 0.03664883484092467,
       "grid_margin": 5.224965000154995e-07,
-      "label": "Genie-aided two-point bound",
-      "source": "witsenhausen/bounds.py",
-      "note": "The second controller is told $|x_0|$.",
+      "label": "Witsenhausen",
+      "source": "https://doi.org/10.1137/0306011",
+      "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
       "value_rounded_down": 0.036648,
       "equation": 9,
-      "source_label": "Derivation in witsenhausen/bounds.py",
-      "authors": "Leaderboard maintainers",
-      "year": 2026,
-      "evidence": "Claimed"
+      "source_label": "Witsenhausen (1968), Theorem 3",
+      "authors": "H. S. Witsenhausen",
+      "year": 1968,
+      "evidence": "Peer-reviewed"
      }
     },
     "best": "grover_park_sahai",
@@ -19276,7 +19276,7 @@
       "n_nodes": 23040,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.106,
+     "eval_seconds": 0.113,
      "plot": {
       "segments": [
        [
@@ -21614,7 +21614,7 @@
       "n_nodes": 40016,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.006,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -23604,7 +23604,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.004,
      "plot": {
       "segments": [
        [
@@ -25633,15 +25633,15 @@
       "name": "genie_two_point",
       "value": 0.05233376990648292,
       "grid_margin": 5.399965000154997e-07,
-      "label": "Genie-aided two-point bound",
-      "source": "witsenhausen/bounds.py",
-      "note": "The second controller is told $|x_0|$.",
+      "label": "Witsenhausen",
+      "source": "https://doi.org/10.1137/0306011",
+      "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
       "value_rounded_down": 0.052333,
       "equation": 9,
-      "source_label": "Derivation in witsenhausen/bounds.py",
-      "authors": "Leaderboard maintainers",
-      "year": 2026,
-      "evidence": "Claimed"
+      "source_label": "Witsenhausen (1968), Theorem 3",
+      "authors": "H. S. Witsenhausen",
+      "year": 1968,
+      "evidence": "Peer-reviewed"
      }
     },
     "best": "grover_park_sahai",
@@ -25694,7 +25694,7 @@
       "n_nodes": 23952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.115,
+     "eval_seconds": 0.143,
      "plot": {
       "segments": [
        [
@@ -28008,7 +28008,7 @@
       "n_nodes": 40128,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.008,
+     "eval_seconds": 0.007,
      "plot": {
       "segments": [
        [
@@ -32027,15 +32027,15 @@
       "name": "genie_two_point",
       "value": 0.06659541712239393,
       "grid_margin": 5.624965000154996e-07,
-      "label": "Genie-aided two-point bound",
-      "source": "witsenhausen/bounds.py",
-      "note": "The second controller is told $|x_0|$.",
+      "label": "Witsenhausen",
+      "source": "https://doi.org/10.1137/0306011",
+      "note": "The second controller is told $|x_0|$; generalised by Wu and Verdú (2011, Theorem 4).",
       "value_rounded_down": 0.066595,
       "equation": 9,
-      "source_label": "Derivation in witsenhausen/bounds.py",
-      "authors": "Leaderboard maintainers",
-      "year": 2026,
-      "evidence": "Claimed"
+      "source_label": "Witsenhausen (1968), Theorem 3",
+      "authors": "H. S. Witsenhausen",
+      "year": 1968,
+      "evidence": "Peer-reviewed"
      }
     },
     "best": "grover_park_sahai",

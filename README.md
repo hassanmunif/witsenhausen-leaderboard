@@ -25,7 +25,7 @@ For any f, the best second controller is U2 = E[X1 | Y]. **The evaluator always 
 
 ## How verification works
 
-`witsenhausen/evaluator.py` scores piecewise-affine controllers (jumps allowed), which covers every controller in the literature: steps, sloped steps and sampled tables.
+`witsenhausen/evaluator.py` scores piecewise-affine controllers (jumps allowed). Steps and sloped steps are represented exactly; any other controller can be submitted as a piecewise-affine approximation, such as a sampled table, and the score is the exact cost of the submitted function.
 
 - The first-stage cost and E[X1²] are closed-form sums of truncated-Gaussian moments.
 - Given an observation y, every affine piece contributes in closed form to the density of Y and to E[X1 | Y = y]. The only numerical integral left is E[g*(Y)²] over y. It is computed with composite Gauss–Legendre quadrature and then repeated at twice the resolution; the difference is part of the reported error estimate.
@@ -39,19 +39,19 @@ On the benchmark, the evaluator reproduces the published values for the best lin
 
 ## Lower bounds
 
-`witsenhausen/bounds.py` computes three bounds, all valid for every controller pair. The site reports the best of them, rounded down:
+`witsenhausen/bounds.py` computes three proven bounds, all valid for every controller pair. Their values are computed numerically, and the site reports the best of them, rounded down:
 
 | Bound | Source |
 |---|---|
 | Grover–Sahai | Theorem 2 of Grover, Park & Sahai, *The finite-dimensional Witsenhausen counterexample* (arXiv:1003.0514) |
 | Grover–Park–Sahai, m = 1 | Theorem 3 of the same paper (sphere-packing bound), scalar case |
-| Genie-aided two-point bound | Derived in the module docstring: the second controller is told \|X0\| |
+| Witsenhausen's bound | Theorem 3 of Witsenhausen (1968): the second controller is told \|X0\|. Generalised by Wu & Verdú (2011), Theorem 4 |
 
 ## Submitting a controller
 
 1. Add `submissions/<setting-id>/<your-name>.json`. Folder names are in `data/settings.json` (`k0.20_s5` is the benchmark).
 2. Run `python scripts/score_all.py --check` to see your verified cost.
-3. Open a pull request. CI re-scores every submission. It fails on malformed files, on a `setting` that does not match the folder, and on a `claimed_cost` more than 10⁻⁶ from the verified cost.
+3. Open a pull request. CI re-scores every submission. It fails on malformed files, on a `setting` that does not match the folder, on controllers too large to evaluate quickly (more than 100,000 pieces, or values spread too widely), on results that cannot be right (non-finite, negative, or an error estimate above 10⁻⁶), and on a `claimed_cost` that is not a number or is more than 10⁻⁶ from the verified cost.
 4. After the merge, GitHub Actions re-scores everything and redeploys the site, and your entry appears with its verified cost.
 
 A submission looks like this:

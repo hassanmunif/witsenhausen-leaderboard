@@ -90,7 +90,12 @@ function cssVar(name) { return getComputedStyle(document.documentElement).getPro
 
 /* ---------- formatting ---------- */
 function fmtCost(c) { return c.toFixed(9); }
-function fmtBound(v) { return v.toPrecision(4); }
+/* Four significant digits, rounded down: a lower bound is never shown higher than its computed value. */
+function fmtBound(v) {
+  if (!(v > 0) || !isFinite(v)) return String(v);
+  var e = Math.floor(Math.log10(v)) - 3, scale = Math.pow(10, e);
+  return (Math.floor(v / scale + 1e-9) * scale).toFixed(Math.max(0, -e));
+}
 function errTex(e) {
   var p = (e < 1e-15 ? 1e-15 : e).toExponential(0).split("e");
   return "\\pm\\," + p[0] + "\\times 10^{" + (+p[1]) + "}";

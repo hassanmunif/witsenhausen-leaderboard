@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -28,10 +29,57 @@ sys.path.insert(0, str(ROOT))
 
 from witsenhausen import EVALUATOR_VERSION, evaluate, load_submission, posterior_mean  # noqa: E402
 from witsenhausen.bounds import BOUND_INFO, all_bounds  # noqa: E402
-from witsenhausen.evaluator import _piece_moments  # noqa: E402
+from witsenhausen.evaluator import _TAIL_Z, _f_range, _piece_moments, _x_window  # noqa: E402
 
 BOUNDS_VERSION = "1"
 CLAIM_TOLERANCE = 1e-6
+
+# Acceptance limits. A controller is only scored if the evaluation stays small enough to run in the
+# check, and a result is only ranked if it is physically possible and resolved accurately enough to
+# compare with others.
+MAX_PIECES = 100_000          # affine pieces
+MAX_NODES = 5_000_000         # quadrature nodes (they grow with the spread of f's values)
+MAX_WORK = 1_000_000_000      # pieces x nodes, roughly 2-3 minutes of evaluation
+MAX_ERROR = 1e-6              # error estimate: absolute for costs up to 1, relative above
+
+
+def evaluation_size(f, sigma, panel_width=0.2, order=16):
+    """Quadrature nodes the evaluator will use for f (both resolutions), computed before evaluating."""
+    lo, hi = _f_range(f, _x_window(f, sigma))
+    span = (hi - lo) + 2.0 * _TAIL_Z
+    return order * (max(1, math.ceil(span / panel_width)) + max(1, math.ceil(span / (panel_width / 2.0))))
+
+
+def size_problems(f, sigma):
+    """Reasons to refuse a controller before evaluating it."""
+    arrays = [f.intercepts, f.slopes, f.breakpoints]
+    if not all(np.all(np.isfinite(a)) for a in arrays):
+        return ["the controller's breakpoints, intercepts and slopes must all be finite numbers"]
+    if f.n_pieces > MAX_PIECES:
+        return [f"the controller has {f.n_pieces:,} affine pieces; at most {MAX_PIECES:,} are accepted"]
+    nodes = evaluation_size(f, sigma)
+    if nodes > MAX_NODES or f.n_pieces * nodes > MAX_WORK:
+        return [f"the controller is too large to evaluate in the check ({f.n_pieces:,} pieces, about {nodes:,} quadrature nodes); "
+                "its values spread too widely or it has too many pieces"]
+    return []
+
+
+def result_problems(r):
+    """Reasons not to rank an evaluated controller: impossible values or an unresolved cost."""
+    values = {"cost": r.cost, "k^2 E[u1^2]": r.stage1, "E[x2^2]": r.mmse, "error estimate": r.error_estimate}
+    bad = [name for name, v in values.items() if not math.isfinite(v)]
+    if bad:
+        return ["the evaluation produced non-finite values (" + ", ".join(bad) + "), so the cost cannot be trusted"]
+    problems = []
+    slack = r.error_estimate + 1e-12
+    if r.stage1 < 0 or r.mmse < -slack or r.cost < -slack:
+        problems.append(f"the evaluation gave an impossible negative value (cost {r.cost:.3e}, E[x2^2] {r.mmse:.3e}), "
+                        "so the cost cannot be trusted")
+    limit = MAX_ERROR * max(1.0, abs(r.cost))
+    if r.error_estimate > limit:
+        problems.append(f"the error estimate {r.error_estimate:.1e} is above the limit {limit:.0e}, "
+                        "so the cost is not resolved accurately enough to rank")
+    return problems
 
 
 def load_json(path: Path):
@@ -53,12 +101,14 @@ def bounds_for(settings, refresh=False):
         cache[key] = {"version": BOUNDS_VERSION, "k": s["k"], "sigma": s["sigma"], **b,
                       "seconds": round(time.time() - t, 1)}
         changed = True
-    if changed:
-        cache_path.write_text(json.dumps(cache, indent=1) + "\n", encoding="utf-8")
     # labels, sources and evidence levels always come from the code, not the cache
     for entry in cache.values():
-        for name, b in entry["bounds"].items():
-            b.update(BOUND_INFO[name])
+        for name, bnd in entry["bounds"].items():
+            if any(bnd.get(key) != value for key, value in BOUND_INFO[name].items()):
+                bnd.update(BOUND_INFO[name])
+                changed = True
+    if changed:
+        cache_path.write_text(json.dumps(cache, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     return cache
 
 
@@ -121,16 +171,24 @@ def score_file(path: Path, setting: dict):
     if not (math.isclose(sub["setting"]["k"], k) and math.isclose(sub["setting"]["sigma"], sigma)):
         problems.append(f"setting {sub['setting']} does not match folder {setting['id']} (k={k}, sigma={sigma})")
         return sub, None, problems
+    claimed = sub.get("claimed_cost")
+    if claimed is not None and (isinstance(claimed, bool) or not isinstance(claimed, (int, float)) or not math.isfinite(claimed)):
+        problems.append(f"claimed_cost must be a finite number, got {claimed!r}")
+    problems += size_problems(f, sigma)
+    if problems:
+        return sub, None, problems
     t = time.time()
     r = evaluate(f, k, sigma)
     secs = time.time() - t
-    claimed = sub.get("claimed_cost")
-    if claimed is not None and abs(float(claimed) - r.cost) > CLAIM_TOLERANCE:
+    problems += result_problems(r)
+    if not problems and claimed is not None and abs(float(claimed) - r.cost) > CLAIM_TOLERANCE:
         problems.append(f"claimed_cost {claimed} differs from verified cost {r.cost:.10f} by more than {CLAIM_TOLERANCE}")
+    if problems:
+        return sub, None, problems
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     entry = {
         "id": path.stem,
-        "file": str(path.relative_to(ROOT)).replace("\\", "/"),
+        "file": Path(os.path.relpath(path, ROOT)).as_posix(),
         "sha256": digest,
         "name": sub["name"],
         "short_name": sub.get("short_name"),
