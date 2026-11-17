@@ -4,6 +4,8 @@
 * best linear controller (Witsenhausen 1968, Lemma 11), found by minimizing
   the closed-form cost  k^2 sigma^2 (lam - 1)^2 + lam^2 sigma^2 / (1 + lam^2 sigma^2);
 * Witsenhausen's two-point design f(x) = sigma * sgn(x).
+
+Both are dated to Witsenhausen's paper; "verified_on" is the day this repository first scored them.
 """
 
 from __future__ import annotations
@@ -22,6 +24,8 @@ sys.path.insert(0, str(ROOT))
 from witsenhausen import SCHEMA  # noqa: E402
 
 BASE_DATE = "1968-02-01"
+VERIFIED_ON = "2026-11-17"
+PORTED_BY = "Leaderboard maintainers"
 
 
 def linear_cost(lam, k, sigma):
@@ -59,7 +63,9 @@ def main():
             "name": "Best linear controller",
             "short_name": "best linear controller",
             "authors": ["H. S. Witsenhausen"],
+            "ported_by": PORTED_BY,
             "date": BASE_DATE,
+            "verified_on": VERIFIED_ON,
             "setting": {"k": k, "sigma": sigma},
             "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
             "source": {"kind": "paper", "url": "https://doi.org/10.1137/0306011"},
@@ -72,7 +78,9 @@ def main():
             "name": r"Witsenhausen's two-point design, $f(x)=\sigma\,\mathrm{sgn}(x)$",
             "short_name": "two-point design",
             "authors": ["H. S. Witsenhausen"],
+            "ported_by": PORTED_BY,
             "date": BASE_DATE,
+            "verified_on": VERIFIED_ON,
             "setting": {"k": k, "sigma": sigma},
             "method": "The 1968 counterexample construction",
             "source": {"kind": "paper", "url": "https://doi.org/10.1137/0306011"},

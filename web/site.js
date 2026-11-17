@@ -405,15 +405,18 @@ function withDetails(row, btn, build) {
   });
   return row;
 }
+/* A controller taken from a paper (it has a verified_on date) is dated by the paper's year, like a claim;
+   a new result by its full date. */
+function shownDate(e) { return e.verified_on ? e.date.slice(0, 4) : e.date; }
 function verifiedRow(e, rank, st, paper) {
   var r = e.result, btn = h("button", { class: "btn", "aria-expanded": "false", text: "Details" });
   var row = h("tr", null,
     h("td", { class: "num", text: String(rank) }),
     h("td", { class: "num" }, h("span", { class: "cost", text: fmtCost(r.cost) })),
-    h("td", null, evidenceTag("Numerically verified")),
+    h("td", null, evidenceTag("Numerically verified"), e.id === st.record_id ? [" ", h("span", { class: "tag record", text: "record" })] : null),
     h("td", { math: e.name }),
     h("td", { text: shortAuthors(e.authors || []) }),
-    h("td", { class: "nowrap", text: e.date }),
+    h("td", { class: "nowrap", text: shownDate(e) }),
     h("td", { class: "num", text: r.stage1.toFixed(6) }),
     h("td", { class: "num", text: r.mmse.toFixed(6) }),
     h("td", null, btn));
@@ -421,7 +424,12 @@ function verifiedRow(e, rank, st, paper) {
     var c1 = h("div", { class: "chartbox" }), c2 = h("div", { class: "chartbox" });
     var kv = h("dl", { class: "kv" },
       e.method ? [h("dt", { text: "Method" }), h("dd", { math: e.method })] : null,
-      paper ? [h("dt", { text: "Paper" }), h("dd", null, linkOrText(paper.title, paper.url), ". " + paper.venue + ".")] : null,
+      h("dt", { text: "Authors" }), h("dd", { text: (e.authors || []).join(", ") }),
+      e.ported_by ? [h("dt", { text: "Controller file by" }), h("dd", { text: e.ported_by })] : null,
+      e.verified_on ? [h("dt", { text: "Verified here" }), h("dd", { text: e.verified_on })] : null,
+      paper ? [h("dt", { text: "Paper" }), h("dd", null, linkOrText(paper.title, paper.url), ". " + paper.venue + "."),
+        h("dt", { text: "Cost as printed" }), h("dd", { text: fmtReported(paper) }),
+        paper.notes ? [h("dt", { text: "On the printed cost" }), h("dd", { math: paper.notes })] : null] : null,
       h("dt", { text: "Error estimate" }), h("dd", null, tex(errTex(r.error_estimate))),
       h("dt", { text: "Pieces" }), h("dd", { text: String(r.n_pieces) }),
       h("dt", { text: "Controller file" }), h("dd", null, h("a", { href: e.file, download: true, text: e.file })),
@@ -460,6 +468,31 @@ function claimedRow(p, rank) {
       p.notes ? [h("dt", { text: "Notes" }), h("dd", { math: p.notes })] : null) };
   });
 }
+/* Rows in rank order, each with its rank label. Verified costs that the record rule cannot tell apart
+   (within its tolerance plus both error estimates) share a rank, shown as "=1", and so do equal claimed
+   costs. In a tie the record holder comes first, then the earlier entry. scripts/score_all.py ranks the
+   verified entries the same way. */
+function ranked(rows, st) {
+  var tol = D.record_rule.tolerance;
+  function tied(a, b) {
+    if (a.e && b.e) return Math.abs(a.cost - b.cost) <= tol + a.e.result.error_estimate + b.e.result.error_estimate;
+    return !a.e && !b.e && a.cost === b.cost;
+  }
+  function first(x) { return x.e && x.e.id === st.record_id ? 0 : 1; }
+  function when(x) { return x.e ? x.e.date : String(x.p.year); }
+  var groups = [];
+  rows.slice().sort(function (a, b) { return (a.cost - b.cost) || ((a.e ? 0 : 1) - (b.e ? 0 : 1)); }).forEach(function (x) {
+    var g = groups.filter(function (g) { return tied(g[0], x); })[0];
+    if (g) g.push(x); else groups.push([x]);
+  });
+  var out = [];
+  groups.forEach(function (g) {
+    g.sort(function (a, b) { return (first(a) - first(b)) || (when(a) < when(b) ? -1 : when(a) > when(b) ? 1 : 0) || (a.cost - b.cost); });
+    var label = (g.length > 1 ? "=" : "") + (out.length + 1);
+    g.forEach(function (x) { x.rank = label; out.push(x); });
+  });
+  return out;
+}
 function renderBoard() {
   var st = setting(current), rec = recordOf(st), lbs = st.lower_bounds;
   var papers = D.literature.filter(function (r) { return r.setting === st.id; });
@@ -477,13 +510,12 @@ function renderBoard() {
   document.getElementById("disputed-toggle").hidden = !disputed.length;
   var showClaimed = document.getElementById("show-claimed").checked, showVerified = document.getElementById("show-verified").checked;
   var showDisputed = document.getElementById("show-disputed").checked;
-  var rows = (showVerified ? st.entries.map(function (e) { return { cost: e.result.cost, e: e }; }) : [])
+  var rows = ranked((showVerified ? st.entries.map(function (e) { return { cost: e.result.cost, e: e }; }) : [])
     .concat(showClaimed ? claims.map(function (p) { return { cost: p.reported_cost, p: p }; }) : [])
-    .concat(showDisputed ? disputed.map(function (p) { return { cost: p.reported_cost, p: p }; }) : [])
-    .sort(function (a, b) { return (a.cost - b.cost) || ((a.e ? 0 : 1) - (b.e ? 0 : 1)); });
+    .concat(showDisputed ? disputed.map(function (p) { return { cost: p.reported_cost, p: p }; }) : []), st);
   var tb = clear("board-rows");
   if (!rows.length) tb.append(h("tr", null, h("td", { colspan: 9, class: "empty", text: "Tick an evidence level to show entries." })));
-  rows.forEach(function (x, i) { tb.append(x.e ? verifiedRow(x.e, i + 1, st, paperOf[x.e.id]) : claimedRow(x.p, i + 1)); });
+  rows.forEach(function (x) { tb.append(x.e ? verifiedRow(x.e, x.rank, st, paperOf[x.e.id]) : claimedRow(x.p, x.rank)); });
 
   var lb = clear("bound-rows"), bs = lbs.bounds;
   Object.keys(bs).sort(function (a, b) { return bs[b].value - bs[a].value; }).forEach(function (k, i) {
@@ -580,9 +612,11 @@ function renderHistory() {
     HIST.push({ kind: r.disputed ? "disputed" : "reported", id: r.id, x: r.year, y: r.reported_cost, year: r.year, value: fmtReported(r),
       label: r.authors, short: (r.short || r.authors) + (r.disputed ? ", disputed" : ""), note: r.disputed ? r.disputed.reason : r.method });
   });
+  /* a verified dot sits at the year of the result it recomputes, just right of the paper's own claim */
   st.entries.forEach(function (e) {
     var yr = +e.date.slice(0, 4);
-    HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: "verified here", note: (e.authors || []).join(", ") });
+    HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: "verified here",
+      note: (e.authors || []).join(", ") + (e.verified_on ? "; verified here on " + e.verified_on.replace(/-/g, "\u2011") : "") });
   });
   var lg = clear("hist-legend");
   var keys = [["--s1", "Claimed"], ["--s2", "Numerically verified"]];

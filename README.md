@@ -33,9 +33,11 @@ For any f, the best second controller is U2 = E[X1 | Y]. **The evaluator always 
 
 On the benchmark, the evaluator reproduces the published values for the best linear controller (0.96) and for Witsenhausen's two-point design (0.404253).
 
-**Record rule.** A verified submission sets a new record only if its cost is below the standing record by more than 10⁻⁹ plus both error estimates. Otherwise it ties.
+**Record rule.** A verified submission sets a new record only if its cost is below the standing record by more than 10⁻⁹ plus both error estimates. Otherwise it ties. Records are taken in order of `date`, so the record goes to the first result that reached it. On the leaderboard the record holder is tagged *record*, and verified costs that the rule cannot separate share a rank, shown as =1, with the record holder first.
 
-**Costs from papers** (`data/literature.json`) appear on the leaderboard as *Claimed*, as printed. If your submission reproduces one of them, say so in the pull request: the paper's row is then shown as reproduced by your verified entry (its `verified_by` field is set to your submission).
+**Costs from papers** (`data/literature.json`) appear on the leaderboard as *Claimed*, as printed. If your submission reproduces one of them, say so in the pull request: the paper's row is then shown as reproduced by your verified entry (its `verified_by` field is set to your submission), whose details keep the printed cost.
+
+**Controllers from papers.** A file that reproduces a published controller keeps the paper's authors in `authors` and the paper's date in `date`, and adds `ported_by` (who made the file) and `verified_on` (the day it was first scored here). The leaderboard then shows the paper's year, and the details show both. The files for Deng & Ho (1999) and Bansal & Başar (1987) at the benchmark are written by hand from the parameters in their notes. Zhu's (2026) controllers are made by `scripts/ports/zhu_2026.py` from the paper's ancillary data.
 
 **Disputed claims.** If there is evidence that a printed cost is not the cost of the paper's controller, the row gets a `disputed` record: `date`, a one-sentence `reason`, and `note`, the path of a Markdown note in `notes/` that explains the check and links its scripts. The row stays *Claimed* with its printed cost. It is hidden on the leaderboard unless *Disputed* is ticked, is drawn as a ring on the history chart, and never counts as the best claimed cost. The first one is `notes/tseng-tang-2017.md`, checked by the scripts in `scripts/reexamine/`.
 
@@ -54,7 +56,7 @@ On the benchmark, the evaluator reproduces the published values for the best lin
 
 1. Add `submissions/<setting-id>/<your-name>.json`. Folder names are in `data/settings.json` (`k0.20_s5` is the benchmark).
 2. Run `python scripts/score_all.py --check` to see your verified cost.
-3. Open a pull request. CI re-scores every submission. It fails on malformed files, on a `setting` that does not match the folder, on controllers too large to evaluate quickly (more than 100,000 pieces, or values spread too widely), on results that cannot be right (non-finite, negative, or an error estimate above 10⁻⁶), and on a `claimed_cost` that is not a number or is more than 10⁻⁶ from the verified cost.
+3. Open a pull request. CI re-scores every submission. It fails on malformed files, on a `setting` that does not match the folder, on dates not written YYYY-MM-DD, on controllers too large to evaluate quickly (more than 100,000 pieces, or values spread too widely), on results that cannot be right (non-finite, negative, or an error estimate above 10⁻⁶), and on a `claimed_cost` that is not a number or is more than 10⁻⁶ from the verified cost.
 4. After the merge, GitHub Actions re-scores everything and redeploys the site, and your entry appears with its verified cost.
 
 A submission looks like this:
@@ -87,6 +89,8 @@ Controller formats (`controller.type`):
 | `odd_piecewise_affine` | same fields, for x ≥ 0 only | positive breakpoints p_1 < … < p_m, pieces [0, p_1), …, [p_m, ∞), extended by f(−x) = −f(x) |
 | `points` | `x`, `y`, optional `odd`, `extrapolation` | linear interpolation through a table; `extrapolation` is `linear` or `constant` |
 
+Dates are written YYYY-MM-DD. `date` is when the result first appeared. Two optional fields are for controllers taken from papers: `ported_by` names whoever made the file when that is not the authors, and `verified_on` is the day it was first scored here (not earlier than `date`).
+
 Text fields such as `name`, `method` and `notes` may contain inline LaTeX between dollar signs, for example `"$f(x)=\\sigma\\,\\mathrm{sgn}(x)$"`. The site renders it with KaTeX.
 
 ## Checking a controller locally
@@ -109,7 +113,7 @@ The site build needs only the Python standard library. It fills `web/layout.html
 
 **The diagram.** `web/figures/problem.tex` is the TikZ source of the block diagram. The compiled `web/figures/problem.svg` is committed, so neither the build nor CI needs TeX. After editing the `.tex` file, run `python scripts/build_figures.py` (needs `pdflatex` with TikZ and `pdftocairo`).
 
-`scripts/make_baselines.py` regenerates the exact baselines (best linear, two-point). `scripts/optimize_reference.py` is the reference optimizer behind the "curved sloped steps" entries. It needs `pip install "jax[cpu]"`.
+`scripts/make_baselines.py` regenerates the exact baselines (best linear, two-point). `scripts/ports/` holds the scripts that turn controllers published in papers into submission files. `scripts/optimize_reference.py` is the reference optimizer behind the "curved sloped steps" entries. It needs `pip install "jax[cpu]"`.
 
 `scripts/reexamine/` holds the checks behind disputed claims. Each runs from the repository root in under a minute, for example `python scripts/reexamine/tseng_tang_tails.py`.
 
@@ -134,6 +138,7 @@ web/vendor/          KaTeX and the Latin Modern fonts (third-party; see web/vend
 site/                built site (generated, not committed: GitHub builds it)
 scripts/             scoring, site build and preview, figure build, baselines, reference optimizer
 scripts/reexamine/   checks behind disputed claims (numpy + scipy)
+scripts/ports/       controllers from papers turned into submission files
 notes/               one note per disputed claim
 ```
 

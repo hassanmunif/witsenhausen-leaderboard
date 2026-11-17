@@ -1,0 +1,32 @@
+{
+ "schema": "witsenhausen-controller/v1",
+ "name": "Bansal and Başar's two-point design, $f(x)=\\sigma\\sqrt{2/\\pi}\\,\\mathrm{sgn}(x)$",
+ "short_name": "Bansal and Başar's design",
+ "authors": [
+  "R. Bansal",
+  "T. Başar"
+ ],
+ "ported_by": "Leaderboard maintainers",
+ "date": "1987-06-01",
+ "verified_on": "2026-11-17",
+ "setting": {
+  "k": 0.2,
+  "sigma": 5.0
+ },
+ "method": "Two-point design whose level minimizes the first-stage cost",
+ "source": {
+  "kind": "paper",
+  "url": "https://doi.org/10.1109/TAC.1987.1104636"
+ },
+ "notes": "Bansal and Başar take $f(x)=\\varepsilon\\,\\mathrm{sgn}(x)$ and report a cost of $0.363$ in the limit $k\\to 0$ with $k\\sigma = 1$, against $0.404$ for Witsenhausen's $\\varepsilon=\\sigma$. That limit is reached with $\\varepsilon=\\sigma\\sqrt{2/\\pi}=\\mathbb{E}|x_0|$, the level that minimizes the first-stage cost, $k^2\\sigma^2(1-2/\\pi)\\approx 0.3634$. At the benchmark the second stage adds about $0.0016$, so $0.363$ is not this controller's cost here.",
+ "controller": {
+  "type": "odd_piecewise_affine",
+  "breakpoints": [],
+  "intercepts": [
+   3.989422804014327
+  ],
+  "slopes": [
+   0.0
+  ]
+ }
+}

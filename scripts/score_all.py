@@ -5,8 +5,9 @@
     python scripts/score_all.py --check    # validate + score, do not write (CI on pull requests)
 
 Submissions live in submissions/<setting-id>/<name>.json.  A file is rejected
-if it is malformed, if its "setting" disagrees with its folder, or if its
-"claimed_cost" (optional) differs from the verified cost by more than 1e-6.
+if it is malformed, if its "setting" disagrees with its folder, if its dates are
+not written YYYY-MM-DD, or if its "claimed_cost" (optional) differs from the
+verified cost by more than 1e-6.
 Lower bounds are cached in data/bounds.json (recomputed when missing).
 """
 
@@ -17,6 +18,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -62,6 +64,23 @@ def size_problems(f, sigma):
         return [f"the controller is too large to evaluate in the check ({f.n_pieces:,} pieces, about {nodes:,} quadrature nodes); "
                 "its values spread too widely or it has too many pieces"]
     return []
+
+
+def metadata_problems(sub):
+    """Dates are written YYYY-MM-DD. "date" is when the result first appeared (for a controller taken
+    from a paper, the paper's date); the optional "verified_on" is when this repository first scored the
+    file, and "ported_by" names whoever made the file when that is not the authors."""
+    problems = []
+    for key in ("date", "verified_on"):
+        v = sub.get(key)
+        if (key == "date" or v is not None) and not (isinstance(v, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", v)):
+            problems.append(f"{key} must be a date written YYYY-MM-DD, got {v!r}")
+    if not problems and sub.get("verified_on") is not None and sub["verified_on"] < sub["date"]:
+        problems.append(f"verified_on {sub['verified_on']} is earlier than date {sub['date']}")
+    by = sub.get("ported_by")
+    if by is not None and not (isinstance(by, str) and by.strip()):
+        problems.append(f"ported_by must be a non-empty string, got {by!r}")
+    return problems
 
 
 def result_problems(r):
@@ -174,6 +193,7 @@ def score_file(path: Path, setting: dict):
     claimed = sub.get("claimed_cost")
     if claimed is not None and (isinstance(claimed, bool) or not isinstance(claimed, (int, float)) or not math.isfinite(claimed)):
         problems.append(f"claimed_cost must be a finite number, got {claimed!r}")
+    problems += metadata_problems(sub)
     problems += size_problems(f, sigma)
     if problems:
         return sub, None, problems
@@ -193,7 +213,9 @@ def score_file(path: Path, setting: dict):
         "name": sub["name"],
         "short_name": sub.get("short_name"),
         "authors": sub["authors"],
+        "ported_by": sub.get("ported_by"),
         "date": sub["date"],
+        "verified_on": sub.get("verified_on"),
         "method": sub.get("method", ""),
         "source": sub.get("source", {}),
         "notes": sub.get("notes", ""),
@@ -220,6 +242,29 @@ def assign_records(entries, tol):
     for e in entries:
         e["is_record"] = record is not None and e["id"] == record["id"]
     return record, history
+
+
+def ranked(entries, tol):
+    """Entries in rank order. Costs that the record rule cannot tell apart (within tol plus both error
+    estimates of the lowest cost in the group) share a rank and are marked "tied"; within such a group
+    the record holder comes first, then the earlier entry. Call after assign_records."""
+    groups = []
+    for e in sorted(entries, key=lambda e: e["result"]["cost"]):
+        for g in groups:
+            lead = g[0]["result"]
+            if e["result"]["cost"] - lead["cost"] <= tol + e["result"]["error_estimate"] + lead["error_estimate"]:
+                g.append(e)
+                break
+        else:
+            groups.append([e])
+    out = []
+    for g in groups:
+        g.sort(key=lambda e: (not e["is_record"], e["date"], e["result"]["cost"]))
+        for e in g:
+            e["rank"] = len(out) + 1
+            e["tied"] = len(g) > 1
+        out.extend(g)
+    return out
 
 
 def main(argv=None):
@@ -255,10 +300,8 @@ def main(argv=None):
             entries.append(entry)
             r = entry["result"]
             print(f"  {s['id']:>9}  {r['cost']:.10f} ± {r['error_estimate']:.1e}  {entry['name']}")
-        entries.sort(key=lambda e: e["result"]["cost"])
-        for rank, e in enumerate(entries, 1):
-            e["rank"] = rank
         record, history = assign_records(entries, tol)
+        entries = ranked(entries, tol)
         b = bounds[s["id"]]
         best_cost = record["result"]["cost"] if record else None
         out_settings.append({

@@ -180,6 +180,16 @@
    "url": "https://arxiv.org/abs/2509.02381",
    "evidence": "Peer-reviewed",
    "claim": "A low-power estimation strategy is first-order optimal as the control power $P \\to 0$, and it explains the near-optimal sawtooth shape of $u_1$."
+  },
+  {
+   "year": 2026,
+   "kind": "When linear is optimal",
+   "authors": "Y. Lu, T. Li",
+   "title": "The exact boundary of linear optimality in Witsenhausen's counterexample",
+   "venue": "arXiv:2610.25853",
+   "url": "https://arxiv.org/abs/2610.25853",
+   "evidence": "Preprint",
+   "claim": "Optimal policies are either linear or not tame. The paper gives the exact region of parameters where a linear policy is optimal, with an essentially unique closed form there. Everywhere else, the benchmark included, no optimal first-stage policy is definable in any o-minimal expansion of the ordered real field; in particular, none is built from finitely many polynomial pieces."
   }
  ]
 }

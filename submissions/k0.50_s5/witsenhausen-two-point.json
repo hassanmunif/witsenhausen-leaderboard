@@ -5,7 +5,9 @@
  "authors": [
   "H. S. Witsenhausen"
  ],
+ "ported_by": "Leaderboard maintainers",
  "date": "1968-02-01",
+ "verified_on": "2026-11-17",
  "setting": {
   "k": 0.5,
   "sigma": 5.0

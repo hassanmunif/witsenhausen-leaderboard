@@ -1,0 +1,37 @@
+{
+ "schema": "witsenhausen-controller/v1",
+ "name": "Deng and Ho's 2-step design, levels $\\pm 3.168$ and $\\pm 9.048$",
+ "short_name": "Deng and Ho's design",
+ "authors": [
+  "M. Deng",
+  "Y.-C. Ho"
+ ],
+ "ported_by": "Leaderboard maintainers",
+ "date": "1999-02-01",
+ "verified_on": "2026-11-17",
+ "setting": {
+  "k": 0.2,
+  "sigma": 5.0
+ },
+ "method": "Ordinal optimization over 2-step functions",
+ "source": {
+  "kind": "paper",
+  "url": "https://doi.org/10.1016/S0005-1098(98)00155-1"
+ },
+ "claimed_cost": 0.192561298938,
+ "notes": "The odd step function with breakpoint $6.41$ and levels $3.168$ and $9.048$, the best 2-step design of Deng and Ho, as given by Lee, Lau and Ho (IEEE Trans. Automatic Control 46(3), 2001). Their Table I computes its cost by numerical integration as $0.192561298938$. Deng and Ho's own $0.1901$ is a Monte Carlo estimate with a standard deviation of $0.01$.",
+ "controller": {
+  "type": "odd_piecewise_affine",
+  "breakpoints": [
+   6.41
+  ],
+  "intercepts": [
+   3.168,
+   9.048
+  ],
+  "slopes": [
+   0.0,
+   0.0
+  ]
+ }
+}
