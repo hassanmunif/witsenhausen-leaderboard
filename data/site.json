@@ -2,5 +2,9 @@
   "title": "Witsenhausen leaderboard",
   "tagline": "Verified progress on a control problem open since 1968",
   "repo_url": "https://github.com/hassanmunif/witsenhausen-leaderboard",
-  "branch": "main"
+  "branch": "main",
+  "author": {
+    "name": "Hassan Munif",
+    "url": "https://hassanmunif.github.io/"
+  }
 }

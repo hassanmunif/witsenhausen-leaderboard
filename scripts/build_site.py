@@ -194,6 +194,12 @@ def main():
     if repo_configured(repo):
         footer.append(f'<a href="{html.escape(repo)}" rel="noopener">Source and submissions on GitHub</a>')
         repo_link = f'<a class="gh" href="{html.escape(repo)}" rel="noopener">Repository</a>'
+    author = site.get("author") or {}
+    if author.get("name"):
+        name = html.escape(author["name"])
+        if re.match(r"^https?://", author.get("url", "")):
+            name = f'<a href="{html.escape(author["url"])}" rel="author">{name}</a>'
+        footer.append(f'<span class="credit">Created by {name}</span>')
     page_values = {
         "META": html.escape(f"Scores generated {generated[:10]} with evaluator v{results['evaluator_version']}. "
                             f"{n_entries} verified controllers across {len(results['settings'])} parameter settings."),

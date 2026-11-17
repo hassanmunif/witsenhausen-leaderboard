@@ -201,6 +201,7 @@ pre code { font-size: 1em; }
 
 footer { border-top: 1px solid var(--rule); margin-top: 44px; padding: 20px 0 40px; color: var(--muted); font-size: 0.92rem; }
 footer .wrap { display: flex; gap: 6px 28px; flex-wrap: wrap; }
+footer .credit { flex-basis: 100%; }
 
 /* charts */
 .chartbox { position: relative; }
