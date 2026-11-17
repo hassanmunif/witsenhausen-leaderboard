@@ -6,5 +6,6 @@
   "author": {
     "name": "Hassan Munif",
     "url": "https://hassanmunif.github.io/"
-  }
+  },
+  "show_agent_prompt": false
 }

@@ -27,32 +27,25 @@ WEB = ROOT / "web"
 SITE = ROOT / "site"
 
 # One entry per page, in reading order.  "no" is the section number shown in titles,
-# "data" says whether the page needs assets/data.js, and "summary" is its line in the
-# contents on the home page (it may contain \( \) maths).
+# "data" says whether the page needs assets/data.js.
 PAGES = [
     {"slug": "index", "nav": None, "no": None, "title": None, "data": True,
      "description": "A verified leaderboard for Witsenhausen's counterexample: the best controllers found so far, "
                     "proven lower bounds, and the history of records."},
     {"slug": "problem", "nav": "Problem", "no": 1, "title": "The problem", "data": False,
-     "description": "The formal statement of Witsenhausen's counterexample, why it is hard, its reduction to a single function, and lower bounds.",
-     "summary": r"The formal definition, why the information structure makes it hard, the reduction to one function \(f\), and the lower bounds."},
+     "description": "The formal statement of Witsenhausen's counterexample, why it is hard, its reduction to a single function, and lower bounds."},
     {"slug": "leaderboard", "nav": "Leaderboard", "no": 2, "title": "Leaderboard", "data": True,
      "description": "Controllers for Witsenhausen's counterexample ranked by cost, each marked claimed or numerically verified, "
-                    "and the proven lower bounds.",
-     "summary": "Controllers ranked by cost, each marked claimed or numerically verified, and the proven lower bounds."},
+                    "and the proven lower bounds."},
     {"slug": "verification", "nav": "Verification", "no": 3, "title": "How a cost is verified", "data": False,
      "description": "How the reference evaluator computes the cost of a piecewise-affine controller for Witsenhausen's "
-                    "counterexample, and the checks it passes.",
-     "summary": "How the reference evaluator computes a cost from a controller file, with an error estimate, and the independent checks it passes."},
+                    "counterexample, and the checks it passes."},
     {"slug": "history", "nav": "History", "no": 4, "title": "Record history on the benchmark", "data": True,
-     "description": "How the best cost on the Witsenhausen benchmark k = 0.2, sigma = 5 has fallen since 1968, claimed in papers and numerically verified.",
-     "summary": "How the best benchmark cost has fallen since 1968, claimed in papers and numerically verified here."},
+     "description": "How the best cost on the Witsenhausen benchmark k = 0.2, sigma = 5 has fallen since 1968, claimed in papers and numerically verified."},
     {"slug": "theory", "nav": "Theory", "no": 5, "title": "What is known about the optimum", "data": True,
-     "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds.",
-     "summary": "Existence, structure, complexity and bounds: results about the optimum itself, each marked peer-reviewed or preprint."},
+     "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds."},
     {"slug": "contribute", "nav": "Contribute", "no": 6, "title": "Contribute", "data": True,
-     "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and a prompt for AI agents.",
-     "summary": "How to submit a controller file, a prompt to hand to an AI agent, and what would count as progress."},
+     "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and a prompt for AI agents."},
 ]
 
 EXAMPLE = {
@@ -146,13 +139,6 @@ def pager_html(i: int) -> str:
     return '<nav class="pager" aria-label="Previous and next section">\n  ' + "\n  ".join(links) + "\n</nav>"
 
 
-def toc_html() -> str:
-    items = []
-    for p in PAGES[1:]:
-        items.append(f'    <li><a class="t" href="{p["slug"]}.html">{numbered(p)}</a><p>{html.escape(p["summary"], quote=False)}</p></li>')
-    return "\n".join(items)
-
-
 def main():
     site = load(ROOT / "data" / "site.json")
     results = load(ROOT / "data" / "results.json")
@@ -173,8 +159,11 @@ def main():
         "literature": literature,
         "theory": theory,
         "example": compact_json(EXAMPLE),
-        "agent_prompt": AGENT_PROMPT.format(record=record_txt, repo=repo),
     }
+    # The prompt for AI agents is only published when data/site.json says so.
+    show_prompt = bool(site.get("show_agent_prompt"))
+    if show_prompt:
+        data["agent_prompt"] = AGENT_PROMPT.format(record=record_txt, repo=repo)
     blob = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     blob = blob.replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
     assets = {
@@ -186,13 +175,11 @@ def main():
 
     # ---- pieces every page shares ----
     generated = results["generated_at"]
-    n_entries = sum(len(s["entries"]) for s in results["settings"])
     footer = [f'<span>Evaluator v{results["evaluator_version"]}</span>',
-              f'<span>Scores generated {generated.replace("T", " ").replace("Z", " UTC")}</span>',
-              "<span>Set in Latin Modern, mathematics by KaTeX, Figure 2 drawn with Ti<i>k</i>Z</span>"]
+              f'<span>Scores generated {generated.replace("T", " ").replace("Z", " UTC")}</span>']
     repo_link = ""
     if repo_configured(repo):
-        footer.append(f'<a href="{html.escape(repo)}" rel="noopener">Source and submissions on GitHub</a>')
+        footer.append(f'<a href="{html.escape(repo)}" rel="noopener">GitHub repo</a>')
         repo_link = f'<a class="gh" href="{html.escape(repo)}" rel="noopener">Repository</a>'
     author = site.get("author") or {}
     if author.get("name"):
@@ -201,9 +188,7 @@ def main():
             name = f'<a href="{html.escape(author["url"])}" rel="author">{name}</a>'
         footer.append(f'<span class="credit">Created by {name}</span>')
     page_values = {
-        "META": html.escape(f"Scores generated {generated[:10]} with evaluator v{results['evaluator_version']}. "
-                            f"{n_entries} verified controllers across {len(results['settings'])} parameter settings."),
-        "TOC": toc_html(),
+        "AGENT_PROMPT": ('  <div>\n    <div class="prehead"><h2>Prompt for an AI agent</h2><button class="btn" id="copy-prompt">Copy prompt</button></div>\n    <pre class="wrapped"><code id="prompt"></code></pre>\n  </div>' if show_prompt else ""),
         "FIGURE_PROBLEM": (WEB / "figures" / "problem.svg").read_text(encoding="utf-8"),
     }
 

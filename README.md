@@ -2,16 +2,16 @@
 
 A verified leaderboard for [Witsenhausen's counterexample](https://en.wikipedia.org/wiki/Witsenhausen%27s_counterexample), a decentralized control problem that has been open since 1968. Every cost here is recomputed by a reference evaluator from a submitted controller file.
 
-The site is written like a short paper split into pages. A home page shows the gap between the best verified cost and the best proven lower bound, the record controller, and a table of contents. Each numbered section is its own page:
+The site is written like a short paper split into pages. A home page shows the gap between the best verified cost and the best proven lower bound, and the record controller. Each numbered section is its own page:
 
 1. **The problem** (`problem.html`): the formal statement, with a TikZ block diagram and numbered equations, and the formulas of the lower bounds.
 2. **Leaderboard** (`leaderboard.html`): controllers ranked by cost and lower bounds ranked by value, each with an evidence level: *Numerically verified* (the evaluator recomputed the cost from a submitted file), *Peer-reviewed* (a bound proved in a peer-reviewed paper) or *Claimed* (stated but not checked, such as a cost printed in a paper). Tick boxes filter the controllers by evidence level, and a dropdown picks the parameter setting, which the address keeps (`leaderboard.html#k0.50_s5`).
 3. **How a cost is verified** (`verification.html`): the evaluator's formulas and its independent checks.
 4. **Record history** (`history.html`): a chart of how the best benchmark cost (k = 0.2, σ = 5) has fallen since 1968, separating costs reported in papers from costs verified here.
 5. **Theory** (`theory.html`): a log of theoretical results, each marked peer-reviewed or preprint.
-6. **Contribute** (`contribute.html`): how to submit, an example file and a prompt for AI agents.
+6. **Contribute** (`contribute.html`): how to submit, with an example file.
 
-A button in the top bar switches between light and dark; it starts from the system setting and remembers the reader's choice. Equations, figures and tables are numbered across the whole site, and references to them link to the right page (for example `problem.html#eq-6`). Mathematics is typeset with KaTeX and the text is set in Latin Modern. Both are bundled in `web/vendor/`, so the site needs no CDN and also works when opened from disk.
+A button in the top bar switches between light and dark; it starts in light mode and remembers the reader's choice. Equations, figures and tables are numbered across the whole site, and references to them link to the right page (for example `problem.html#eq-6`). Mathematics is typeset with KaTeX and the text is set in Latin Modern. Both are bundled in `web/vendor/`, so the site needs no CDN and also works when opened from disk.
 
 ## The problem
 
@@ -83,7 +83,7 @@ Controller formats (`controller.type`):
 
 Text fields such as `name`, `method` and `notes` may contain inline LaTeX between dollar signs, for example `"$f(x)=\\sigma\\,\\mathrm{sgn}(x)$"`. The site renders it with KaTeX.
 
-If you work with an AI agent, the Contribute page has a copy-paste prompt.
+A prompt for AI agents is written in `scripts/build_site.py` (`AGENT_PROMPT`). It is not shown on the site; set `"show_agent_prompt": true` in `data/site.json` to add it to the Contribute page.
 
 ## Running it locally
 
@@ -98,7 +98,7 @@ python scripts/serve.py --open        # serve site/ at http://localhost:2000
 
 On Windows you can also double-click `serve.bat`, which serves the site at http://localhost:2000 and opens it in your browser. The server only listens on this computer (127.0.0.1); close its window to stop it.
 
-The site build needs only the Python standard library. It fills `web/layout.html` with each file in `web/pages/` and writes one page per section to `site/`, writes `site/assets/` (the shared `site.css` and `site.js`, and `data.js`, which holds the scores for the pages that draw charts and tables), copies `web/vendor/` to `site/vendor/` and copies `submissions/` to `site/submissions/`, so controller files can be downloaded from the site. The list of pages, their titles and their order is `PAGES` in `scripts/build_site.py`; the navigation, the previous and next links and the home page's contents are generated from it.
+The site build needs only the Python standard library. It fills `web/layout.html` with each file in `web/pages/` and writes one page per section to `site/`, writes `site/assets/` (the shared `site.css` and `site.js`, and `data.js`, which holds the scores for the pages that draw charts and tables), copies `web/vendor/` to `site/vendor/` and copies `submissions/` to `site/submissions/`, so controller files can be downloaded from the site. The list of pages, their titles and their order is `PAGES` in `scripts/build_site.py`; the navigation and the previous and next links are generated from it.
 
 **The diagram.** `web/figures/problem.tex` is the TikZ source of the block diagram. The compiled `web/figures/problem.svg` is committed, so neither the build nor CI needs TeX. After editing the `.tex` file, run `python scripts/build_figures.py` (needs `pdflatex` with TikZ and `pdftocairo`).
 

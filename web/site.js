@@ -584,12 +584,14 @@ function renderTheory() {
 }
 function renderContribute() {
   document.getElementById("example").textContent = D.example;
-  document.getElementById("prompt").textContent = D.agent_prompt;
-  var btn = document.getElementById("copy-prompt");
-  btn.addEventListener("click", function () {
-    if (!navigator.clipboard) return;
-    navigator.clipboard.writeText(D.agent_prompt).then(function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy prompt"; }, 1600); });
-  });
+  var promptBox = document.getElementById("prompt"), btn = document.getElementById("copy-prompt");
+  if (promptBox && btn && D.agent_prompt) {  /* shown only when data/site.json has "show_agent_prompt": true */
+    promptBox.textContent = D.agent_prompt;
+    btn.addEventListener("click", function () {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(D.agent_prompt).then(function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy prompt"; }, 1600); });
+    });
+  }
   var st = setting(D.benchmark), rec = recordOf(st), bestRep = bestReported();
   var ul = clear("targets");
   [
@@ -617,12 +619,10 @@ if (redraw) {
     timer = setTimeout(function () { if (Math.abs(window.innerWidth - lastW) >= 40) { lastW = window.innerWidth; redraw(); } }, 200);
   });
 }
-/* ---------- light and dark: the button in the top bar. The choice is kept in localStorage ("wl-theme");
-   until the reader picks one, the system setting decides. The <head> applies a saved choice before drawing. ---------- */
+/* ---------- light and dark: the button in the top bar. The site starts light; a reader's choice is kept in
+   localStorage ("wl-theme") and applied by the <head> before the page is drawn. ---------- */
 function themeNow() {
-  var t = document.documentElement.getAttribute("data-theme");
-  if (t === "dark" || t === "light") return t;
-  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
 }
 function showThemeButton(btn) {
   var next = themeNow() === "dark" ? "light" : "dark", svg = btn.querySelector("svg");
@@ -643,11 +643,6 @@ if (themeBtn) {
     showThemeButton(themeBtn);
     if (recolor) recolor();  /* charts were drawn with the old colours */
   });
-  if (window.matchMedia) {
-    var system = window.matchMedia("(prefers-color-scheme: dark)");
-    var onSystem = function () { if (!document.documentElement.getAttribute("data-theme")) { showThemeButton(themeBtn); if (recolor) recolor(); } };
-    if (system.addEventListener) system.addEventListener("change", onSystem); else if (system.addListener) system.addListener(onSystem);
-  }
 }
 
 /* Fonts and maths change line heights after the browser has jumped to an #anchor
