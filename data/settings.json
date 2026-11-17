@@ -1,0 +1,20 @@
+{
+  "benchmark": "k0.20_s5",
+  "settings": [
+    {
+      "id": "k0.20_s5",
+      "k": 0.2,
+      "sigma": 5.0,
+      "label": "Benchmark",
+      "description": "k = 0.2, σ = 5: the parameter pair used by nearly every numerical paper since the 1980s."
+    },
+    {"id": "k0.10_s5", "k": 0.1, "sigma": 5.0, "label": "k = 0.1", "description": "Cheaper first-stage control."},
+    {"id": "k0.30_s5", "k": 0.3, "sigma": 5.0, "label": "k = 0.3", "description": ""},
+    {"id": "k0.40_s5", "k": 0.4, "sigma": 5.0, "label": "k = 0.4", "description": ""},
+    {"id": "k0.50_s5", "k": 0.5, "sigma": 5.0, "label": "k = 0.5", "description": "Costlier first-stage control; nonlinear gains shrink."}
+  ],
+  "record_rule": {
+    "tolerance": 1e-9,
+    "text": "A verified submission sets a new record only if its cost is below the current record by more than 1e-9 plus both evaluator error estimates."
+  }
+}

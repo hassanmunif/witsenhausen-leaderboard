@@ -1,0 +1,29 @@
+<div class="title">
+  <h1>Witsenhausen’s counterexample</h1>
+  <p class="subtitle">A verified leaderboard for a control problem that has been open since 1968</p>
+  <p class="meta">__META__</p>
+</div>
+<div class="hero">
+  <div>
+    <div class="prose">
+      <p>Two controllers act in turn on a Gaussian state \(x_0\). The first sees \(x_0\) exactly but pays for every push. The second acts for free but sees the result only through noise. The dynamics are linear, the cost is quadratic and the noise is Gaussian, yet Witsenhausen showed in 1968 that the best controllers are not linear. The optimal pair is still unknown.</p>
+      <p>This site tracks the best controllers found so far and the best proven lower bounds. Every cost is recomputed from a controller file by a reference evaluator (<a href="verification.html">Section 3</a>). At the standard benchmark, \(k = 0.2\) and \(\sigma = 5\), the optimal cost \(J^\star\) is known only to lie in the shaded interval:</p>
+    </div>
+    <figure>
+      <div class="chartbox" id="gap"></div>
+      <p class="cap" id="gapcap"></p>
+    </figure>
+    <ul class="claims" id="claims"></ul>
+  </div>
+  <figure id="figure-1">
+    <div class="chartbox" id="hero-plot"></div>
+    <figcaption class="cap" id="hero-cap"></figcaption>
+  </figure>
+</div>
+
+<section class="contents" id="contents" aria-labelledby="contents-title">
+  <h2 class="subhead" id="contents-title">Contents</h2>
+  <ol class="toc">
+__TOC__
+  </ol>
+</section>

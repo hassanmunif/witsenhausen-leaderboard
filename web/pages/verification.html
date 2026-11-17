@@ -1,0 +1,25 @@
+<header class="pagehead">
+  <h1><span class="no">3</span>How a cost is verified</h1>
+</header>
+<div class="prose">
+  <p>A controller is submitted as a piecewise-affine function with finitely many pieces, \(f(x) = a_i + b_i x\) for \(x \in [t_i, t_{i+1})\), with jumps allowed. This covers steps, sloped steps and sampled tables. Since \(g_f(y)\) is a conditional mean, <a href="problem.html#eq-6">(6)</a> expands to</p>
+  <div class="eq" id="eq-10">\[ J(f) \;=\; k^2\,\mathbb{E}\!\left[(f(x_0) - x_0)^2\right] + \mathbb{E}\!\left[f(x_0)^2\right] - \mathbb{E}\!\left[g_f(y)^2\right]. \tag{10} \]</div>
+  <p>The first two terms are finite sums of truncated-Gaussian moments and are evaluated in closed form. For the third, each piece contributes in closed form to the density of \(y\):</p>
+  <div class="eq" id="eq-11">\[ w_i(y) \;=\; \int_{t_i}^{t_{i+1}} \varphi_\sigma(x)\,\varphi(y - a_i - b_i x)\,\mathrm{d}x \;=\; \frac{1}{\sqrt{v_i}}\,\varphi\!\Big(\frac{y - a_i}{\sqrt{v_i}}\Big)\big[\Phi(\beta_i) - \Phi(\alpha_i)\big], \tag{11} \]</div>
+  <p>with \(v_i = 1 + b_i^2\sigma^2\), \(\mu_i = b_i\sigma^2 (y - a_i)/v_i\), \(s_i = \sigma/\sqrt{v_i}\), \(\alpha_i = (t_i - \mu_i)/s_i\) and \(\beta_i = (t_{i+1} - \mu_i)/s_i\). The density of \(y\) and the optimal second controller follow as</p>
+  <div class="eq" id="eq-12">\[ p_y(y) = \sum_i w_i(y), \qquad g_f(y) = \frac{1}{p_y(y)} \sum_i w_i(y)\left[a_i + b_i\Big(\mu_i + s_i\,\frac{\varphi(\alpha_i) - \varphi(\beta_i)}{\Phi(\beta_i) - \Phi(\alpha_i)}\Big)\right]. \tag{12} \]</div>
+  <p>The only numerical step is the one-dimensional integral \(\mathbb{E}[g_f(y)^2] = \int p_y(y)\,g_f(y)^2\,\mathrm{d}y\). It is computed with 16-point Gauss–Legendre rules on panels of width \(0.2\), and again on panels of width \(0.1\). The reported error estimate is the difference between the two results plus an allowance for rounding. All weights are handled in log space, so far tails neither underflow nor overflow. For every numerically verified entry on the <a href="leaderboard.html">leaderboard</a> the estimate is below \(10^{-10}\).</p>
+  <p id="record-rule"><span class="runin">Record rule.</span> A verified submission sets a new record only if its cost is below the standing record by more than \(10^{-9}\) plus both error estimates. Otherwise it ties.</p>
+</div>
+<p class="cap above" style="margin-top: 18px" id="table-1"><b>Table 1.</b> Independent checks in the test suite. Each compares the evaluator with a calculation that shares neither <a href="#eq-11">(11)</a> nor its quadrature.</p>
+<div class="tablewrap"><table class="bt">
+  <thead><tr><th>Controller</th><th>Independent calculation</th><th class="num">Required agreement</th></tr></thead>
+  <tbody>
+    <tr><td>Linear \(f(x) = \lambda x\), 28 combinations of \(k, \sigma, \lambda\)</td><td>Closed form \(k^2\sigma^2(\lambda - 1)^2 + \lambda^2\sigma^2/(1 + \lambda^2\sigma^2)\)</td><td class="num">\(10^{-10}\)</td></tr>
+    <tr><td>Two-point \(f(x) = \sigma\,\mathrm{sgn}(x)\), three settings</td><td>Adaptive quadrature of the two-point estimation error \(h\) in <a href="problem.html#eq-9">(9)</a></td><td class="num">\(10^{-10}\)</td></tr>
+    <tr><td>Flat three-level step</td><td>Gaussian-mixture estimation error by adaptive quadrature</td><td class="num">\(10^{-10}\)</td></tr>
+    <tr><td>Sloped steps, and a discontinuous \(f\) with mixed slopes</td><td>Brute-force two-dimensional Gauss–Legendre quadrature of <a href="problem.html#eq-5">(5)</a> and <a href="problem.html#eq-6">(6)</a></td><td class="num">\(5 \times 10^{-10}\)</td></tr>
+    <tr><td>The same \(f\) cut into 20,000 pieces</td><td>Invariance under redundant breakpoints</td><td class="num">\(2 \times 10^{-10}\)</td></tr>
+    <tr><td>Benchmark baselines</td><td>Published values: best linear \(0.96\), two-point design \(0.404253\)</td><td class="num">all printed digits</td></tr>
+  </tbody>
+</table></div>

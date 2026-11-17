@@ -1,0 +1,187 @@
+{
+ "k0.20_s5": {
+  "version": "1",
+  "k": 0.2,
+  "sigma": 5.0,
+  "bounds": {
+   "grover_sahai": {
+    "name": "grover_sahai",
+    "value": 0.02760480760964073,
+    "argmin_power": 0.66956209022909,
+    "label": "Grover\u2013Sahai (2010)",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 2 of Grover, Park & Sahai; holds for every vector length.",
+    "value_rounded_down": 0.027604
+   },
+   "grover_park_sahai": {
+    "name": "grover_park_sahai",
+    "value": 0.03428022160734292,
+    "argmin_power": 0.6794715294471155,
+    "label": "Grover\u2013Park\u2013Sahai (2010), m = 1",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 3 (sphere-packing), scalar case.",
+    "value_rounded_down": 0.03428
+   },
+   "genie_two_point": {
+    "name": "genie_two_point",
+    "value": 0.020894863981563146,
+    "grid_margin": 5.099965000154995e-07,
+    "label": "Genie-aided two-point bound",
+    "source": "witsenhausen/bounds.py",
+    "note": "Second controller is told |X0|; derivation in the module docstring.",
+    "value_rounded_down": 0.020894
+   }
+  },
+  "best": "grover_park_sahai",
+  "best_value": 0.03428,
+  "seconds": 20.5
+ },
+ "k0.10_s5": {
+  "version": "1",
+  "k": 0.1,
+  "sigma": 5.0,
+  "bounds": {
+   "grover_sahai": {
+    "name": "grover_sahai",
+    "value": 0.007059030127183298,
+    "argmin_power": 0.7005177062614129,
+    "label": "Grover\u2013Sahai (2010)",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 2 of Grover, Park & Sahai; holds for every vector length.",
+    "value_rounded_down": 0.007058999999999999
+   },
+   "grover_park_sahai": {
+    "name": "grover_park_sahai",
+    "value": 0.011145975254667229,
+    "argmin_power": 0.9216,
+    "label": "Grover\u2013Park\u2013Sahai (2010), m = 1",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 3 (sphere-packing), scalar case.",
+    "value_rounded_down": 0.011144999999999999
+   },
+   "genie_two_point": {
+    "name": "genie_two_point",
+    "value": 0.007243903946153283,
+    "grid_margin": 5.024965000154996e-07,
+    "label": "Genie-aided two-point bound",
+    "source": "witsenhausen/bounds.py",
+    "note": "Second controller is told |X0|; derivation in the module docstring.",
+    "value_rounded_down": 0.007243899999999999
+   }
+  },
+  "best": "grover_park_sahai",
+  "best_value": 0.011144999999999999,
+  "seconds": 21.3
+ },
+ "k0.30_s5": {
+  "version": "1",
+  "k": 0.3,
+  "sigma": 5.0,
+  "bounds": {
+   "grover_sahai": {
+    "name": "grover_sahai",
+    "value": 0.05988355962497223,
+    "argmin_power": 0.6224734376375223,
+    "label": "Grover\u2013Sahai (2010)",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 2 of Grover, Park & Sahai; holds for every vector length.",
+    "value_rounded_down": 0.059883
+   },
+   "grover_park_sahai": {
+    "name": "grover_park_sahai",
+    "value": 0.06480382490695374,
+    "argmin_power": 0.5629615651709401,
+    "label": "Grover\u2013Park\u2013Sahai (2010), m = 1",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 3 (sphere-packing), scalar case.",
+    "value_rounded_down": 0.064803
+   },
+   "genie_two_point": {
+    "name": "genie_two_point",
+    "value": 0.03664883484092467,
+    "grid_margin": 5.224965000154995e-07,
+    "label": "Genie-aided two-point bound",
+    "source": "witsenhausen/bounds.py",
+    "note": "Second controller is told |X0|; derivation in the module docstring.",
+    "value_rounded_down": 0.036648
+   }
+  },
+  "best": "grover_park_sahai",
+  "best_value": 0.064803,
+  "seconds": 21.7
+ },
+ "k0.40_s5": {
+  "version": "1",
+  "k": 0.4,
+  "sigma": 5.0,
+  "bounds": {
+   "grover_sahai": {
+    "name": "grover_sahai",
+    "value": 0.10138304638372145,
+    "argmin_power": 0.5646755808102271,
+    "label": "Grover\u2013Sahai (2010)",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 2 of Grover, Park & Sahai; holds for every vector length.",
+    "value_rounded_down": 0.10138000000000001
+   },
+   "grover_park_sahai": {
+    "name": "grover_park_sahai",
+    "value": 0.10232113097775142,
+    "argmin_power": 0.5274282602163463,
+    "label": "Grover\u2013Park\u2013Sahai (2010), m = 1",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 3 (sphere-packing), scalar case.",
+    "value_rounded_down": 0.10232000000000001
+   },
+   "genie_two_point": {
+    "name": "genie_two_point",
+    "value": 0.05233376990648292,
+    "grid_margin": 5.399965000154997e-07,
+    "label": "Genie-aided two-point bound",
+    "source": "witsenhausen/bounds.py",
+    "note": "Second controller is told |X0|; derivation in the module docstring.",
+    "value_rounded_down": 0.052333
+   }
+  },
+  "best": "grover_park_sahai",
+  "best_value": 0.10232000000000001,
+  "seconds": 21.4
+ },
+ "k0.50_s5": {
+  "version": "1",
+  "k": 0.5,
+  "sigma": 5.0,
+  "bounds": {
+   "grover_sahai": {
+    "name": "grover_sahai",
+    "value": 0.149285842974505,
+    "argmin_power": 0.5017401805337491,
+    "label": "Grover\u2013Sahai (2010)",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 2 of Grover, Park & Sahai; holds for every vector length.",
+    "value_rounded_down": 0.14928000000000002
+   },
+   "grover_park_sahai": {
+    "name": "grover_park_sahai",
+    "value": 0.14928584327198763,
+    "argmin_power": 0.5017206947115387,
+    "label": "Grover\u2013Park\u2013Sahai (2010), m = 1",
+    "source": "https://www.arxiv.org/abs/1003.0514",
+    "note": "Theorem 3 (sphere-packing), scalar case.",
+    "value_rounded_down": 0.14928000000000002
+   },
+   "genie_two_point": {
+    "name": "genie_two_point",
+    "value": 0.06659541712239393,
+    "grid_margin": 5.624965000154996e-07,
+    "label": "Genie-aided two-point bound",
+    "source": "witsenhausen/bounds.py",
+    "note": "Second controller is told |X0|; derivation in the module docstring.",
+    "value_rounded_down": 0.066595
+   }
+  },
+  "best": "grover_park_sahai",
+  "best_value": 0.14928000000000002,
+  "seconds": 20.7
+ }
+}

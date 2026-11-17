@@ -1,0 +1,34 @@
+<header class="pagehead">
+  <h1><span class="no">2</span>Leaderboard</h1>
+</header>
+<div class="prose">
+  <p>Controllers are ranked by their cost: lower is better. Lower bounds are ranked by value: higher is better, because no controller can cost less than a proven lower bound. Each entry has an evidence level.</p>
+  <ul class="evidence">
+    <li><span class="ev numerical">Numerically verified</span>: this site recomputed the cost from the submitted controller file (<a href="verification.html">Section 3</a>).</li>
+    <li><span class="ev peer">Peer-reviewed</span>: the proof of the bound was published in a peer-reviewed paper.</li>
+    <li><span class="ev claimed">Claimed</span>: stated but not checked, such as a cost printed in a paper whose controller has not been submitted.</li>
+  </ul>
+</div>
+<div class="controls"><label for="setting">Setting</label><select id="setting"></select></div>
+<div class="scorebar" id="scorebar"></div>
+
+<div class="tablehead">
+  <h2 class="subhead" id="controllers">Controllers</h2>
+  <div class="ticks" role="group" aria-label="Evidence levels to show">
+    <label><input type="checkbox" id="show-claimed" checked> Claimed</label>
+    <label><input type="checkbox" id="show-verified" checked> Numerically verified</label>
+  </div>
+</div>
+<div class="tablewrap"><table class="bt" id="board">
+  <thead><tr>
+    <th class="num">Rank</th><th class="num">Cost \(J(f)\)</th><th>Evidence level</th><th>Controller \(f\)</th><th>Author</th><th>Date</th>
+    <th class="num">\(k^2\,\mathbb{E}[u_1^2]\)</th><th class="num">\(\mathbb{E}[x_2^2]\)</th><th></th>
+  </tr></thead>
+  <tbody id="board-rows"></tbody>
+</table></div>
+
+<h2 class="subhead" id="lower-bounds">Lower bounds</h2>
+<div class="tablewrap"><table class="bt" id="bounds">
+  <thead><tr><th class="num">Rank</th><th class="num">Bound</th><th>Evidence level</th><th>Name</th><th>Author</th><th>Date</th></tr></thead>
+  <tbody id="bound-rows"></tbody>
+</table></div>
