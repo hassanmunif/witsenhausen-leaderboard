@@ -52,6 +52,26 @@
    "claim": "Quantization-based strategies can beat the best linear strategy by an arbitrarily large factor."
   },
   {
+   "year": 2008,
+   "kind": "Survey",
+   "authors": "Y.-C. Ho",
+   "title": "Review of the Witsenhausen problem",
+   "venue": "Proc. 47th IEEE CDC, 1611–1613",
+   "url": "https://doi.org/10.1109/CDC.2008.4738756",
+   "evidence": "Peer-reviewed",
+   "claim": "Reviews the status of the problem forty years on, for the session of the 2008 CDC devoted to the counterexample."
+  },
+  {
+   "year": 2008,
+   "kind": "Survey",
+   "authors": "T. Başar",
+   "title": "Variations on the theme of the Witsenhausen counterexample",
+   "venue": "Proc. 47th IEEE CDC, 1614–1619",
+   "url": "https://doi.org/10.1109/CDC.2008.4739205",
+   "evidence": "Peer-reviewed",
+   "claim": "A semi-tutorial paper that places the counterexample in a broader class of problems: in some of them linear policies are optimal, in others, including Witsenhausen's, the optimal policies are nonlinear."
+  },
+  {
    "year": 2010,
    "kind": "Lower bound / approximation",
    "authors": "P. Grover, A. Sahai",
@@ -92,14 +112,34 @@
    "claim": "Asymptotic optimal cost of the vector problem pinned down within a factor of $1.3$."
   },
   {
+   "year": 2015,
+   "kind": "Reformulation",
+   "authors": "W. M. McEneaney, S. H. Han",
+   "title": "Optimization formulation and monotonic solution method for the Witsenhausen problem",
+   "venue": "Automatica 55, 55–65; first in Proc. IEEE CDC-ECC 2011, 5023–5028 (with A. Liu)",
+   "url": "https://doi.org/10.1016/j.automatica.2015.02.026",
+   "evidence": "Peer-reviewed",
+   "claim": "Works with the quantile function of $x_1$ instead of the controller, so that the problem becomes the minimization of a quadratic control cost plus an estimation cost over a function space; the journal version gives a monotonic solution method."
+  },
+  {
+   "year": 2015,
+   "kind": "Convex relaxation",
+   "authors": "A. A. Kulkarni, T. P. Coleman",
+   "title": "An optimizer's approach to stochastic control problems with nonclassical information structures",
+   "venue": "IEEE Trans. Automatic Control 60(4), 937–949; first in Proc. IEEE CDC 2012",
+   "url": "https://doi.org/10.1109/TAC.2014.2362596",
+   "evidence": "Peer-reviewed",
+   "claim": "Recasts problems with this information structure as optimization over joint distributions and solves convex relaxations of them, whose values are lower bounds. A relaxation built on the data-processing inequality solves the instance of Bansal and Başar (1987) exactly."
+  },
+  {
    "year": 2016,
    "kind": "Structure of the optimum",
    "authors": "A. Ajorlou, A. Jadbabaie",
    "title": "Slopey quantizers are locally optimal for Witsenhausen's counterexample",
-   "venue": "Proc. IEEE CDC 2016; arXiv:1604.03806",
+   "venue": "Proc. IEEE CDC 2016; journal version: IEEE Trans. Automatic Control 66(7), 3152–3168, 2021; arXiv:1604.03806",
    "url": "https://arxiv.org/abs/1604.03806",
    "evidence": "Peer-reviewed",
-   "claim": "Carefully constructed slopey quantizers are locally optimal when $k^2\\sigma^2 \\le 1$ and $k^2 \\le 0.005$. The benchmark has $k^2 = 0.04$, outside this range."
+   "claim": "Carefully constructed slopey quantizers are locally optimal when $k^2\\sigma^2 \\le 1$ and $k^2 \\le 0.005$ (conference version). The journal version shows that local minima of this form exist and are within a constant factor of the optimal cost. The benchmark has $k^2 = 0.04$, outside the conference version's range."
   },
   {
    "year": 2017,

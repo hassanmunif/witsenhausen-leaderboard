@@ -4,7 +4,7 @@
 
 ## Summary
 
-Tseng and Tang [1] report a cost of 0.166897 at the benchmark $k = 0.2$, $\sigma = 5$, about $2.6 \times 10^{-5}$ below the next best printed cost. That number is not the exact cost of their controller. Their numerics leave out the noise beyond $\pm 5$ standard deviations, and for a step controller that part of the cost is about $2.5 \times 10^{-5}$. Scored the same way, the verified reference controllers on this site reproduce the paper's Table II to the printed precision for $k = 0.2$ to $0.5$. Adding back what the cutoff leaves out puts their controller at about $0.166922$: level with the verified record, $0.166922312$, and with Mehmetoglu et al., $0.16692291$. The leaderboard keeps the row as *Claimed*, with its printed cost, and marks it *disputed*.
+Tseng and Tang [1] report a cost of 0.166897 at the benchmark $k = 0.2$, $\sigma = 5$, about $2.6 \times 10^{-5}$ below the next best printed cost. That number is not the exact cost of their controller. Their numerics leave out the noise beyond $\pm 5$ standard deviations, and for a step controller that part of the cost is about $2.5 \times 10^{-5}$. Scored the same way, the verified reference controllers on this site reproduce the paper's Table II to the printed precision for $k = 0.2$ to $0.5$. Adding back what the cutoff leaves out puts their controller at about $0.166922$: level with the verified record, $0.166922312$, and with Mehmetoglu et al., $0.16692291$. The leaderboard keeps these costs as *Claimed*, with their printed values, and marks them *disputed*, at the benchmark and at $k = 0.1$, $0.3$, $0.4$ and $0.5$.
 
 ## What the paper and its code do
 

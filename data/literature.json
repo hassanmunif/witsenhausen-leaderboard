@@ -62,7 +62,7 @@
       "reported_cost": 0.1701,
       "reported_as": "0.1701",
       "verified_by": null,
-      "notes": "$0.1701$ as tabulated by Mehmetoglu et al. (2014) and Tseng & Tang (2017); Telsang et al. (2025) quote $0.1735$ for this paper.",
+      "notes": "$0.1701$ as tabulated by Mehmetoglu et al. (2014) and Tseng & Tang (2017); Telsang et al. (2021) quote $0.1735$ for this paper.",
       "short": "Baglietto et al."
     },
     {
@@ -151,19 +151,103 @@
       "short": "Tseng & Tang"
     },
     {
-      "id": "telsang-2025",
+      "id": "tseng-tang-2017-k0.10",
+      "setting": "k0.10_s5",
+      "year": 2017,
+      "authors": "S.-H. Tseng, A. Tang",
+      "title": "A local search algorithm for the Witsenhausen's counterexample",
+      "venue": "Proc. 56th IEEE CDC, 5014–5019",
+      "url": "https://doi.org/10.1109/CDC.2017.8264401",
+      "method": "Local search guided by variational necessary conditions",
+      "structure": "curved steps on a 16,000-point grid",
+      "reported_cost": 0.052292,
+      "reported_as": "0.052292",
+      "verified_by": null,
+      "disputed": {
+        "date": "2026-11-17",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $3.2\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.052324$, slightly above the verified record.",
+        "note": "notes/tseng-tang-2017.md"
+      },
+      "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
+      "short": "Tseng & Tang"
+    },
+    {
+      "id": "tseng-tang-2017-k0.30",
+      "setting": "k0.30_s5",
+      "year": 2017,
+      "authors": "S.-H. Tseng, A. Tang",
+      "title": "A local search algorithm for the Witsenhausen's counterexample",
+      "venue": "Proc. 56th IEEE CDC, 5014–5019",
+      "url": "https://doi.org/10.1109/CDC.2017.8264401",
+      "method": "Local search guided by variational necessary conditions",
+      "structure": "curved steps on a 16,000-point grid",
+      "reported_cost": 0.314824,
+      "reported_as": "0.314824",
+      "verified_by": null,
+      "disputed": {
+        "date": "2026-11-17",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $2.1\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.314845$, level with the verified record.",
+        "note": "notes/tseng-tang-2017.md"
+      },
+      "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
+      "short": "Tseng & Tang"
+    },
+    {
+      "id": "tseng-tang-2017-k0.40",
+      "setting": "k0.40_s5",
+      "year": 2017,
+      "authors": "S.-H. Tseng, A. Tang",
+      "title": "A local search algorithm for the Witsenhausen's counterexample",
+      "venue": "Proc. 56th IEEE CDC, 5014–5019",
+      "url": "https://doi.org/10.1109/CDC.2017.8264401",
+      "method": "Local search guided by variational necessary conditions",
+      "structure": "curved steps on a 16,000-point grid",
+      "reported_cost": 0.477652,
+      "reported_as": "0.477652",
+      "verified_by": null,
+      "disputed": {
+        "date": "2026-11-17",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.9\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.477671$, level with the verified record.",
+        "note": "notes/tseng-tang-2017.md"
+      },
+      "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
+      "short": "Tseng & Tang"
+    },
+    {
+      "id": "tseng-tang-2017-k0.50",
+      "setting": "k0.50_s5",
+      "year": 2017,
+      "authors": "S.-H. Tseng, A. Tang",
+      "title": "A local search algorithm for the Witsenhausen's counterexample",
+      "venue": "Proc. 56th IEEE CDC, 5014–5019",
+      "url": "https://doi.org/10.1109/CDC.2017.8264401",
+      "method": "Local search guided by variational necessary conditions",
+      "structure": "curved steps on a 16,000-point grid",
+      "reported_cost": 0.640974,
+      "reported_as": "0.640974",
+      "verified_by": null,
+      "disputed": {
+        "date": "2026-11-17",
+        "reason": "The printed cost leaves out the noise beyond $\\pm 5$ standard deviations, which lowers it by about $1.7\\times 10^{-5}$ at this setting. Adding that part back puts the controller at about $0.640991$, level with the verified record.",
+        "note": "notes/tseng-tang-2017.md"
+      },
+      "notes": "From Table II of the paper, which lists costs for many values of $k$ at $\\sigma = 5$.",
+      "short": "Tseng & Tang"
+    },
+    {
+      "id": "telsang-2021",
       "setting": "k0.20_s5",
-      "year": 2025,
+      "year": 2021,
       "authors": "B. Telsang, S. Djouadi, C. D. Charalambous",
-      "title": "General decentralized stochastic optimal control via change of measure: applications to the Witsenhausen counterexample",
-      "venue": "arXiv:2509.11013",
-      "url": "https://arxiv.org/abs/2509.11013",
+      "title": "Numerical evaluation of exact person-by-person optimal nonlinear control strategies of the Witsenhausen counterexample",
+      "venue": "Proc. American Control Conference 2021, 1250–1255",
+      "url": "https://arxiv.org/abs/2009.13680",
       "method": "Person-by-person optimality equations (Gauss–Hermite quadrature)",
       "structure": "7 levels",
       "reported_cost": 0.171269,
       "reported_as": "0.171269",
       "verified_by": null,
-      "notes": "The paper also lists $0.166927$ for Lee–Lau–Ho's levels, at a point that does not solve its equations.",
+      "notes": "Extended in arXiv:2509.11013 (2025). The paper also lists $0.166927$ for Lee–Lau–Ho's levels, at a point that does not solve its equations.",
       "short": "Telsang et al."
     }
   ]
