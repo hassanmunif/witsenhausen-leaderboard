@@ -2,14 +2,17 @@
   <h1><span class="no">2</span>Leaderboard</h1>
 </header>
 <div class="prose">
-  <p>Controllers are ranked by their cost: lower is better. Lower bounds are ranked by value: higher is better, because no controller can cost less than a proven lower bound. Each entry has an evidence level.</p>
+  <p>Controllers are ranked by cost, lower is better, and lower bounds by value, higher is better: no controller can cost less than a proven lower bound. Each entry has an evidence level:</p>
   <ul class="evidence">
-    <li><span class="ev numerical">Numerically verified</span>: this site recomputed the cost from the submitted controller file (<a href="verification.html">Section 3</a>).</li>
-    <li><span class="ev peer">Peer-reviewed</span>: the proof of the bound was published in a peer-reviewed paper; its value here is computed numerically and rounded down.</li>
-    <li><span class="ev claimed">Claimed</span>: stated but not checked, such as a cost printed in a paper whose controller has not been submitted.</li>
+    <li><span class="ev numerical">Numerically verified</span>: recomputed here from a controller file (<a href="verification.html">Section 3</a>).</li>
+    <li><span class="ev claimed">Claimed</span>: printed in a paper, not checked.</li>
+    <li><span class="ev peer">Peer-reviewed</span>: a bound with a published proof, computed here and rounded down.</li>
   </ul>
-  <p>A claimed cost is marked <span class="tag">disputed</span> when there is evidence that the printed number is not the cost of the paper’s controller. Disputed claims are hidden unless you tick Disputed, and their details give the reason.</p>
-  <p>The verified entry marked <span class="tag record">record</span> holds the record under the <a href="verification.html#record-rule">record rule</a>: it was the first to reach its cost. Verified costs closer together than that rule can separate share a rank, shown as =1, with the record holder listed first. A controller taken from a paper is dated by the paper’s year; its details name who made the controller file and when it was verified here.</p>
+  <details class="more">
+    <summary>Disputed claims, records, ties and dates</summary>
+    <p>A claimed cost is marked <span class="tag">disputed</span> when there is evidence that the printed number is not the cost of the paper’s controller. Disputed claims are hidden unless you tick Disputed, and their details give the reason.</p>
+    <p>The verified entry marked <span class="tag record">record</span> holds the record under the <a href="verification.html#record-rule">record rule</a>: it was the first to reach its cost. Verified costs closer together than that rule can separate share a rank, shown as =1, with the record holder listed first. A controller taken from a paper is dated by the paper’s year; its details name who made the controller file and when it was verified here.</p>
+  </details>
 </div>
 <div class="controls"><label for="setting">Setting</label><select id="setting"></select></div>
 <div class="scorebar" id="scorebar"></div>
@@ -22,7 +25,7 @@
     <label id="disputed-toggle"><input type="checkbox" id="show-disputed"> <span>Disputed (<span id="n-disputed">0</span>)</span></label>
   </div>
 </div>
-<div class="tablewrap"><table class="bt" id="board">
+<div class="tablewrap"><table class="bt stack" id="board">
   <thead><tr>
     <th class="num">Rank</th><th class="num">Cost \(J(f)\)</th><th>Evidence level</th><th>Controller \(f\)</th><th>Author</th><th>Date</th>
     <th class="num">\(k^2\,\mathbb{E}[u_1^2]\)</th><th class="num">\(\mathbb{E}[x_2^2]\)</th><th></th>
@@ -31,7 +34,7 @@
 </table></div>
 
 <h2 class="subhead" id="lower-bounds">Lower bounds</h2>
-<div class="tablewrap"><table class="bt" id="bounds">
+<div class="tablewrap"><table class="bt stack" id="bounds">
   <thead><tr><th class="num">Rank</th><th class="num">Bound</th><th>Evidence level</th><th>Name</th><th>Author</th><th>Date</th></tr></thead>
   <tbody id="bound-rows"></tbody>
 </table></div>

@@ -126,6 +126,8 @@ The site build needs only the Python standard library. It fills `web/layout.html
 
 **The diagram.** `web/figures/problem.tex` is the TikZ source of the block diagram. The compiled `web/figures/problem.svg` is committed, so neither the build nor CI needs TeX. After editing the `.tex` file, run `python scripts/build_figures.py` (needs `pdflatex` with TikZ and `pdftocairo`).
 
+**Link previews.** Every page carries Open Graph and Twitter tags, so a shared link shows its title, description and `web/figures/preview.png`. The tags need the site's full address, `site_url` in `data/site.json`: change it there if the site moves, for example to its own domain. The image holds no numbers, so it does not go stale. Its source is `web/figures/preview.html`; after editing it, run `python scripts/build_preview.py` (needs Chrome, Edge or Chromium).
+
 `scripts/make_baselines.py` regenerates the exact baselines (best linear, two-point). `scripts/ports/` holds the scripts that turn controllers published in papers into submission files. `scripts/optimize_reference.py` is the reference optimizer behind the "curved sloped steps" entries. It needs `pip install "jax[cpu]"`.
 
 `scripts/reexamine/` holds the checks behind disputed claims. Each runs from the repository root in under a minute, for example `python scripts/reexamine/tseng_tang_tails.py`.
@@ -145,7 +147,7 @@ web/layout.html      page shell shared by every page (navigation, footer, script
 web/pages/           the content of each page (index, problem, leaderboard, ...)
 web/site.css         styles for every page
 web/site.js          charts, tables and maths rendering
-web/figures/         TikZ source of the diagram and its compiled SVG
+web/figures/         TikZ source of the diagram and its compiled SVG; the link-preview image and its source
 web/vendor/          KaTeX and the Latin Modern fonts (third-party; see web/vendor/README.md)
 .github/workflows/   checks for pull requests (verify.yml) and site deployment (pages.yml)
 site/                built site (generated, not committed: GitHub builds it)

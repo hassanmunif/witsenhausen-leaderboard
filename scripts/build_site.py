@@ -7,6 +7,7 @@ needs only the Python standard library:
 * web/layout.html + web/pages/<page>.html -> site/<page>.html, one file per page
 * web/site.css, web/site.js               -> site/assets/
 * data/*.json                             -> site/assets/data.js, read by the pages that draw charts and tables
+* web/figures/preview.png                -> site/assets/       (the image shown when a link is shared)
 * web/vendor/                             -> site/vendor/       (KaTeX and the Latin Modern fonts)
 * submissions/                            -> site/submissions/  (so controller files can be downloaded)
 
@@ -128,6 +129,34 @@ def nav_html(current: str) -> str:
     return "\n      ".join(links)
 
 
+PREVIEW_ALT = ("The words Witsenhausen leaderboard beside a staircase-shaped controller: "
+               "verified progress on a control problem open since 1968.")
+
+
+def social_html(site: dict, page: dict, title: str) -> str:
+    """Open Graph and Twitter tags, so a shared link shows a title, a description and an image.
+    They need absolute addresses, so they are left out until data/site.json gives site_url."""
+    base = site.get("site_url", "")
+    if not re.match(r"^https?://", base):
+        return ""
+    base = base.rstrip("/") + "/"
+    url = base if page["slug"] == "index" else f'{base}{page["slug"]}.html'
+    e = html.escape
+    return "\n".join([
+        f'<link rel="canonical" href="{e(url)}">',
+        '<meta property="og:type" content="website">',
+        f'<meta property="og:site_name" content="{e(site["title"])}">',
+        f'<meta property="og:title" content="{e(title)}">',
+        f'<meta property="og:description" content="{e(page["description"])}">',
+        f'<meta property="og:url" content="{e(url)}">',
+        f'<meta property="og:image" content="{e(base)}assets/preview.png">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{e(PREVIEW_ALT)}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+    ])
+
+
 def pager_html(i: int) -> str:
     """Previous and next section at the foot of each numbered section page."""
     if PAGES[i]["no"] is None:
@@ -208,9 +237,11 @@ def main():
             '<script src="vendor/katex/contrib/auto-render.min.js"></script>',
             f'<script src="assets/site.js?v={v["site.js"]}"></script>']
         here = ' aria-current="page"' if slug == "index" else ""
+        title = site["title"] if slug == "index" else f'{page["title"]} – {site["title"]}'
         out = fill(layout, {
-            "TITLE": html.escape(site["title"] if slug == "index" else f'{page["title"]} – {site["title"]}'),
+            "TITLE": html.escape(title),
             "DESCRIPTION": html.escape(page["description"]),
+            "SOCIAL": social_html(site, page, title),
             "CSS_VERSION": v["site.css"],
             "PAGE": slug,
             "BRAND": f'<a class="brand" href="index.html"{here}>{html.escape(site["title"])}</a>',
@@ -227,6 +258,7 @@ def main():
     (SITE / "assets").mkdir(exist_ok=True)
     for name, text in assets.items():
         (SITE / "assets" / name).write_text(text, encoding="utf-8")
+    shutil.copy2(WEB / "figures" / "preview.png", SITE / "assets" / "preview.png")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
     shutil.copytree(WEB / "vendor", SITE / "vendor", dirs_exist_ok=True)
     shutil.copytree(ROOT / "submissions", SITE / "submissions", dirs_exist_ok=True)

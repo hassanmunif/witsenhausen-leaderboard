@@ -418,15 +418,15 @@ function withDetails(row, btn, build) {
 function shownDate(e) { return e.verified_on ? e.date.slice(0, 4) : e.date; }
 function verifiedRow(e, rank, st, paper) {
   var r = e.result, btn = h("button", { class: "btn", "aria-expanded": "false", text: "Details" });
-  var row = h("tr", null,
+  var row = h("tr", { class: "verified" },
     h("td", { class: "num", text: String(rank) }),
     h("td", { class: "num" }, h("span", { class: "cost", text: fmtCost(r.cost) })),
     h("td", null, evidenceTag("Numerically verified"), e.id === st.record_id ? [" ", h("span", { class: "tag record", text: "record" })] : null),
     h("td", { math: e.name }),
     h("td", { text: shortAuthors(e.authors || []) }),
     h("td", { class: "nowrap", text: shownDate(e) }),
-    h("td", { class: "num", text: r.stage1.toFixed(6) }),
-    h("td", { class: "num", text: r.mmse.toFixed(6) }),
+    h("td", { class: "num", "data-label": "k²·E[u₁²]", text: r.stage1.toFixed(6) }),
+    h("td", { class: "num", "data-label": "E[x₂²]", text: r.mmse.toFixed(6) }),
     h("td", null, btn));
   return withDetails(row, btn, function () {
     var c1 = h("div", { class: "chartbox" }), c2 = h("div", { class: "chartbox" });
@@ -455,7 +455,7 @@ function verifiedRow(e, rank, st, paper) {
 }
 function claimedRow(p, rank) {
   var btn = h("button", { class: "btn", "aria-expanded": "false", text: "Details" });
-  var row = h("tr", null,
+  var row = h("tr", { class: "claimed" },
     h("td", { class: "num", text: String(rank) }),
     h("td", { class: "num" }, h("span", { class: "cost", text: fmtReported(p) })),
     h("td", null, evidenceTag("Claimed"), p.disputed ? [" ", h("span", { class: "tag", text: "disputed" })] : null),

@@ -131,6 +131,9 @@ figure { margin: 0; }
 .ev.peer::before { background: var(--good); }
 ul.evidence { list-style: none; padding-left: 0; }
 ul.evidence .ev { font-weight: 700; }
+details.more { margin: 0 0 0.85em; }
+details.more > summary { cursor: pointer; color: var(--link); width: fit-content; }
+details.more[open] > summary { margin-bottom: 0.6em; }
 td.empty { color: var(--muted); text-align: center; padding: 18px 4px; }
 
 /* booktabs tables */
@@ -231,6 +234,31 @@ svg.chart g.pt:focus .dot.ring, svg.chart g.pt:hover .dot.ring { stroke: var(--i
   /* numbered equations: reserve room for the tag and scroll sideways when too wide */
   .katex-display > .katex { text-align: left; white-space: nowrap; }
   .katex-display > .katex > .katex-html { display: inline-block; min-width: 100%; padding-right: 2.8em; box-sizing: border-box; }
+}
+/* On a phone each table row becomes a short block: rank, value and Details on the first line, then the
+   evidence level, the name, the author and date, and for a verified controller its two stage costs. */
+@media (max-width: 640px) {
+  /* child selectors only, so the small tables inside an open Details row keep their own layout */
+  table.bt.stack > thead { display: none; }
+  table.bt.stack, table.bt.stack > tbody { display: block; }
+  table.bt.stack > tbody > tr { display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; column-gap: 10px; row-gap: 3px; padding: 11px 0; }
+  table.bt.stack > tbody > tr + tr { border-top: 1px solid var(--rule); }
+  table.bt.stack > tbody > tr > td { padding: 0; text-align: left; border-top: 0; }
+  table.bt.stack > tbody > tr > td:nth-child(1) { grid-area: 1 / 1; color: var(--ink-2); }
+  table.bt.stack > tbody > tr > td:nth-child(2) { grid-area: 1 / 2; }
+  table.bt.stack > tbody > tr > td:nth-child(3) { grid-area: 2 / 2 / 3 / 4; }
+  table.bt.stack > tbody > tr > td:nth-child(4) { grid-area: 3 / 2 / 4 / 4; }
+  table.bt.stack > tbody > tr > td:nth-child(5) { grid-area: 4 / 2; color: var(--ink-2); }
+  table.bt.stack > tbody > tr > td:nth-child(6) { grid-area: 4 / 3; color: var(--ink-2); text-align: right; }
+  #board > tbody > tr.verified > td:nth-child(7) { grid-area: 5 / 2; font-size: 0.88rem; }
+  #board > tbody > tr.verified > td:nth-child(8) { grid-area: 5 / 3; font-size: 0.88rem; text-align: right; }
+  #board > tbody > tr.verified > td:nth-child(7)::before,
+  #board > tbody > tr.verified > td:nth-child(8)::before { content: attr(data-label) " "; color: var(--muted); }
+  #board > tbody > tr.claimed > td:nth-child(7), #board > tbody > tr.claimed > td:nth-child(8) { display: none; }
+  #board > tbody > tr > td:nth-child(9) { grid-area: 1 / 3; text-align: right; }
+  table.bt.stack > tbody > tr.detail { display: block; padding: 0; }
+  table.bt.stack > tbody > tr.detail > td { display: block; padding: 16px 12px; }
+  table.bt.stack > tbody > tr > td.empty { grid-column: 1 / -1; text-align: center; }
 }
 @media print {
   .top nav, .top .tools, .skip, .controls, .ticks, .btn, .pager { display: none; }

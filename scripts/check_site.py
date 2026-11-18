@@ -13,6 +13,7 @@ r"""Check the built site before it is published. Run it after scripts/build_site
    claim, and every lower bound), the history charts, the theory log and the contribute page's targets.
 3. Links. Every link to another page of the site, or to an anchor on one (problem.html#eq-6), reaches
    a page and an element that exist, and every controller file the leaderboard offers is in site/.
+   Every page's link-preview image (og:image) is in site/ and is 1200 x 630.
 
 Standard library only, apart from the browser and Node.js. Exit status 1 if any check fails.
 """
@@ -26,6 +27,7 @@ import json
 import os
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
@@ -362,6 +364,32 @@ def check_links(pages, data, problems):
     return n
 
 
+def png_size(path):
+    head = Path(path).read_bytes()[:24]
+    return struct.unpack(">II", head[16:24]) if head[:8] == b"\x89PNG\r\n\x1a\n" else None
+
+
+def check_previews(pages, problems):
+    """The image a shared link shows (og:image) is in site/ and is 1200 x 630."""
+    base = json.loads((ROOT / "data" / "site.json").read_text(encoding="utf-8")).get("site_url", "")
+    base = base.rstrip("/") + "/" if base else ""
+    n = 0
+    for slug, page in pages.items():
+        tags = {m.attrs.get("property") or m.attrs.get("name"): m.attrs.get("content", "") for m in page.root.iter() if m.tag == "meta"}
+        image = tags.get("og:image")
+        if not image:
+            if base:
+                problems.append(f"{slug}.html: no og:image, although data/site.json gives site_url")
+            continue
+        n += 1
+        path = SITE / image[len(base):] if base and image.startswith(base) else None
+        if path is None or not path.is_file():
+            problems.append(f"{slug}.html: preview image {image} is not in site/")
+        elif png_size(path) != (1200, 630):
+            problems.append(f"{slug}.html: preview image is {png_size(path)}, expected (1200, 630)")
+    return n
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Check the built site in site/.")
     ap.add_argument("--strict", action="store_true", help="fail if no browser or no Node.js is found, instead of skipping those checks")
@@ -393,6 +421,7 @@ def main(argv=None):
     for slug, page in static_pages().items():
         pages.setdefault(slug, page)
     print(f"links: {check_links(pages, data, problems)} checked")
+    print(f"link previews: {check_previews(pages, problems)} pages checked")
 
     if problems:
         print(f"\n{len(problems)} problem(s):")
