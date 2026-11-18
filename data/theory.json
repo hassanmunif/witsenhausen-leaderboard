@@ -27,7 +27,7 @@
    "authors": "C. H. Papadimitriou, J. N. Tsitsiklis",
    "title": "Intractable problems in control theory",
    "venue": "SIAM J. Control Optim. 24(4), 639–654",
-   "url": "https://www.mit.edu/people/jnt/Papers/J012-86-intractable.pdf",
+   "url": "https://doi.org/10.1137/0324038",
    "evidence": "Peer-reviewed",
    "claim": "A discrete version of the counterexample is NP-complete."
   },
@@ -79,14 +79,14 @@
    "venue": "Int. J. Systems, Control and Communications 2(1/2/3)",
    "url": "https://www.inderscience.com/filter.php?aid=31164",
    "evidence": "Peer-reviewed",
-   "claim": "Information-theoretic lower bound valid for every vector length; the asymptotic optimal cost of the vector problem is pinned down within a factor of $2$."
+   "claim": "Information-theoretic lower bound valid for every vector length; the asymptotic optimal cost of the vector problem is pinned down within a factor of $2$. The bound is used here as (7)."
   },
   {
    "year": 2010,
    "kind": "Lower bound / approximation",
    "authors": "P. Grover, S. Y. Park, A. Sahai",
    "title": "The finite-dimensional Witsenhausen counterexample",
-   "venue": "arXiv:1003.0514; IEEE Trans. Automatic Control 58(9), 2013",
+   "venue": "arXiv:1003.0514; journal version, “Approximately optimal solutions to the finite-dimensional Witsenhausen counterexample”, IEEE Trans. Automatic Control 58(9), 2189–2204, 2013",
    "url": "https://www.arxiv.org/abs/1003.0514",
    "evidence": "Peer-reviewed",
    "claim": "Lattice strategies are within a constant factor of optimal for all parameters and vector lengths; in the scalar case the gap to the bound is numerically at most a factor of $8$. New sphere-packing lower bound, used here as bound (8)."
@@ -183,13 +183,23 @@
   },
   {
    "year": 2026,
+   "kind": "Structure of the optimum",
+   "authors": "Q. Zhu",
+   "title": "From optimal transport to optimal quantization: a variational study of the Witsenhausen counterexample",
+   "venue": "arXiv:2609.18992",
+   "url": "https://arxiv.org/abs/2609.18992",
+   "evidence": "Preprint",
+   "claim": "Building on Wu and Verdú, writes the problem as minimizing $k^2 W_2^2(P, Q) + \\mathrm{mmse}(Q)$ over the law $Q$ of $x_1$, the optimal first controller being the monotone map from the prior $P$ to a minimizer. Minimizers exist, are absolutely continuous and satisfy an Euler–Lagrange condition. Restricting $Q$ to finitely many atoms gives an MMSE-regularized optimal quantizer whose optimal values decrease to $J^\\star$ and which becomes Lloyd–Max quantization as control gets expensive. As $k \\to 0$, $J^\\star = \\sigma^2 k^2 + o(k^2)$; as $k \\to \\infty$ the optimal controllers converge to the affine pair."
+  },
+  {
+   "year": 2026,
    "kind": "When linear is optimal",
    "authors": "Y. Lu, T. Li",
    "title": "The exact boundary of linear optimality in Witsenhausen's counterexample",
    "venue": "arXiv:2610.25853",
    "url": "https://arxiv.org/abs/2610.25853",
    "evidence": "Preprint",
-   "claim": "Optimal policies are either linear or not tame. The paper gives the exact region of parameters where a linear policy is optimal, with an essentially unique closed form there. Everywhere else, the benchmark included, no optimal first-stage policy is definable in any o-minimal expansion of the ordered real field; in particular, none is built from finitely many polynomial pieces."
+   "claim": "Optimal policies are either linear or not tame. The paper gives the exact region of parameters where a linear policy is optimal, with an essentially unique closed form there. Everywhere else, the benchmark included, no optimal first-stage policy is definable in any o-minimal expansion of the ordered real field."
   }
  ]
 }

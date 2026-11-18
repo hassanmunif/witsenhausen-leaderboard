@@ -45,7 +45,7 @@ PAGES = [
     {"slug": "theory", "nav": "Theory", "no": 5, "title": "What is known about the optimum", "data": True,
      "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds."},
     {"slug": "contribute", "nav": "Contribute", "no": 6, "title": "Contribute", "data": True,
-     "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and a prompt for AI agents."},
+     "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and what would count as progress."},
 ]
 
 EXAMPLE = {

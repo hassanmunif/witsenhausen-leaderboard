@@ -155,7 +155,15 @@ def step_summary(f, sigma, min_prob=1e-6):
         })
     xs = np.linspace(0.013, 6.0 * sigma, 97)
     odd = bool(np.allclose(f(xs), -f(-xs), atol=1e-9))
-    return {"odd": odd, "n_steps": len(steps), "steps": steps[:60]}
+    n_steps = len(steps)
+    # for an odd f, the steps reaching x0 > 0 say everything; keep at most the 60
+    # most probable (the site shows 12), in order of x0
+    if odd:
+        steps = [s for s in steps if s["hi"] is None or s["hi"] > 1e-9]
+    if len(steps) > 60:
+        keep = set(sorted(range(len(steps)), key=lambda i: -steps[i]["prob"])[:60])
+        steps = [s for i, s in enumerate(steps) if i in keep]
+    return {"odd": odd, "n_steps": n_steps, "steps": steps}
 
 
 def controller_samples(f, sigma, n=241, max_segments=1500):

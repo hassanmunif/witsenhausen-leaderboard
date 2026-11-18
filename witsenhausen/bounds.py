@@ -215,9 +215,9 @@ BOUND_INFO = {
     "grover_sahai": {
         "label": "Grover–Sahai",
         "equation": 7,
-        "source": "https://www.arxiv.org/abs/1003.0514",
-        "source_label": "Grover, Park & Sahai, Theorem 2",
-        "authors": "P. Grover, S. Y. Park, A. Sahai",
+        "source": "https://www.inderscience.com/filter.php?aid=31164",
+        "source_label": "Grover & Sahai (2010); also Theorem 2 of Grover, Park & Sahai",
+        "authors": "P. Grover, A. Sahai",
         "year": 2010,
         "evidence": "Peer-reviewed",
         "note": "Holds for every vector length.",

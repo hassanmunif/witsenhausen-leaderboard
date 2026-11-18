@@ -378,18 +378,26 @@ function evidenceTag(level) {
 function intervalTex(lo, hi) {
   return (lo === null ? "(-\\infty" : "[" + lo.toFixed(2)) + ",\\ " + (hi === null ? "\\infty" : hi.toFixed(2)) + ")";
 }
+/* At most 12 steps are listed: for an odd f the steps reaching x0 > 0, and if there are more than 12,
+   the 12 most probable, in order of x0. The caption says how many there are. */
 function stepsTable(e) {
   var sp = e.steps;
   if (!sp || !sp.steps.length) return null;
   var rows = sp.steps;
   if (sp.odd) rows = rows.filter(function (x) { return x.hi === null || x.hi > 1e-9; });
-  rows = rows.slice(0, 12);
+  if (!rows.length) return null;
+  var total = sp.odd ? Math.ceil(sp.n_steps / 2) : sp.n_steps;
+  if (rows.length > 12) {
+    var cut = rows.map(function (x) { return x.prob; }).sort(function (a, b) { return b - a; })[11];
+    rows = rows.filter(function (x) { return x.prob >= cut; }).slice(0, 12);
+  }
+  var count = rows.length < total ? " The " + rows.length + " most probable of these " + total + " are listed." : "";
   var tb = h("tbody");
   rows.forEach(function (x) {
     tb.append(h("tr", null, h("td", null, tex(intervalTex(x.lo, x.hi))), h("td", { text: x.prob.toFixed(6) }), h("td", { text: num(Math.abs(x.level) < 5e-7 ? 0 : x.level, 4) })));
   });
   return h("div", null,
-    h("p", { class: "cap above", math: "Steps of $f$, the maximal intervals without a jump" + (sp.odd ? ". $f$ is odd, so only steps reaching $x_0 > 0$ are listed." : ".") }),
+    h("p", { class: "cap above", math: "Steps of $f$, the maximal intervals without a jump" + (sp.odd ? ". $f$ is odd, so only steps reaching $x_0 > 0$ are listed." : ".") + count }),
     h("table", { class: "mini" }, h("thead", null, h("tr", null, h("th", { math: "$x_0 \\in$" }), h("th", { text: "probability" }), h("th", { math: "$\\mathbb{E}[x_1 \\mid \\text{step}]$" }))), tb));
 }
 /* A "Details" button in the row's last cell; the details open in a row underneath. */
