@@ -4,6 +4,8 @@ A verified leaderboard for [Witsenhausen's counterexample](https://en.wikipedia.
 
 **Site:** https://hassanmunif.github.io/witsenhausen-leaderboard/
 
+**Maintainer:** Hassan Munif, CRAN (UMR 7039), CNRS, Université de Lorraine. Corrections, missing results and controller files are welcome by email (hassan.munif0@gmail.com), as an issue, or as a pull request.
+
 The site is written like a short paper split into pages. A home page shows the gap between the best verified cost and the best proven lower bound, and the record controller. Each numbered section is its own page:
 
 1. **The problem** (`problem.html`): the formal statement, with a TikZ block diagram and numbered equations, and the formulas of the lower bounds.
@@ -12,6 +14,8 @@ The site is written like a short paper split into pages. A home page shows the g
 4. **Record history** (`history.html`): a chart of how the best benchmark cost (k = 0.2, σ = 5) has fallen since 1968, separating costs reported in papers from costs verified here.
 5. **Theory** (`theory.html`): a log of theoretical results, each marked peer-reviewed or preprint.
 6. **Contribute** (`contribute.html`): how to submit, with an example file.
+
+An unnumbered **About** page (`about.html`) says who maintains the site, how to reach them, what is listed, how disputed claims are handled, and how to cite the leaderboard.
 
 Equations, figures and tables are numbered across the whole site, and references to them link to the right page (for example `problem.html#eq-6`). Mathematics is typeset with KaTeX and the text is set in Latin Modern. Both are bundled in `web/vendor/`, so the site needs no CDN and also works when opened from disk.
 

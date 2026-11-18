@@ -3,7 +3,7 @@
  "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
  "short_name": "reference optimizer",
  "authors": [
-  "Leaderboard maintainers (reference baseline)"
+  "H. Munif"
  ],
  "date": "2026-11-16",
  "setting": {
@@ -16,7 +16,7 @@
   "url": "scripts/optimize_reference.py"
  },
  "claimed_cost": 0.314845329701,
- "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+ "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
  "controller": {
   "type": "odd_piecewise_affine",
   "breakpoints": [

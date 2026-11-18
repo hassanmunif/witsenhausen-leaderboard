@@ -69,7 +69,7 @@ def main(argv=None):
             "name": "Zhu's discretized transport map, 181 levels",
             "short_name": "Zhu's transport map",
             "authors": ["Q. Zhu"],
-            "ported_by": "Leaderboard maintainers",
+            "ported_by": "H. Munif",
             "date": DATE,
             "verified_on": VERIFIED_ON,
             "setting": {"k": s["k"], "sigma": s["sigma"]},

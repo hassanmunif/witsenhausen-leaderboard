@@ -25,7 +25,7 @@ from witsenhausen import SCHEMA  # noqa: E402
 
 BASE_DATE = "1968-02-01"
 VERIFIED_ON = "2026-11-17"
-PORTED_BY = "Leaderboard maintainers"
+PORTED_BY = "H. Munif"
 
 
 def linear_cost(lam, k, sigma):

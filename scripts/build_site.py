@@ -26,7 +26,8 @@ ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 SITE = ROOT / "site"
 
-# One entry per page, in reading order.  "no" is the section number shown in titles,
+# One entry per page, in reading order.  "no" is the section number shown in titles
+# (pages without one, like About, are left out of the previous/next links),
 # "data" says whether the page needs assets/data.js.
 PAGES = [
     {"slug": "index", "nav": None, "no": None, "title": None, "data": True,
@@ -46,6 +47,8 @@ PAGES = [
      "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds."},
     {"slug": "contribute", "nav": "Contribute", "no": 6, "title": "Contribute", "data": True,
      "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and what would count as progress."},
+    {"slug": "about", "nav": "About", "no": None, "title": "About", "data": False,
+     "description": "Who maintains the Witsenhausen leaderboard, how to reach them, what is listed, how disputed claims are handled, and how to cite it."},
 ]
 
 EXAMPLE = {
@@ -126,15 +129,17 @@ def nav_html(current: str) -> str:
 
 
 def pager_html(i: int) -> str:
-    """Previous and next section at the foot of each section page; the home page has the contents instead."""
-    if i == 0:
+    """Previous and next section at the foot of each numbered section page."""
+    if PAGES[i]["no"] is None:
         return ""
+    sections = [p for p in PAGES if p["no"] is not None]
+    j = sections.index(PAGES[i])
     links = []
-    if i > 1:
-        p = PAGES[i - 1]
+    if j > 0:
+        p = sections[j - 1]
         links.append(f'<a class="prev" href="{p["slug"]}.html" rel="prev"><span class="dir">Previous</span><span class="t">{numbered(p)}</span></a>')
-    if i + 1 < len(PAGES):
-        p = PAGES[i + 1]
+    if j + 1 < len(sections):
+        p = sections[j + 1]
         links.append(f'<a class="next" href="{p["slug"]}.html" rel="next"><span class="dir">Next</span><span class="t">{numbered(p)}</span></a>')
     return '<nav class="pager" aria-label="Previous and next section">\n  ' + "\n  ".join(links) + "\n</nav>"
 

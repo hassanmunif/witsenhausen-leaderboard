@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-18T20:04:37Z",
+ "generated_at": "2026-11-18T20:14:39Z",
  "evaluator_version": "1.0.0",
  "record_rule": {
   "tolerance": 1e-09,
@@ -17,11 +17,11 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.20_s5/reference-curved-steps.json",
-     "sha256": "37cf0873000f397d574ce9c771fac8c8f79428601e448ece767d917d2b17c3d3",
+     "sha256": "5ec3c354a46bdac7b4c917ddb4263de4f23802544091db5c107eff6ef9570575",
      "name": "Curved sloped steps (6 steps per side, 8 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ],
      "ported_by": null,
      "date": "2026-11-16",
@@ -31,7 +31,7 @@
       "kind": "code",
       "url": "scripts/optimize_reference.py"
      },
-     "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+     "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
      "claimed_cost": 0.166922311699,
      "result": {
       "k": 0.2,
@@ -48,7 +48,7 @@
       "n_nodes": 26144,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.296,
+     "eval_seconds": 0.338,
      "plot": {
       "segments": [
        [
@@ -2484,13 +2484,13 @@
     {
      "id": "zhu-2026",
      "file": "submissions/k0.20_s5/zhu-2026.json",
-     "sha256": "d769f609fe23ff202e5465cfbeaf5cf2fa4a14b168907cb0c5a5d702f9cdbdbf",
+     "sha256": "d8f6e83d12a38fb940c092e1732c6283008611e2fc41d8d2027a424a1b9b0159",
      "name": "Zhu's discretized transport map, 181 levels",
      "short_name": "Zhu's transport map",
      "authors": [
       "Q. Zhu"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
@@ -2515,7 +2515,7 @@
       "n_nodes": 13488,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.216,
+     "eval_seconds": 0.248,
      "plot": {
       "segments": [
        [
@@ -5911,14 +5911,14 @@
     {
      "id": "deng-ho-1999",
      "file": "submissions/k0.20_s5/deng-ho-1999.json",
-     "sha256": "9e5ef49c441f17a35da85217b9873e5196c452332d8f04c806dad51146b2d3b9",
+     "sha256": "1115bb9619d05cc3cddccec7cbe30f637e6872e91749e35094784e1afa9e6457",
      "name": "Deng and Ho's 2-step design, levels $\\pm 3.168$ and $\\pm 9.048$",
      "short_name": "Deng and Ho's design",
      "authors": [
       "M. Deng",
       "Y.-C. Ho"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1999-02-01",
      "verified_on": "2026-11-17",
      "method": "Ordinal optimization over 2-step functions",
@@ -5943,7 +5943,7 @@
       "n_nodes": 11072,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.004,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -7929,14 +7929,14 @@
     {
      "id": "bansal-basar-1987",
      "file": "submissions/k0.20_s5/bansal-basar-1987.json",
-     "sha256": "e45129c537fab664ff5693158badcde41aea7539cea8f57f373fe57d62ca446f",
+     "sha256": "9cb1e11f572a1ea3f4c368c590d2893e12b6304b7e13d10b0f7d091f1774f931",
      "name": "Bansal and Başar's two-point design, $f(x)=\\sigma\\sqrt{2/\\pi}\\,\\mathrm{sgn}(x)$",
      "short_name": "Bansal and Başar's design",
      "authors": [
       "R. Bansal",
       "T. Başar"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1987-06-01",
      "verified_on": "2026-11-17",
      "method": "Two-point design whose level minimizes the first-stage cost",
@@ -7961,7 +7961,7 @@
       "n_nodes": 8640,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -9929,13 +9929,13 @@
     {
      "id": "witsenhausen-two-point",
      "file": "submissions/k0.20_s5/witsenhausen-two-point.json",
-     "sha256": "562dbeb167042fa3a7dbbbfe297e6a3bc6c3915bb60d802d4c6aa7b7098d798c",
+     "sha256": "438d60a7ba9b80f99f5bf211fc1e8a8703e35b22bdf77f0ca7a422e3abec1d55",
      "name": "Witsenhausen's two-point design, $f(x)=\\sigma\\,\\mathrm{sgn}(x)$",
      "short_name": "two-point design",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
@@ -11928,13 +11928,13 @@
     {
      "id": "affine-optimal",
      "file": "submissions/k0.20_s5/affine-optimal.json",
-     "sha256": "9e8386e2266bb6a7362d80fe26bf7fcc4413c8e63173bb03db996736a02999d7",
+     "sha256": "c905efb6a0189be7c91e22b9d55ee6a16f84746a51171404747eaad0170c439f",
      "name": "Best linear controller",
      "short_name": "best linear controller",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
@@ -11959,7 +11959,7 @@
       "n_nodes": 38928,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.009,
+     "eval_seconds": 0.011,
      "plot": {
       "segments": [
        [
@@ -13965,7 +13965,7 @@
      "cost": 0.16692231169881602,
      "name": "Curved sloped steps (6 steps per side, 8 sub-pieces each)",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ]
     }
    ],
@@ -14052,11 +14052,11 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.10_s5/reference-curved-steps.json",
-     "sha256": "fe0edfe0c1a27c0322ac2dada4ed743283bf365518f7d164e66b42dd2184322d",
+     "sha256": "11b9c161feb3579f71fefb2da9870ba204c9cc191ddace92ee2dc14c46cf8685",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ],
      "ported_by": null,
      "date": "2026-11-16",
@@ -14066,7 +14066,7 @@
       "kind": "code",
       "url": "scripts/optimize_reference.py"
      },
-     "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+     "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
      "claimed_cost": 0.052319619223,
      "result": {
       "k": 0.1,
@@ -14083,7 +14083,7 @@
       "n_nodes": 30096,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.16,
+     "eval_seconds": 0.157,
      "plot": {
       "segments": [
        [
@@ -16267,13 +16267,13 @@
     {
      "id": "zhu-2026",
      "file": "submissions/k0.10_s5/zhu-2026.json",
-     "sha256": "51737768379bd8314df855c1f74a0518fc319d5d736b241c2c06185630516c51",
+     "sha256": "9c8c871430e5d2f926f6a2ab613c0e3edd0b6b61d967fe36eb8809fc31bc36f3",
      "name": "Zhu's discretized transport map, 181 levels",
      "short_name": "Zhu's transport map",
      "authors": [
       "Q. Zhu"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
@@ -16298,7 +16298,7 @@
       "n_nodes": 13952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.194,
+     "eval_seconds": 0.249,
      "plot": {
       "segments": [
        [
@@ -19694,13 +19694,13 @@
     {
      "id": "witsenhausen-two-point",
      "file": "submissions/k0.10_s5/witsenhausen-two-point.json",
-     "sha256": "bead48f3f0af2e1f802353b0c233ad4bb60abac04b258df9f678c8bcaf059bcf",
+     "sha256": "55124cc59663268cc6f548b992e5a6497a8f7e415410bc4b6173e180ad5b2f97",
      "name": "Witsenhausen's two-point design, $f(x)=\\sigma\\,\\mathrm{sgn}(x)$",
      "short_name": "two-point design",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
@@ -19725,7 +19725,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -21693,13 +21693,13 @@
     {
      "id": "affine-optimal",
      "file": "submissions/k0.10_s5/affine-optimal.json",
-     "sha256": "c998d7e67f55d60c77fca20646691f31dc768e36498febb4fcb44e72a2444cb4",
+     "sha256": "b1df68f5f8acbecd8e761f9dfe8807edff5512edbb22f28fc736f0d52923404f",
      "name": "Best linear controller",
      "short_name": "best linear controller",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
@@ -21724,7 +21724,7 @@
       "n_nodes": 7056,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.002,
      "plot": {
       "segments": [
        [
@@ -23710,7 +23710,7 @@
      "cost": 0.05231961922289293,
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ]
     }
    ],
@@ -23797,11 +23797,11 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.30_s5/reference-curved-steps.json",
-     "sha256": "f0d1cdd800cb699a5e262ba1a6014d6654ec2882ed5639ca14cd2a322ea0b324",
+     "sha256": "c62e5509b4ab78bf832ad8466d1628765e6ea48243dd3f3f911f78c8e7b70eda",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ],
      "ported_by": null,
      "date": "2026-11-16",
@@ -23811,7 +23811,7 @@
       "kind": "code",
       "url": "scripts/optimize_reference.py"
      },
-     "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+     "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
      "claimed_cost": 0.314845329701,
      "result": {
       "k": 0.3,
@@ -23828,7 +23828,7 @@
       "n_nodes": 26192,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.106,
+     "eval_seconds": 0.138,
      "plot": {
       "segments": [
        [
@@ -26054,13 +26054,13 @@
     {
      "id": "zhu-2026",
      "file": "submissions/k0.30_s5/zhu-2026.json",
-     "sha256": "ea923e10f78d068758f23fe52b5778e32fbf2000ac8a254084dce464fcf2c696",
+     "sha256": "7a32941b5ec02c18ac3e6d269693bc5bec73022a0dc416577b60d66da47b1365",
      "name": "Zhu's discretized transport map, 181 levels",
      "short_name": "Zhu's transport map",
      "authors": [
       "Q. Zhu"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
@@ -26085,7 +26085,7 @@
       "n_nodes": 13376,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.18,
+     "eval_seconds": 0.231,
      "plot": {
       "segments": [
        [
@@ -29481,13 +29481,13 @@
     {
      "id": "witsenhausen-two-point",
      "file": "submissions/k0.30_s5/witsenhausen-two-point.json",
-     "sha256": "a63f1f383ffe7c71ce03bc22a3f3c8e8b2f3a883848f646660f03fe07c358f83",
+     "sha256": "5cb960dee8ac0fd9bbb51089808d97ce014cf74d1e58098906c8962457d3efd6",
      "name": "Witsenhausen's two-point design, $f(x)=\\sigma\\,\\mathrm{sgn}(x)$",
      "short_name": "two-point design",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
@@ -29512,7 +29512,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -31480,13 +31480,13 @@
     {
      "id": "affine-optimal",
      "file": "submissions/k0.30_s5/affine-optimal.json",
-     "sha256": "e4f5bc50414f99f87d35e67e76b1a90270fca31667ca57b13084438fb1ebd206",
+     "sha256": "1a1e8f0fee8847f1295d741489f972f1b675f481478a3d33445ecc91f9c83fb9",
      "name": "Best linear controller",
      "short_name": "best linear controller",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
@@ -31511,7 +31511,7 @@
       "n_nodes": 39744,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.004,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -33497,7 +33497,7 @@
      "cost": 0.31484532970109813,
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ]
     }
    ],
@@ -33584,11 +33584,11 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.40_s5/reference-curved-steps.json",
-     "sha256": "bf65b4524f38cebf12a2b9aae9ce59df24242a4e97e117b8c6ec065a12e8b5ee",
+     "sha256": "895ada3c7be07c0e638eb42182e554d4809460430bb3a30713575f8af0cf90c6",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ],
      "ported_by": null,
      "date": "2026-11-16",
@@ -33598,7 +33598,7 @@
       "kind": "code",
       "url": "scripts/optimize_reference.py"
      },
-     "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+     "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
      "claimed_cost": 0.477670964051,
      "result": {
       "k": 0.4,
@@ -33615,7 +33615,7 @@
       "n_nodes": 23040,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.093,
+     "eval_seconds": 0.116,
      "plot": {
       "segments": [
        [
@@ -35895,13 +35895,13 @@
     {
      "id": "zhu-2026",
      "file": "submissions/k0.40_s5/zhu-2026.json",
-     "sha256": "2682d43642b84a2068a206fbc1fe6934c1c322aa0f7fdcbc9dea5efbcd3cd73d",
+     "sha256": "f79152ea94baadaad78d31e9ba456a47414f9229eddffd922dbc6ba3c1f63fff",
      "name": "Zhu's discretized transport map, 181 levels",
      "short_name": "Zhu's transport map",
      "authors": [
       "Q. Zhu"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
@@ -35926,7 +35926,7 @@
       "n_nodes": 13328,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.179,
+     "eval_seconds": 0.231,
      "plot": {
       "segments": [
        [
@@ -39322,13 +39322,13 @@
     {
      "id": "affine-optimal",
      "file": "submissions/k0.40_s5/affine-optimal.json",
-     "sha256": "8916719deadc51f2bc14abb7119acc8f882ec8c5bdcaec53ba471f8ff5e58841",
+     "sha256": "ad6da96c079c283c6c0deefdd99bbfadcb4f7679ac85c2a55081c1849384478b",
      "name": "Best linear controller",
      "short_name": "best linear controller",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
@@ -39353,7 +39353,7 @@
       "n_nodes": 40016,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.004,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -41315,13 +41315,13 @@
     {
      "id": "witsenhausen-two-point",
      "file": "submissions/k0.40_s5/witsenhausen-two-point.json",
-     "sha256": "37128a5abc302c731006f575925e842696e5d28c10dddf6b00a64159e71d983f",
+     "sha256": "1de54dd63d8f39c359f098484921709ed8617700c34e7e1b68af94db968d4343",
      "name": "Witsenhausen's two-point design, $f(x)=\\sigma\\,\\mathrm{sgn}(x)$",
      "short_name": "two-point design",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
@@ -41346,7 +41346,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -43338,7 +43338,7 @@
      "cost": 0.477670964050712,
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ]
     }
    ],
@@ -43425,11 +43425,11 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.50_s5/reference-curved-steps.json",
-     "sha256": "e50763238224b98c90a28068779fde23ec8ad7137082ae3d197f8a89121c19cb",
+     "sha256": "b4b7e6c0475dcba4118d751513505b4485579b94de0c06a6fa6931ebef60d91c",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ],
      "ported_by": null,
      "date": "2026-11-16",
@@ -43439,7 +43439,7 @@
       "kind": "code",
       "url": "scripts/optimize_reference.py"
      },
-     "notes": "Restarts from different step spacings reach this cost or a slightly higher one.",
+     "notes": "Restarts from different step spacings reach this cost or a slightly higher one. Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result.",
      "claimed_cost": 0.640991223593,
      "result": {
       "k": 0.5,
@@ -43456,7 +43456,7 @@
       "n_nodes": 23952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.094,
+     "eval_seconds": 0.124,
      "plot": {
       "segments": [
        [
@@ -45718,13 +45718,13 @@
     {
      "id": "zhu-2026",
      "file": "submissions/k0.50_s5/zhu-2026.json",
-     "sha256": "459fb466800c7d817170defeedd4407add1837b3388e5b689a35270d6a90a2ca",
+     "sha256": "44983e2730135495fd175ed4c4478012a8b33c7e7deca91b8a0650d7d25b2b3f",
      "name": "Zhu's discretized transport map, 181 levels",
      "short_name": "Zhu's transport map",
      "authors": [
       "Q. Zhu"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
@@ -45749,7 +45749,7 @@
       "n_nodes": 17472,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.265,
+     "eval_seconds": 0.326,
      "plot": {
       "segments": [
        [
@@ -49145,13 +49145,13 @@
     {
      "id": "affine-optimal",
      "file": "submissions/k0.50_s5/affine-optimal.json",
-     "sha256": "74f2e7dd37685efeb1fd5dc57b8d52d9b6bcb6b0b9b7ca65d1109466ab7204d9",
+     "sha256": "be84b3f7a325bef9996c51a248068e7452dea8f53cd253fcde598036239d8a83",
      "name": "Best linear controller",
      "short_name": "best linear controller",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
@@ -49176,7 +49176,7 @@
       "n_nodes": 40128,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.004,
+     "eval_seconds": 0.005,
      "plot": {
       "segments": [
        [
@@ -51138,13 +51138,13 @@
     {
      "id": "witsenhausen-two-point",
      "file": "submissions/k0.50_s5/witsenhausen-two-point.json",
-     "sha256": "1aa04eb99d473d0dd238462916fea597bf1f2aba1a9d8db473cd2f21ec3c3359",
+     "sha256": "65b7ad01aae3e8d0a150539d4fbf343bb2e9c66573fe1636de7c19a37be74d2f",
      "name": "Witsenhausen's two-point design, $f(x)=\\sigma\\,\\mathrm{sgn}(x)$",
      "short_name": "two-point design",
      "authors": [
       "H. S. Witsenhausen"
      ],
-     "ported_by": "Leaderboard maintainers",
+     "ported_by": "H. Munif",
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
@@ -51169,7 +51169,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -53161,7 +53161,7 @@
      "cost": 0.6409912235926369,
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "authors": [
-      "Leaderboard maintainers (reference baseline)"
+      "H. Munif"
      ]
     }
    ],

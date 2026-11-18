@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this leaderboard, please cite it as below."
+title: "Witsenhausen leaderboard"
+type: software
+authors:
+  - given-names: Hassan
+    family-names: Munif
+    affiliation: "CRAN (UMR 7039), CNRS, Université de Lorraine"
+url: "https://hassanmunif.github.io/witsenhausen-leaderboard/"
+repository-code: "https://github.com/hassanmunif/witsenhausen-leaderboard"
+license: MIT
+date-released: "2026-11-17"

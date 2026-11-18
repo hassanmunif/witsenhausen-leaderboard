@@ -197,18 +197,21 @@ def optimize(model: Model, theta0, maxiter=4000, verbose=True):
     return res.x, float(res.fun)
 
 
+PROVENANCE = "Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result."
+
+
 def write_submission(path, spec, k, sigma, result, n_steps, n_sub, notes=""):
     sub = {
         "schema": SCHEMA,
         "name": f"Curved sloped steps ({n_steps} steps per side, {n_sub} sub-pieces each)",
         "short_name": "reference optimizer",
-        "authors": ["Leaderboard maintainers (reference baseline)"],
+        "authors": ["H. Munif"],
         "date": date.today().isoformat(),
         "setting": {"k": k, "sigma": sigma},
         "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
         "source": {"kind": "code", "url": "scripts/optimize_reference.py"},
         "claimed_cost": round(result.cost, 12),
-        "notes": notes,
+        "notes": (notes + " " if notes else "") + PROVENANCE,
         "controller": spec,
     }
     Path(path).parent.mkdir(parents=True, exist_ok=True)
