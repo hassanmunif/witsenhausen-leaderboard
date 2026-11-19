@@ -6,8 +6,9 @@
 
 Submissions live in submissions/<setting-id>/<name>.json.  A file is rejected
 if it is malformed, if its "setting" disagrees with its folder, if its dates are
-not written YYYY-MM-DD, or if its "claimed_cost" (optional) differs from the
-verified cost by more than 1e-6.
+not written YYYY-MM-DD, if its optional "ai_assistance" is not a non-empty
+string, or if its "claimed_cost" (optional) differs from the verified cost by
+more than 1e-6.
 Lower bounds are cached in data/bounds.json (recomputed when missing).
 """
 
@@ -80,6 +81,10 @@ def metadata_problems(sub):
     by = sub.get("ported_by")
     if by is not None and not (isinstance(by, str) and by.strip()):
         problems.append(f"ported_by must be a non-empty string, got {by!r}")
+    # "ai_assistance": one sentence naming the AI model that helped and what it did
+    ai = sub.get("ai_assistance")
+    if ai is not None and not (isinstance(ai, str) and ai.strip()):
+        problems.append(f"ai_assistance must be a non-empty string naming the AI model and what it did, got {ai!r}")
     return problems
 
 
@@ -225,6 +230,7 @@ def score_file(path: Path, setting: dict):
         "date": sub["date"],
         "verified_on": sub.get("verified_on"),
         "method": sub.get("method", ""),
+        "ai_assistance": sub.get("ai_assistance"),
         "source": sub.get("source", {}),
         "notes": sub.get("notes", ""),
         "claimed_cost": claimed,

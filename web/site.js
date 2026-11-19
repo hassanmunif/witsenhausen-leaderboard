@@ -50,9 +50,15 @@ function rich(parts) {
   });
   return frag;
 }
+/* The same text without LaTeX, for tooltips and screen readers: \sigma becomes σ, \sqrt{2} becomes √(2). */
+var SYMBOLS = { sigma: "σ", gamma: "γ", kappa: "κ", lambda: "λ", mu: "μ", pi: "π", Phi: "Φ", varepsilon: "ε", epsilon: "ε",
+  pm: "±", times: "×", cdot: "·", to: "→", approx: "≈", le: "≤", leq: "≤", ge: "≥", geq: "≥", infty: "∞" };
 function plain(str) {
-  return String(str).replace(/\$/g, "").replace(/\\[,;!: ]/g, " ").replace(/\\(?:mathrm|operatorname|text)\{([^}]*)\}/g, "$1")
-    .replace(/\\([a-zA-Z]+)/g, "$1").replace(/[{}]/g, "").replace(/\s+/g, " ");
+  return String(str).replace(/\$/g, "").replace(/\\[,;!: ]/g, " ")
+    .replace(/\\sqrt\{([^}]*)\}/g, "√($1)").replace(/\\hat\{([^}]*)\}/g, "$1̂")
+    .replace(/\\(?:mathrm|operatorname|text|mathbb)\{([^}]*)\}/g, "$1")
+    .replace(/\\([a-zA-Z]+)/g, function (m, w) { return SYMBOLS.hasOwnProperty(w) ? SYMBOLS[w] : w; })
+    .replace(/[{}]/g, "").replace(/\s+/g, " ");
 }
 
 /* ---------- DOM helpers (text always goes in as text nodes) ---------- */
@@ -91,6 +97,15 @@ function cssVar(name) { return getComputedStyle(document.documentElement).getPro
 /* ---------- formatting ---------- */
 /* Verified costs: twelve decimals, so rounding stays below the evaluator's error estimate (about 1e-11). */
 function fmtCost(c) { return c.toFixed(12); }
+/* On the leaderboard: nine decimals at most, so a column of costs is easy to compare (the record rule cannot
+   tell apart costs closer than 1e-9). The full value is in each cell's tooltip and in Details. */
+function shortCost(c) { return c.toFixed(9); }
+function shortPrinted(str) { var m = /\.(\d+)$/.exec(str); return m && m[1].length > 9 ? Number(str).toFixed(9) : str; }
+/* An error estimate as plain text, for a tooltip: 3·10⁻¹¹. */
+function errPlain(e) {
+  var p = (e < 1e-15 ? 1e-15 : e).toExponential(0).split("e"), sup = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  return p[0] + "·10" + String(+p[1]).replace("-", "⁻").replace(/\d/g, function (d) { return sup.charAt(+d); });
+}
 /* Four significant digits, rounded down: a lower bound is never shown higher than its computed value. */
 function fmtBound(v) {
   if (!(v > 0) || !isFinite(v)) return String(v);
@@ -321,7 +336,8 @@ function renderHero() {
     claims.append(h("li", null, key, body));
   }
   claim(cssVar("--s2"), fmtCost(rec.result.cost),
-    rich(["is the best verified cost, from the ", { href: "leaderboard.html", text: rec.short_name || "record entry" }, " (" + rec.date.slice(0, 4) + "), "]),
+    rich(["is the best verified cost, from the ", { href: "leaderboard.html", text: rec.short_name || "record entry" }, " (" + rec.date.slice(0, 4)]),
+    rec.ai_assistance ? [", ", h("span", { class: "ai-note", title: "AI-assisted: " + plain(rec.ai_assistance), text: "AI-assisted" })] : null, "), ",
     h("span", { class: "sub" }, tex(errTex(rec.result.error_estimate)), "."));
   if (bestRep) claim(cssVar("--s1"), fmtReported(bestRep),
     rich(["is the best claimed cost, by ", { href: "leaderboard.html", text: andJoin(bestRep.authors) + " (" + bestRep.year + ")" }, ". It has not been verified here yet."]));
@@ -371,9 +387,46 @@ function shortAuthors(list) {
   var names = Array.isArray(list) ? list : String(list).split(", ");
   return names.length > 2 ? names[0] + " et al." : names.join(", ");
 }
-function evidenceTag(level) {
-  var cls = { "Claimed": "claimed", "Numerically verified": "numerical", "Peer-reviewed": "peer" }[level] || "";
-  return h("span", { class: "ev " + cls, text: level });
+/* An evidence level opens the evidence behind the entry: the controller file of a verified cost, the paper of
+   a claimed cost or of a lower bound. Its tooltip says what the level means. */
+var EVIDENCE = {
+  "Numerically verified": { cls: "numerical", tip: "Numerically verified: recomputed here from this controller file" },
+  "Claimed": { cls: "claimed", tip: "Claimed: printed in this paper, not checked here" },
+  "Peer-reviewed": { cls: "peer", tip: "Peer-reviewed: the proof is published; the value is computed here and rounded down" }
+};
+function evidenceTag(level, href) {
+  var ev = EVIDENCE[level] || { cls: "", tip: level };
+  return h(href ? "a" : "span", { class: "ev " + ev.cls, href: href || null, rel: href ? "noopener" : null, title: ev.tip, text: level });
+}
+function tagLabel(text, cls, title, href) {
+  return h(href ? "a" : "span", { class: "tag" + (cls ? " " + cls : ""), href: href || null, rel: href ? "noopener" : null, title: title, text: text });
+}
+/* An entry whose authors say an AI model helped ("ai_assistance" in its file, or in data/literature.json for a
+   paper) is tagged after the names; the tooltip and the details say which model and what it did. */
+function aiTag(text) { return text ? [" ", tagLabel("AI-assisted", "ai", "AI-assisted: " + plain(text))] : null; }
+/* A name links to a page about the person when data/site.json lists one under "people", and otherwise to the
+   paper or code the entry comes from. */
+function authorLink(names, url) {
+  var list = Array.isArray(names) ? names : String(names).split(", "), people = D.site.people || {};
+  var href = (list.length === 1 && safeHref(people[list[0]])) || safeHref(url);
+  return href ? h("a", { href: href, rel: "noopener", text: shortAuthors(list) }) : shortAuthors(list);
+}
+/* The table shows a name up to its first comma, bracket or formula; the full name is in the tooltip and in Details. */
+function shortLabel(str) {
+  var full = String(str), cut = full.search(/,\s| \(| \$/), out = cut > 0 ? full.slice(0, cut) : full;
+  return out.split("$").length % 2 ? out : full;
+}
+/* A value cell. The integer part sits in a box as wide as the widest in its column (see alignValues), so the
+   decimal points line up in a left-aligned column: the digits of Latin Modern all have the same width. */
+function valueCell(text, title) {
+  var i = text.indexOf(".");
+  return h("td", { class: "val", title: title || null },
+    h("span", { class: "cost" }, h("span", { class: "ip", text: i < 0 ? text : text.slice(0, i) }), i < 0 ? null : h("span", { text: text.slice(i) })));
+}
+function alignValues(tbody) {
+  var w = 1;
+  tbody.querySelectorAll(".ip").forEach(function (e) { w = Math.max(w, e.textContent.length); });
+  tbody.style.setProperty("--ip", w + "ch");
 }
 function intervalTex(lo, hi) {
   return (lo === null ? "(-\\infty" : "[" + lo.toFixed(2)) + ",\\ " + (hi === null ? "\\infty" : hi.toFixed(2)) + ")";
@@ -400,45 +453,60 @@ function stepsTable(e) {
     h("p", { class: "cap above", math: "Steps of $f$, the maximal intervals without a jump" + (sp.odd ? ". $f$ is odd, so only steps reaching $x_0 > 0$ are listed." : ".") + count }),
     h("table", { class: "mini" }, h("thead", null, h("tr", null, h("th", { math: "$x_0 \\in$" }), h("th", { text: "probability" }), h("th", { math: "$\\mathbb{E}[x_1 \\mid \\text{step}]$" }))), tb));
 }
-/* A "Details" button in the row's last cell; the details open in a row underneath. */
-function withDetails(row, btn, build) {
+/* A click anywhere on a row opens its details in a row underneath, and a second click closes them. Clicks on
+   a link, or while selecting text, are left alone. The arrow at the end of the row is a button, so the
+   details can also be opened from the keyboard. */
+function withDetails(row, label, build) {
   var open = null;
-  btn.addEventListener("click", function () {
-    if (open) { open.remove(); open = null; btn.setAttribute("aria-expanded", "false"); return; }
+  var btn = h("button", { class: "rowtoggle", type: "button", "aria-expanded": "false", "aria-label": "Details: " + plain(label), title: "Details" },
+    s("svg", { viewBox: "0 0 16 16", "aria-hidden": "true" }, s("path", { d: "M4 6l4 4 4-4" })));
+  function toggle() {
+    if (open) { open.remove(); open = null; btn.setAttribute("aria-expanded", "false"); row.classList.remove("open"); return; }
     btn.setAttribute("aria-expanded", "true");
+    row.classList.add("open");
     var parts = build();
-    open = h("tr", { class: "detail" }, h("td", { colspan: 9 }, parts.node));
+    open = h("tr", { class: "detail" }, h("td", { colspan: row.children.length }, parts.node));
     row.after(open);
     if (parts.after) parts.after();
+  }
+  btn.addEventListener("click", toggle);
+  row.addEventListener("click", function (ev) {
+    if (ev.target.closest("a, button") || String(window.getSelection ? window.getSelection() : "")) return;
+    toggle();
   });
+  row.classList.add("expandable");
+  row.append(h("td", { class: "go" }, btn));
   return row;
 }
 /* A controller taken from a paper (it has a verified_on date) is dated by the paper's year, like a claim;
    a new result by its full date. */
 function shownDate(e) { return e.verified_on ? e.date.slice(0, 4) : e.date; }
 function verifiedRow(e, rank, st, paper) {
-  var r = e.result, btn = h("button", { class: "btn", "aria-expanded": "false", text: "Details" });
+  var r = e.result, label = shortLabel(e.name);
   var row = h("tr", { class: "verified" },
     h("td", { class: "num", text: String(rank) }),
-    h("td", { class: "num" }, h("span", { class: "cost", text: fmtCost(r.cost) })),
-    h("td", null, evidenceTag("Numerically verified"), e.id === st.record_id ? [" ", h("span", { class: "tag record", text: "record" })] : null),
-    h("td", { math: e.name }),
-    h("td", { text: shortAuthors(e.authors || []) }),
-    h("td", { class: "nowrap", text: shownDate(e) }),
-    h("td", { class: "num", "data-label": "k²·E[u₁²]", text: r.stage1.toFixed(6) }),
-    h("td", { class: "num", "data-label": "E[x₂²]", text: r.mmse.toFixed(6) }),
-    h("td", null, btn));
-  return withDetails(row, btn, function () {
+    valueCell(shortCost(r.cost), "J(f) = " + fmtCost(r.cost) + " ± " + errPlain(r.error_estimate)),
+    h("td", { class: "evid" }, evidenceTag("Numerically verified", repoHref(e.file) || e.file),
+      e.id === st.record_id ? [" ", tagLabel("record", "record", "Record: the first verified entry to reach this cost (the record rule of Section 3)")] : null),
+    h("td", { class: "ctrl", title: plain(e.name), math: label }),
+    h("td", null, authorLink(e.authors || [], e.source && e.source.url), aiTag(e.ai_assistance)),
+    h("td", { class: "nowrap", text: shownDate(e) }));
+  return withDetails(row, label, function () {
     var c1 = h("div", { class: "chartbox" }), c2 = h("div", { class: "chartbox" });
     var kv = h("dl", { class: "kv" },
+      h("dt", { text: "Controller" }), h("dd", { math: e.name }),
       e.method ? [h("dt", { text: "Method" }), h("dd", { math: e.method })] : null,
       h("dt", { text: "Authors" }), h("dd", { text: (e.authors || []).join(", ") }),
+      e.ai_assistance ? [h("dt", { text: "AI assistance" }), h("dd", { math: e.ai_assistance })] : null,
       e.ported_by ? [h("dt", { text: "Controller file by" }), h("dd", { text: e.ported_by })] : null,
       e.verified_on ? [h("dt", { text: "Verified here" }), h("dd", { text: e.verified_on })] : null,
       paper ? [h("dt", { text: "Paper" }), h("dd", null, linkOrText(paper.title, paper.url), ". " + paper.venue + "."),
         h("dt", { text: "Cost as printed" }), h("dd", { text: fmtReported(paper) }),
         paper.notes ? [h("dt", { text: "On the printed cost" }), h("dd", { math: paper.notes })] : null] : null,
+      h("dt", null, "Cost ", tex("J(f)")), h("dd", { text: fmtCost(r.cost) }),
       h("dt", { text: "Error estimate" }), h("dd", null, tex(errTex(r.error_estimate))),
+      h("dt", null, "First-stage cost ", tex("k^2\\,\\mathbb{E}[u_1^2]")), h("dd", { text: r.stage1.toFixed(9) }),
+      h("dt", null, "Estimation error ", tex("\\mathbb{E}[x_2^2]")), h("dd", { text: r.mmse.toFixed(9) }),
       h("dt", { text: "Pieces" }), h("dd", { text: String(r.n_pieces) }),
       h("dt", { text: "Controller file" }), h("dd", null, h("a", { href: e.file, download: true, text: e.file })),
       h("dt", { text: "SHA-256" }), h("dd", null, h("code", { text: e.sha256.slice(0, 20) + "…" })),
@@ -454,20 +522,20 @@ function verifiedRow(e, rank, st, paper) {
   });
 }
 function claimedRow(p, rank) {
-  var btn = h("button", { class: "btn", "aria-expanded": "false", text: "Details" });
-  var row = h("tr", { class: "claimed" },
+  var label = shortLabel(p.method), printed = fmtReported(p);
+  var row = h("tr", { class: p.disputed ? "claimed disputed" : "claimed" },
     h("td", { class: "num", text: String(rank) }),
-    h("td", { class: "num" }, h("span", { class: "cost", text: fmtReported(p) })),
-    h("td", null, evidenceTag("Claimed"), p.disputed ? [" ", h("span", { class: "tag", text: "disputed" })] : null),
-    h("td", { math: p.method }),
-    h("td", { text: shortAuthors(p.authors) }),
-    h("td", { class: "nowrap", text: String(p.year) }),
-    h("td", { class: "num", text: "–" }),
-    h("td", { class: "num", text: "–" }),
-    h("td", null, btn));
-  return withDetails(row, btn, function () {
+    valueCell(shortPrinted(printed), "As printed: " + printed),
+    h("td", { class: "evid" }, evidenceTag("Claimed", safeHref(p.url)),
+      p.disputed ? [" ", tagLabel("disputed", null, "Disputed: there is evidence that the printed cost is not the cost of the paper’s controller", safeHref(p.disputed.note))] : null),
+    h("td", { class: "ctrl", title: plain(p.method), math: label }),
+    h("td", null, authorLink(p.authors, p.url), aiTag(p.ai_assistance)),
+    h("td", { class: "nowrap", text: String(p.year) }));
+  return withDetails(row, label, function () {
     return { node: h("dl", { class: "kv" },
+      h("dt", { text: "Method" }), h("dd", { math: p.method }),
       h("dt", { text: "Authors" }), h("dd", { text: p.authors }),
+      p.ai_assistance ? [h("dt", { text: "AI assistance" }), h("dd", { math: p.ai_assistance })] : null,
       h("dt", { text: "Paper" }), h("dd", null, linkOrText(p.title, p.url), ". " + p.venue + "."),
       h("dt", { text: "Shape of the controller" }), h("dd", { math: p.structure }),
       h("dt", { text: "Cost as printed" }), h("dd", { text: p.reported_as }),
@@ -479,7 +547,8 @@ function claimedRow(p, rank) {
 /* Rows in rank order, each with its rank label. Verified costs that the record rule cannot tell apart
    (within its tolerance plus both error estimates) share a rank, shown as "=1", and so do equal claimed
    costs. In a tie the record holder comes first, then the earlier entry. scripts/score_all.py ranks the
-   verified entries the same way. */
+   verified entries the same way. renderBoard ranks every verified entry and every claim that is not
+   disputed, before the tick boxes hide any, so hiding an evidence level never changes a rank. */
 function ranked(rows, st) {
   var tol = D.record_rule.tolerance;
   function tied(a, b) {
@@ -510,8 +579,10 @@ function renderBoard() {
   papers.forEach(function (r) { if (r.verified_by) paperOf[r.verified_by] = r; });
   var best = bestClaim(st.id);
   /* a setting can have no verified entry yet (tests/test_data.py keeps the published ones from it) */
-  add(clear("scorebar"), [h("span", null, "Best verified ", h("b", { text: rec ? fmtCost(rec.result.cost) : "none yet" })),
-    best ? h("span", null, "Best claimed ", h("b", { text: fmtReported(best) })) : null,
+  add(clear("scorebar"), [
+    h("span", { title: rec ? "J(f) = " + fmtCost(rec.result.cost) + " ± " + errPlain(rec.result.error_estimate) : null },
+      "Best verified ", h("b", { text: rec ? shortCost(rec.result.cost) : "none yet" })),
+    best ? h("span", { title: "As printed: " + fmtReported(best) }, "Best claimed ", h("b", { text: shortPrinted(fmtReported(best)) })) : null,
     h("span", null, "Best lower bound ", h("b", { text: fmtBound(lbs.best_value) }))]);
 
   /* Disputed claims are hidden unless their box is ticked; the box says how many there are. */
@@ -519,24 +590,32 @@ function renderBoard() {
   document.getElementById("disputed-toggle").hidden = !disputed.length;
   var showClaimed = document.getElementById("show-claimed").checked, showVerified = document.getElementById("show-verified").checked;
   var showDisputed = document.getElementById("show-disputed").checked;
-  var rows = ranked((showVerified ? st.entries.map(function (e) { return { cost: e.result.cost, e: e }; }) : [])
-    .concat(showClaimed ? claims.map(function (p) { return { cost: p.reported_cost, p: p }; }) : [])
-    .concat(showDisputed ? disputed.map(function (p) { return { cost: p.reported_cost, p: p }; }) : []), st);
+  var all = ranked(st.entries.map(function (e) { return { cost: e.result.cost, e: e }; })
+    .concat(claims.map(function (p) { return { cost: p.reported_cost, p: p }; })), st);
+  /* A disputed claim is not ranked: it sits where its printed cost would put it, with a dash for its rank. */
+  disputed.forEach(function (p) {
+    var i = 0;
+    while (i < all.length && all[i].cost <= p.reported_cost) i++;
+    all.splice(i, 0, { cost: p.reported_cost, p: p, rank: "–" });
+  });
+  var rows = all.filter(function (x) { return x.e ? showVerified : x.p.disputed ? showDisputed : showClaimed; });
   var tb = clear("board-rows");
-  if (!rows.length) tb.append(h("tr", null, h("td", { colspan: 9, class: "empty", text: "Tick an evidence level to show entries." })));
+  if (!rows.length) tb.append(h("tr", null, h("td", { colspan: 7, class: "empty", text: "Tick an evidence level to show entries." })));
   rows.forEach(function (x) { tb.append(x.e ? verifiedRow(x.e, x.rank, st, paperOf[x.e.id]) : claimedRow(x.p, x.rank)); });
+  alignValues(tb);
 
   var lb = clear("bound-rows"), bs = lbs.bounds;
   Object.keys(bs).sort(function (a, b) { return bs[b].value - bs[a].value; }).forEach(function (k, i) {
     var b = bs[k];
     lb.append(h("tr", null,
       h("td", { class: "num", text: String(i + 1) }),
-      h("td", { class: "num" }, h("span", { class: "cost", text: fmtBound(b.value_rounded_down) })),
-      h("td", null, evidenceTag(b.evidence)),
+      valueCell(fmtBound(b.value_rounded_down), "Rounded down from " + b.value.toPrecision(10)),
+      h("td", null, evidenceTag(b.evidence, safeHref(b.source))),
       h("td", null, b.label + " ", h("a", { href: "problem.html#eq-" + b.equation, text: "(" + b.equation + ")" })),
       h("td", null, linkOrText(shortAuthors(b.authors), b.source)),
       h("td", { text: String(b.year) })));
   });
+  alignValues(lb);
 }
 
 /* ---------- history ---------- */
@@ -625,7 +704,7 @@ function renderHistory() {
   st.entries.forEach(function (e) {
     var yr = +e.date.slice(0, 4);
     HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: "verified here",
-      note: (e.authors || []).join(", ") + (e.verified_on ? "; verified here on " + e.verified_on.replace(/-/g, "\u2011") : "") });
+      note: (e.authors || []).join(", ") + (e.ai_assistance ? ", AI-assisted" : "") + (e.verified_on ? "; verified here on " + e.verified_on.replace(/-/g, "\u2011") : "") });
   });
   var lg = clear("hist-legend");
   var keys = [["--s1", "Claimed"], ["--s2", "Numerically verified"]];

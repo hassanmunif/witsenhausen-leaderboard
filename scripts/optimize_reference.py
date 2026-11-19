@@ -198,6 +198,8 @@ def optimize(model: Model, theta0, maxiter=4000, verbose=True):
 
 
 PROVENANCE = "Computed with this site's reference optimizer, scripts/optimize_reference.py; not a published result."
+# Declared in every file this script writes; the leaderboard tags such entries AI-assisted.
+AI_ASSISTANCE = "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer."
 
 
 def write_submission(path, spec, k, sigma, result, n_steps, n_sub, notes=""):
@@ -209,6 +211,7 @@ def write_submission(path, spec, k, sigma, result, n_steps, n_sub, notes=""):
         "date": date.today().isoformat(),
         "setting": {"k": k, "sigma": sigma},
         "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+        "ai_assistance": AI_ASSISTANCE,
         "source": {"kind": "code", "url": "scripts/optimize_reference.py"},
         "claimed_cost": round(result.cost, 12),
         "notes": (notes + " " if notes else "") + PROVENANCE,

@@ -11,6 +11,7 @@
   "sigma": 5.0
  },
  "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+ "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
  "source": {
   "kind": "code",
   "url": "scripts/optimize_reference.py"

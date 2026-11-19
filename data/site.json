@@ -8,5 +8,8 @@
     "name": "Hassan Munif",
     "url": "https://hassanmunif.github.io/"
   },
+  "people": {
+    "H. Munif": "https://github.com/hassanmunif"
+  },
   "show_agent_prompt": false
 }

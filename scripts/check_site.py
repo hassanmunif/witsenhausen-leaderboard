@@ -251,7 +251,7 @@ def leaderboard(page, data, sid):
     if shown != want:
         out.append(f"{shown} controller rows, expected {want} ({len(st['entries'])} verified, {len(claims)} claimed)")
     table = page.ids["board-rows"].content() if "board-rows" in page.ids else ""
-    missing = [e["id"] for e in st["entries"] if f"{e['result']['cost']:.12f}" not in table]
+    missing = [e["id"] for e in st["entries"] if f"{e['result']['cost']:.9f}" not in table]  # shown to nine decimals
     if missing:
         out.append("verified entries missing from the table: " + ", ".join(missing))
     nb, wb = len(rows(page, "bound-rows")), len(st["lower_bounds"]["bounds"])

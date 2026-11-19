@@ -76,7 +76,7 @@ Problem: x0 ~ N(0, sigma^2) and w ~ N(0, 1) are independent. The first controlle
 1. Clone {repo} and run: pip install -r requirements.txt
 2. Score candidates only with witsenhausen.evaluate(f, k, sigma). Build f with witsenhausen.odd_piecewise_affine(...) or witsenhausen.PiecewiseAffine(...). Do not edit the evaluator or the tests.
 3. A new record must beat {record} by more than 1e-9 plus both error estimates.
-4. If you beat it, write submissions/k0.20_s5/<your-name>.json (schema witsenhausen-controller/v1, with "method" and "claimed_cost"), run python scripts/score_all.py --check, and open a pull request.
+4. If you beat it, write submissions/k0.20_s5/<your-name>.json (schema witsenhausen-controller/v1, with "method", "claimed_cost" and "ai_assistance", one sentence naming the AI model and what it did), run python scripts/score_all.py --check, and open a pull request.
 5. If you do not beat it, report the best verified cost you reached and what you tried.
 """
 

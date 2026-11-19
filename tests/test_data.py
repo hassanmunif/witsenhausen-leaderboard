@@ -85,6 +85,16 @@ def test_disputed_records_are_complete():
             assert (ROOT / d["note"]).exists(), f"{r['id']}: note {d['note']} does not exist"
 
 
+def test_ai_assistance_is_a_sentence_when_given():
+    """An entry made with an AI model's help says which model and what it did; the leaderboard tags it AI-assisted."""
+    where = [(f"literature {r['id']}", r) for r in LITERATURE]
+    where += [(p.relative_to(ROOT).as_posix(), json.loads(p.read_text(encoding="utf-8"))) for p in SUBMISSIONS]
+    for name, item in where:
+        if "ai_assistance" in item:
+            v = item["ai_assistance"]
+            assert isinstance(v, str) and v.strip(), f"{name}: ai_assistance must be a non-empty sentence, got {v!r}"
+
+
 def test_theory_entries_are_complete_and_in_order():
     required = {"year", "kind", "authors", "title", "venue", "url", "evidence", "claim"}
     for t in THEORY:
@@ -103,7 +113,7 @@ def test_dollar_signs_come_in_pairs():
     texts += [(f"theory {t['year']} {t['authors']}: {k}", v) for t in THEORY for k, v in t.items() if isinstance(v, str)]
     for p in SUBMISSIONS:
         sub = json.loads(p.read_text(encoding="utf-8"))
-        texts += [(f"{p.relative_to(ROOT).as_posix()}: {k}", sub[k]) for k in ("name", "short_name", "method", "notes")
+        texts += [(f"{p.relative_to(ROOT).as_posix()}: {k}", sub[k]) for k in ("name", "short_name", "method", "ai_assistance", "notes")
                   if isinstance(sub.get(k), str)]
     bad = [where for where, text in texts if text.count("$") % 2]
     assert not bad, "odd number of $ in: " + "; ".join(bad)

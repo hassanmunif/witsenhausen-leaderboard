@@ -5,7 +5,7 @@
   <p>A submission is one JSON file describing \(f\) as a piecewise-affine function. Nothing else is needed, because the evaluator computes \(g_f\) and the cost (<a href="verification.html">Section 3</a>). The steps below use GitHub; you can also send the file by email (<a href="about.html#contact">About</a>).</p>
 </div>
 <ol class="steps">
-  <li>Fork the repository and add <code>submissions/&lt;setting&gt;/&lt;your-name&gt;.json</code>. The README lists the four controller formats. The example below uses the odd one, which describes \(f\) for \(x \ge 0\) and extends it by \(f(-x) = -f(x)\).</li>
+  <li>Fork the repository and add <code>submissions/&lt;setting&gt;/&lt;your-name&gt;.json</code>. The README lists the four controller formats. The example below uses the odd one, which describes \(f\) for \(x \ge 0\) and extends it by \(f(-x) = -f(x)\). If an AI model helped, add <code>"ai_assistance"</code>: one sentence naming the model and what it did. The leaderboard then tags your entry AI-assisted.</li>
   <li>Run <code>python scripts/score_all.py --check</code> to see your verified cost.</li>
   <li>Open a pull request. The check re-scores every submission. It fails on malformed files, on controllers too large to evaluate quickly, on costs that cannot be computed reliably, and on a claimed cost that differs from the verified one by more than \(10^{-6}\).</li>
   <li>After the merge the site rebuilds and your entry appears on the <a href="leaderboard.html">leaderboard</a> with its verified cost.</li>

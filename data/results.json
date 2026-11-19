@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-18T20:14:39Z",
+ "generated_at": "2026-11-19T00:09:43Z",
  "evaluator_version": "1.0.0",
  "record_rule": {
   "tolerance": 1e-09,
@@ -17,7 +17,7 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.20_s5/reference-curved-steps.json",
-     "sha256": "5ec3c354a46bdac7b4c917ddb4263de4f23802544091db5c107eff6ef9570575",
+     "sha256": "814aa33dc58e83d239e4f9b3e26a75745cc238842c9adda3fa77a87aadca247d",
      "name": "Curved sloped steps (6 steps per side, 8 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
@@ -27,6 +27,7 @@
      "date": "2026-11-16",
      "verified_on": null,
      "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+     "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
      "source": {
       "kind": "code",
       "url": "scripts/optimize_reference.py"
@@ -48,7 +49,7 @@
       "n_nodes": 26144,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.338,
+     "eval_seconds": 0.321,
      "plot": {
       "segments": [
        [
@@ -2494,6 +2495,7 @@
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://arxiv.org/abs/2609.18992"
@@ -2515,7 +2517,7 @@
       "n_nodes": 13488,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.248,
+     "eval_seconds": 0.265,
      "plot": {
       "segments": [
        [
@@ -5922,6 +5924,7 @@
      "date": "1999-02-01",
      "verified_on": "2026-11-17",
      "method": "Ordinal optimization over 2-step functions",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1016/S0005-1098(98)00155-1"
@@ -5943,7 +5946,7 @@
       "n_nodes": 11072,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.005,
+     "eval_seconds": 0.004,
      "plot": {
       "segments": [
        [
@@ -7940,6 +7943,7 @@
      "date": "1987-06-01",
      "verified_on": "2026-11-17",
      "method": "Two-point design whose level minimizes the first-stage cost",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1109/TAC.1987.1104636"
@@ -9939,6 +9943,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -11938,6 +11943,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -11959,7 +11965,7 @@
       "n_nodes": 38928,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.011,
+     "eval_seconds": 0.012,
      "plot": {
       "segments": [
        [
@@ -14052,7 +14058,7 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.10_s5/reference-curved-steps.json",
-     "sha256": "11b9c161feb3579f71fefb2da9870ba204c9cc191ddace92ee2dc14c46cf8685",
+     "sha256": "54b41f93f779eccc8a2e44c29780905f13467ffa73d99f78d5a23e7abd2f13ad",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
@@ -14062,6 +14068,7 @@
      "date": "2026-11-16",
      "verified_on": null,
      "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+     "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
      "source": {
       "kind": "code",
       "url": "scripts/optimize_reference.py"
@@ -14083,7 +14090,7 @@
       "n_nodes": 30096,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.157,
+     "eval_seconds": 0.188,
      "plot": {
       "segments": [
        [
@@ -16277,6 +16284,7 @@
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://arxiv.org/abs/2609.18992"
@@ -16298,7 +16306,7 @@
       "n_nodes": 13952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.249,
+     "eval_seconds": 0.257,
      "plot": {
       "segments": [
        [
@@ -19704,6 +19712,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -21703,6 +21712,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -21724,7 +21734,7 @@
       "n_nodes": 7056,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.002,
+     "eval_seconds": 0.003,
      "plot": {
       "segments": [
        [
@@ -23797,7 +23807,7 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.30_s5/reference-curved-steps.json",
-     "sha256": "c62e5509b4ab78bf832ad8466d1628765e6ea48243dd3f3f911f78c8e7b70eda",
+     "sha256": "431225cdbd9cb91dad989d77ea3dcc417997ca9d532682b3fcfaa375b8824edf",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
@@ -23807,6 +23817,7 @@
      "date": "2026-11-16",
      "verified_on": null,
      "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+     "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
      "source": {
       "kind": "code",
       "url": "scripts/optimize_reference.py"
@@ -23828,7 +23839,7 @@
       "n_nodes": 26192,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.138,
+     "eval_seconds": 0.142,
      "plot": {
       "segments": [
        [
@@ -26064,6 +26075,7 @@
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://arxiv.org/abs/2609.18992"
@@ -26085,7 +26097,7 @@
       "n_nodes": 13376,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.231,
+     "eval_seconds": 0.233,
      "plot": {
       "segments": [
        [
@@ -29491,6 +29503,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -31490,6 +31503,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -31511,7 +31525,7 @@
       "n_nodes": 39744,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.005,
+     "eval_seconds": 0.006,
      "plot": {
       "segments": [
        [
@@ -33584,7 +33598,7 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.40_s5/reference-curved-steps.json",
-     "sha256": "895ada3c7be07c0e638eb42182e554d4809460430bb3a30713575f8af0cf90c6",
+     "sha256": "21374e52efbd7a5ffe6e2c2222b7682dd36ee0f8d6d4bf6128b2be87c188381d",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
@@ -33594,6 +33608,7 @@
      "date": "2026-11-16",
      "verified_on": null,
      "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+     "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
      "source": {
       "kind": "code",
       "url": "scripts/optimize_reference.py"
@@ -33615,7 +33630,7 @@
       "n_nodes": 23040,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.116,
+     "eval_seconds": 0.109,
      "plot": {
       "segments": [
        [
@@ -35905,6 +35920,7 @@
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://arxiv.org/abs/2609.18992"
@@ -35926,7 +35942,7 @@
       "n_nodes": 13328,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.231,
+     "eval_seconds": 0.215,
      "plot": {
       "segments": [
        [
@@ -39332,6 +39348,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -41325,6 +41342,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -43425,7 +43443,7 @@
     {
      "id": "reference-curved-steps",
      "file": "submissions/k0.50_s5/reference-curved-steps.json",
-     "sha256": "b4b7e6c0475dcba4118d751513505b4485579b94de0c06a6fa6931ebef60d91c",
+     "sha256": "33088608793a987c3d9827722c3b198cac5cbc5d786e9b6ed85385f4911ded3b",
      "name": "Curved sloped steps (6 steps per side, 4 sub-pieces each)",
      "short_name": "reference optimizer",
      "authors": [
@@ -43435,6 +43453,7 @@
      "date": "2026-11-16",
      "verified_on": null,
      "method": "L-BFGS with exact gradients (JAX) over odd piecewise-linear steps, several restarts",
+     "ai_assistance": "Claude Opus 5.5 (Anthropic) suggested the curved steps and wrote the optimizer.",
      "source": {
       "kind": "code",
       "url": "scripts/optimize_reference.py"
@@ -43456,7 +43475,7 @@
       "n_nodes": 23952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.124,
+     "eval_seconds": 0.117,
      "plot": {
       "segments": [
        [
@@ -45728,6 +45747,7 @@
      "date": "2026-10-08",
      "verified_on": "2026-11-17",
      "method": "Optimal-transport map on a 181-point grid, read as a law with 181 atoms",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://arxiv.org/abs/2609.18992"
@@ -45749,7 +45769,7 @@
       "n_nodes": 17472,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.326,
+     "eval_seconds": 0.312,
      "plot": {
       "segments": [
        [
@@ -49155,6 +49175,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "Closed-form optimum over linear first controllers (Witsenhausen 1968, Lemma 11)",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"
@@ -51148,6 +51169,7 @@
      "date": "1968-02-01",
      "verified_on": "2026-11-17",
      "method": "The 1968 counterexample construction",
+     "ai_assistance": null,
      "source": {
       "kind": "paper",
       "url": "https://doi.org/10.1137/0306011"

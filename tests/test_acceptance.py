@@ -54,6 +54,18 @@ def test_huge_constant_controller_is_not_ranked(tmp_path):
     assert entry is None and any("negative" in p for p in problems)
 
 
+def test_empty_ai_assistance_is_rejected(tmp_path):
+    path = write(tmp_path, {"type": "linear", "gain": 1.0}, ai_assistance=" ")
+    _, entry, problems = score_all.score_file(path, BENCHMARK)
+    assert entry is None and "ai_assistance" in problems[0]
+
+
+def test_ai_assistance_reaches_the_results(tmp_path):
+    path = write(tmp_path, {"type": "linear", "gain": 1.0}, ai_assistance="A model wrote the search.")
+    _, entry, problems = score_all.score_file(path, BENCHMARK)
+    assert problems == [] and entry["ai_assistance"] == "A model wrote the search."
+
+
 def test_nan_claimed_cost_is_rejected(tmp_path):
     path = write(tmp_path, {"type": "linear", "gain": 1.0}, claimed_cost=float("nan"))
     _, entry, problems = score_all.score_file(path, BENCHMARK)
