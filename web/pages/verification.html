@@ -1,5 +1,5 @@
 <header class="pagehead">
-  <h1><span class="no">3</span>How a cost is verified</h1>
+  <h1>How a cost is verified</h1>
 </header>
 <div class="prose">
   <p>A controller is submitted as a piecewise-affine function with finitely many pieces, \(f(x) = a_i + b_i x\) for \(x \in [t_i, t_{i+1})\), with jumps allowed. Steps and sloped steps are represented exactly; any other controller can be submitted as a piecewise-affine approximation, for example a sampled table. Since \(g_f(y)\) is a conditional mean, <a href="problem.html#eq-6">(6)</a> expands to</p>
@@ -11,7 +11,7 @@
   <p>The only numerical step is the one-dimensional integral \(\mathbb{E}[g_f(y)^2] = \int p_y(y)\,g_f(y)^2\,\mathrm{d}y\). It is computed with 16-point Gauss–Legendre rules on panels of width \(0.2\), and again on panels of width \(0.1\). The reported error estimate is the difference between the two results plus an allowance for rounding. All weights are handled in log space, so far tails neither underflow nor overflow. For every numerically verified entry on the <a href="leaderboard.html">leaderboard</a> the estimate is below \(10^{-10}\). A result is ranked only if it is finite and non-negative and its error estimate is at most \(10^{-6}\) (relative, for costs above 1).</p>
   <p id="record-rule"><span class="runin">Record rule.</span> A verified submission sets a new record only if its cost is below the standing record by more than \(10^{-9}\) plus both error estimates. Otherwise it ties.</p>
 </div>
-<p class="cap above" style="margin-top: 18px" id="table-1"><b>Table 1.</b> Independent checks in the test suite. Each compares the evaluator with a calculation that shares neither <a href="#eq-12">(12)</a> nor its quadrature.</p>
+<p class="cap above" style="margin-top: 18px" id="table-1"><b>Independent checks in the test suite.</b> Each compares the evaluator with a calculation that shares neither <a href="#eq-12">(12)</a> nor its quadrature.</p>
 <div class="tablewrap"><table class="bt">
   <thead><tr><th>Controller</th><th>Independent calculation</th><th class="num">Required agreement</th></tr></thead>
   <tbody>

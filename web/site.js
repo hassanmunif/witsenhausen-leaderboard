@@ -341,14 +341,14 @@ function renderHero() {
     h("span", { class: "sub" }, tex(errTex(rec.result.error_estimate)), "."));
   if (bestRep) claim(cssVar("--s1"), fmtReported(bestRep),
     rich(["is the best claimed cost, by ", { href: "leaderboard.html", text: andJoin(bestRep.authors) + " (" + bestRep.year + ")" }, ". It has not been verified here yet."]));
-  var eq = lb.bounds[lb.best].equation;
+  var eq = lb.bounds[lb.best].equation, bname = lb.bounds[lb.best].label.split(",")[0];
   claim(ink, fmtBound(lb.best_value),
-    rich(["is the strongest proven lower bound tracked here, ", { href: "problem.html#eq-" + eq, text: "equation (" + eq + ")" }, " in Section 1."]));
+    rich(["is the strongest proven lower bound tracked here, the ", { href: "problem.html#eq-" + eq, text: bname + " bound (" + eq + ")" }, "."]));
 
   controllerPlot(clear("hero-plot"), rec, st.sigma, { height: 370 });
   var hc = clear("hero-cap");
   var lv = (rec.steps.steps || []).filter(function (x) { return x.level > 1e-6; }).slice(0, 3).map(function (x) { return "\\pm" + x.level.toFixed(2); });
-  hc.append(h("b", { text: "Figure 1." }), mt(" The record controller at the benchmark: " + rec.name.replace(/^./, function (c) { return c.toLowerCase(); }) +
+  hc.append(h("b", { text: "The record controller at the benchmark" }), mt(": " + rec.name.replace(/^./, function (c) { return c.toLowerCase(); }) +
     ". Each step sends a band of initial states to one signalling level" + (lv.length ? " (here $0, " + lv.join(", ") + ", \\dots$)" : "") +
     ". The levels are far enough apart to be told apart through unit noise, and the slight slope within a step trades some of that separation for less control effort. Thin line: $x_1 = x_0$, no control."));
 }
@@ -487,7 +487,7 @@ function verifiedRow(e, rank, st, paper) {
     h("td", { class: "num", text: String(rank) }),
     valueCell(shortCost(r.cost), "J(f) = " + fmtCost(r.cost) + " ± " + errPlain(r.error_estimate)),
     h("td", { class: "evid" }, evidenceTag("Numerically verified", repoHref(e.file) || e.file),
-      e.id === st.record_id ? [" ", tagLabel("record", "record", "Record: the first verified entry to reach this cost (the record rule of Section 3)")] : null),
+      e.id === st.record_id ? [" ", tagLabel("record", "record", "Record: the first verified entry to reach this cost, under the record rule on the Verification page")] : null),
     h("td", { class: "ctrl", title: plain(e.name), math: label }),
     h("td", null, authorLink(e.authors || [], e.source && e.source.url), aiTag(e.ai_assistance)),
     h("td", { class: "nowrap", text: shownDate(e) }));
@@ -747,7 +747,7 @@ function renderContribute() {
     [first],
     ["A proven lower bound above $" + fmtBound(st.lower_bounds.best_value) + "$ at the benchmark. Bounds are added by pull request to ", h("code", { text: "witsenhausen/bounds.py" }), ", with a reference or a proof."],
     ["A controller file that reproduces one of the ", { href: "leaderboard.html", text: "claimed costs on the leaderboard" }, ", or a check showing that a printed cost is wrong, which marks the claim as disputed."],
-    ["A new result about the optimum for the ", { href: "theory.html", text: "log in Section 5" }, ", or a correction to an entry."]
+    ["A new result about the optimum for the ", { href: "theory.html", text: "theory log" }, ", or a correction to an entry."]
   ].forEach(function (parts) { ul.append(h("li", null, rich(parts))); });
 }
 

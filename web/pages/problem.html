@@ -1,11 +1,11 @@
 <header class="pagehead">
-  <h1><span class="no">1</span>The problem</h1>
+  <h1>The problem</h1>
 </header>
 <figure id="figure-2">
   <div class="tikz" role="img" aria-label="Block diagram. The initial state x0, Gaussian with variance sigma squared, feeds the first controller gamma 1, whose output u1 is added to x0 to give x1. Unit Gaussian noise w is added to x1 to give the observation y, which feeds the second controller gamma 2. Its output u2 is subtracted from x1 to give the final state x2.">
 __FIGURE_PROBLEM__
   </div>
-  <figcaption class="cap"><b>Figure 2.</b> Signal flow. The first controller \(\gamma_1\) observes the initial state exactly and pays for its action. The second controller \(\gamma_2\) observes only the noisy intermediate state \(y\) and acts for free.</figcaption>
+  <figcaption class="cap"><b>Signal flow.</b> The first controller \(\gamma_1\) observes the initial state exactly and pays for its action. The second controller \(\gamma_2\) observes only the noisy intermediate state \(y\) and acts for free.</figcaption>
 </figure>
 <div class="prose" style="margin-top: 22px">
   <h2 class="subhead" id="definition">Definition</h2>
@@ -33,7 +33,7 @@ __FIGURE_PROBLEM__
     <li>An optimal pair exists for every \(k\) and \(\sigma\), and an optimal \(f\) satisfies \(\mathbb{E}[f(x_0)] = 0\) (Witsenhausen 1968, Theorem 1 and Lemma 9).</li>
     <li>Among linear controllers \(f(x) = \lambda x\) the best cost is \(J_{\mathrm{lin}} = \min_{\lambda}\; k^2\sigma^2(1-\lambda)^2 + \lambda^2\sigma^2/(1+\lambda^2\sigma^2)\). For some parameters a nonlinear \(f\) does strictly better (Theorem 2). At the benchmark, \(J_{\mathrm{lin}} = 0.96\), while the two-point design \(f(x) = \sigma\,\mathrm{sgn}(x)\) costs \(0.4043\).</li>
     <li>The optimal \(f\) is strictly increasing and has a real-analytic left inverse (Wu and Verdú 2011). A piecewise-linear \(f\) can therefore be exactly optimal only if it is affine. At the benchmark a nonlinear controller already beats the best affine one, so no piecewise-linear \(f\) is exactly optimal there, although quantised and piecewise-linear controllers come arbitrarily close in cost (Saldi, Yüksel and Linder 2017).</li>
-    <li>Nearly all numerical work uses the benchmark \(k = 0.2\), \(\sigma = 5\). References and further results are listed in <a href="theory.html">Section 5</a>.</li>
+    <li>Nearly all numerical work uses the benchmark \(k = 0.2\), \(\sigma = 5\). References and further results are listed on the <a href="theory.html">theory page</a>.</li>
   </ul>
 
   <h2 class="subhead" id="lower-bounds">Lower bounds</h2>

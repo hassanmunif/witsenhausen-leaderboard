@@ -27,28 +27,27 @@ ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 SITE = ROOT / "site"
 
-# One entry per page, in reading order.  "no" is the section number shown in titles
-# (pages without one, like About, are left out of the previous/next links),
-# "data" says whether the page needs assets/data.js.
+# One entry per page, in the order of the links in the top bar. The home page has no link of its own:
+# the site title and its logo lead to it. "data" says whether the page needs assets/data.js.
 PAGES = [
-    {"slug": "index", "nav": None, "no": None, "title": None, "data": True,
+    {"slug": "index", "nav": None, "title": None, "data": True,
      "description": "A verified leaderboard for Witsenhausen's counterexample: the best controllers found so far, "
                     "proven lower bounds, and the history of records."},
-    {"slug": "problem", "nav": "Problem", "no": 1, "title": "The problem", "data": False,
-     "description": "The formal statement of Witsenhausen's counterexample, why it is hard, its reduction to a single function, and lower bounds."},
-    {"slug": "leaderboard", "nav": "Leaderboard", "no": 2, "title": "Leaderboard", "data": True,
+    {"slug": "leaderboard", "nav": "Leaderboard", "title": "Leaderboard", "data": True,
      "description": "Controllers for Witsenhausen's counterexample ranked by cost, each marked claimed or numerically verified, "
                     "and the proven lower bounds."},
-    {"slug": "verification", "nav": "Verification", "no": 3, "title": "How a cost is verified", "data": False,
+    {"slug": "problem", "nav": "Problem", "title": "The problem", "data": False,
+     "description": "The formal statement of Witsenhausen's counterexample, why it is hard, its reduction to a single function, and lower bounds."},
+    {"slug": "verification", "nav": "Verification", "title": "How a cost is verified", "data": False,
      "description": "How the reference evaluator computes the cost of a piecewise-affine controller for Witsenhausen's "
                     "counterexample, and the checks it passes."},
-    {"slug": "history", "nav": "History", "no": 4, "title": "Record history on the benchmark", "data": True,
+    {"slug": "history", "nav": "History", "title": "Record history on the benchmark", "data": True,
      "description": "How the best cost on the Witsenhausen benchmark k = 0.2, sigma = 5 has fallen since 1968, claimed in papers and numerically verified."},
-    {"slug": "theory", "nav": "Theory", "no": 5, "title": "What is known about the optimum", "data": True,
+    {"slug": "theory", "nav": "Theory", "title": "What is known about the optimum", "data": True,
      "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds."},
-    {"slug": "contribute", "nav": "Contribute", "no": 6, "title": "Contribute", "data": True,
+    {"slug": "contribute", "nav": "Contribute", "title": "Contribute", "data": True,
      "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and what would count as progress."},
-    {"slug": "about", "nav": "About", "no": None, "title": "About", "data": False,
+    {"slug": "about", "nav": "About", "title": "About", "data": False,
      "description": "Who maintains the Witsenhausen leaderboard, how to reach them, what is listed, how disputed claims are handled, and how to cite it."},
 ]
 
@@ -117,10 +116,6 @@ def repo_configured(url: str) -> bool:
     return bool(re.match(r"^https?://", url or "")) and "YOUR-GITHUB-USERNAME" not in url
 
 
-def numbered(page: dict) -> str:
-    return f'<span class="no">{page["no"]}</span>{html.escape(page["title"])}'
-
-
 def nav_html(current: str) -> str:
     links = []
     for p in PAGES[1:]:
@@ -128,6 +123,11 @@ def nav_html(current: str) -> str:
         links.append(f'<a href="{p["slug"]}.html"{here}>{html.escape(p["nav"])}</a>')
     return "\n      ".join(links)
 
+
+# The site's mark in the top bar: the staircase of the favicon (web/layout.html). It sits inside the link
+# to the home page, so the title reads as a logo. Its colours are set in site.css.
+LOGO = ('<svg class="logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
+        '<rect class="tile" width="32" height="32" rx="5"/><path d="M5 25h7v-7h7v-7h8"/></svg>')
 
 PREVIEW_ALT = ("The words Witsenhausen leaderboard beside a staircase-shaped controller: "
                "verified progress on a control problem open since 1968.")
@@ -155,22 +155,6 @@ def social_html(site: dict, page: dict, title: str) -> str:
         f'<meta property="og:image:alt" content="{e(PREVIEW_ALT)}">',
         '<meta name="twitter:card" content="summary_large_image">',
     ])
-
-
-def pager_html(i: int) -> str:
-    """Previous and next section at the foot of each numbered section page."""
-    if PAGES[i]["no"] is None:
-        return ""
-    sections = [p for p in PAGES if p["no"] is not None]
-    j = sections.index(PAGES[i])
-    links = []
-    if j > 0:
-        p = sections[j - 1]
-        links.append(f'<a class="prev" href="{p["slug"]}.html" rel="prev"><span class="dir">Previous</span><span class="t">{numbered(p)}</span></a>')
-    if j + 1 < len(sections):
-        p = sections[j + 1]
-        links.append(f'<a class="next" href="{p["slug"]}.html" rel="next"><span class="dir">Next</span><span class="t">{numbered(p)}</span></a>')
-    return '<nav class="pager" aria-label="Previous and next section">\n  ' + "\n  ".join(links) + "\n</nav>"
 
 
 def main():
@@ -229,7 +213,7 @@ def main():
     layout = (WEB / "layout.html").read_text(encoding="utf-8")
     SITE.mkdir(exist_ok=True)
     written = []
-    for i, page in enumerate(PAGES):
+    for page in PAGES:
         slug = page["slug"]
         content = fill((WEB / "pages" / f"{slug}.html").read_text(encoding="utf-8"), page_values, f"web/pages/{slug}.html")
         scripts = ([f'<script src="assets/data.js?v={v["data.js"]}"></script>'] if page["data"] else []) + [
@@ -244,11 +228,10 @@ def main():
             "SOCIAL": social_html(site, page, title),
             "CSS_VERSION": v["site.css"],
             "PAGE": slug,
-            "BRAND": f'<a class="brand" href="index.html"{here}>{html.escape(site["title"])}</a>',
+            "BRAND": f'<a class="brand" href="index.html"{here}>{LOGO}<span>{html.escape(site["title"])}</span></a>',
             "NAV": nav_html(slug),
             "REPO_LINK": repo_link,
             "CONTENT": content.rstrip("\n"),
-            "PAGER": pager_html(i),
             "FOOTER": "".join(footer),
             "SCRIPTS": "\n".join(scripts),
         }, "web/layout.html")
