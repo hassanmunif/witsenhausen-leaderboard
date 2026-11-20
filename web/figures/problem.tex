@@ -11,7 +11,7 @@
     ctrl/.style={draw, rounded corners=1.5pt, minimum width=15mm, minimum height=9mm, align=center},
     sum/.style={draw, circle, inner sep=0pt, minimum size=5.2mm},
     dot/.style={circle, fill, inner sep=0pt, minimum size=1.3mm},
-    note/.style={font=\footnotesize, align=center},
+    ctrlname/.style={font=\footnotesize},
   ]
   % plant path (top row)
   \node (x0)  at (0,0)      {$x_0 \sim \mathcal{N}(0,\sigma^2)$};
@@ -40,9 +40,8 @@
   \draw[->] (c2) -| node[pos=0.25, above] {$u_2$} node[pos=0.93, right] {$-$} (s3);
   \draw[->] (s3) -- (x2);
 
-  % who knows what, and what is paid
-  \node[note, below=1.5mm of c1] {sees $x_0$ exactly\\pays $k^2 u_1^2$};
-  \node[note, below=1.5mm of c2] {sees only $y = x_1 + w$\\acts for free};
-  \node[note, below=1.0mm of x2] {pays $x_2^2$};
+  % names of the two controllers; what each one sees and pays is in the caption
+  \node[ctrlname, above=1.2mm of c1] {first controller};
+  \node[ctrlname, above=1.2mm of c2] {second controller};
 \end{tikzpicture}
 \end{document}

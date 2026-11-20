@@ -5,7 +5,7 @@
   <div class="tikz" role="img" aria-label="Block diagram. The initial state x0, Gaussian with variance sigma squared, feeds the first controller gamma 1, whose output u1 is added to x0 to give x1. Unit Gaussian noise w is added to x1 to give the observation y, which feeds the second controller gamma 2. Its output u2 is subtracted from x1 to give the final state x2.">
 __FIGURE_PROBLEM__
   </div>
-  <figcaption class="cap"><b>Signal flow.</b> The first controller \(\gamma_1\) observes the initial state exactly and pays for its action. The second controller \(\gamma_2\) observes only the noisy intermediate state \(y\) and acts for free.</figcaption>
+  <figcaption class="cap"><b>Signal flow.</b> The first controller \(\gamma_1\) observes the initial state exactly and pays for its action. The second controller \(\gamma_2\) observes only the noisy intermediate state \(y\) and acts for free. The pair is chosen to minimise the expected cost \(\mathbb{E}[k^2 u_1^2 + x_2^2]\).</figcaption>
 </figure>
 <div class="prose" style="margin-top: 22px">
   <h2 class="subhead" id="definition">Definition</h2>
