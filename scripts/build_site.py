@@ -38,7 +38,7 @@ PAGES = [
                     "and the proven lower bounds."},
     {"slug": "problem", "nav": "Problem", "title": "The problem", "data": False,
      "description": "The formal statement of Witsenhausen's counterexample, why it is hard, its reduction to a single function, and lower bounds."},
-    {"slug": "verification", "nav": "Verification", "title": "How a cost is verified", "data": False,
+    {"slug": "verification", "nav": "Verification", "title": "Verification", "data": False,
      "description": "How the reference evaluator computes the cost of a piecewise-affine controller for Witsenhausen's "
                     "counterexample, and the checks it passes."},
     {"slug": "history", "nav": "History", "title": "Record history on the benchmark", "data": True,
@@ -208,6 +208,7 @@ def main():
     page_values = {
         "AGENT_PROMPT": ('  <div>\n    <div class="prehead"><h2>Prompt for an AI agent</h2><button class="btn" id="copy-prompt">Copy prompt</button></div>\n    <pre class="wrapped"><code id="prompt"></code></pre>\n  </div>' if show_prompt else ""),
         "FIGURE_PROBLEM": (WEB / "figures" / "problem.svg").read_text(encoding="utf-8"),
+        "REPO_URL": html.escape(repo.rstrip("/")),
     }
 
     layout = (WEB / "layout.html").read_text(encoding="utf-8")

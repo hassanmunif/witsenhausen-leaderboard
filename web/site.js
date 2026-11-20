@@ -793,6 +793,16 @@ if (themeBtn) {
   });
 }
 
+/* An address that points inside a closed <details> (verification.html#eq-12, where the formulas are folded
+   away) opens it, so the target can be shown. */
+function openFolded() {
+  var id = decodeURIComponent(location.hash.slice(1)), target = id && document.getElementById(id);
+  var box = target && target.closest ? target.closest("details") : null;
+  if (box && !box.open) { box.open = true; target.scrollIntoView(); }
+}
+openFolded();
+window.addEventListener("hashchange", openFolded);
+
 /* Fonts and maths change line heights after the browser has jumped to an #anchor
    (problem.html#eq-6); on a fresh visit, put the target back at the top of the window. */
 window.addEventListener("load", function () {

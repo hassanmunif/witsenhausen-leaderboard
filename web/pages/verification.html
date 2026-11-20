@@ -1,17 +1,48 @@
 <header class="pagehead">
-  <h1>How a cost is verified</h1>
+  <h1>Verification</h1>
 </header>
 <div class="prose">
-  <p>A controller is submitted as a piecewise-affine function with finitely many pieces, \(f(x) = a_i + b_i x\) for \(x \in [t_i, t_{i+1})\), with jumps allowed. Steps and sloped steps are represented exactly; any other controller can be submitted as a piecewise-affine approximation, for example a sampled table. Since \(g_f(y)\) is a conditional mean, <a href="problem.html#eq-6">(6)</a> expands to</p>
-  <div class="eq" id="eq-11">\[ J(f) \;=\; k^2\,\mathbb{E}\!\left[(f(x_0) - x_0)^2\right] + \mathbb{E}\!\left[f(x_0)^2\right] - \mathbb{E}\!\left[g_f(y)^2\right]. \tag{11} \]</div>
-  <p>The first two terms are finite sums of truncated-Gaussian moments and are evaluated in closed form. For the third, each piece contributes in closed form to the density of \(y\):</p>
-  <div class="eq" id="eq-12">\[ w_i(y) \;=\; \int_{t_i}^{t_{i+1}} \varphi_\sigma(x)\,\varphi(y - a_i - b_i x)\,\mathrm{d}x \;=\; \frac{1}{\sqrt{v_i}}\,\varphi\!\Big(\frac{y - a_i}{\sqrt{v_i}}\Big)\big[\Phi(\beta_i) - \Phi(\alpha_i)\big], \tag{12} \]</div>
-  <p>with \(v_i = 1 + b_i^2\sigma^2\), \(\mu_i = b_i\sigma^2 (y - a_i)/v_i\), \(s_i = \sigma/\sqrt{v_i}\), \(\alpha_i = (t_i - \mu_i)/s_i\) and \(\beta_i = (t_{i+1} - \mu_i)/s_i\). The density of \(y\) and the optimal second controller follow as</p>
-  <div class="eq" id="eq-13">\[ p_y(y) = \sum_i w_i(y), \qquad g_f(y) = \frac{1}{p_y(y)} \sum_i w_i(y)\left[a_i + b_i\Big(\mu_i + s_i\,\frac{\varphi(\alpha_i) - \varphi(\beta_i)}{\Phi(\beta_i) - \Phi(\alpha_i)}\Big)\right]. \tag{13} \]</div>
-  <p>The only numerical step is the one-dimensional integral \(\mathbb{E}[g_f(y)^2] = \int p_y(y)\,g_f(y)^2\,\mathrm{d}y\). It is computed with 16-point Gauss–Legendre rules on panels of width \(0.2\), and again on panels of width \(0.1\). The reported error estimate is the difference between the two results plus an allowance for rounding. All weights are handled in log space, so far tails neither underflow nor overflow. For every numerically verified entry on the <a href="leaderboard.html">leaderboard</a> the estimate is below \(10^{-10}\). A result is ranked only if it is finite and non-negative and its error estimate is at most \(10^{-6}\) (relative, for costs above 1).</p>
-  <p id="record-rule"><span class="runin">Record rule.</span> A verified submission sets a new record only if its cost is below the standing record by more than \(10^{-9}\) plus both error estimates. Otherwise it ties.</p>
+  <p>Papers on this problem computed their costs with their own numerics, from Monte Carlo sampling to grids and quadrature rules. Recent results differ only in the sixth or seventh decimal, so the method matters: one published cost, for example, leaves out the noise beyond five standard deviations, which lowers it by about \(2.5 \times 10^{-5}\), far more than the gaps between recent results (see <a href="__REPO_URL__/blob/main/notes/tseng-tang-2017.md">the check</a>).</p>
+  <p>Here every verified cost is computed the same way: by one open evaluator, from a controller file anyone can download, with an error estimate below \(10^{-10}\).</p>
 </div>
-<p class="cap above" style="margin-top: 18px" id="table-1"><b>Independent checks in the test suite.</b> Each compares the evaluator with a calculation that shares neither <a href="#eq-12">(12)</a> nor its quadrature.</p>
+
+<h2 class="subhead" id="procedure">Procedure</h2>
+<ol class="flow">
+  <li>
+    <h3>Submission</h3>
+    <p>A JSON file describing \(f\), the map from \(x_0\) to \(x_1\) chosen by the first controller: steps, sloped steps or a table of points. It holds numbers only; no submitted code is ever run.</p>
+  </li>
+  <li>
+    <h3>Optimal second controller</h3>
+    <p>For a given \(f\), the best second controller is the conditional mean \(g_f(y) = \mathbb{E}[x_1 \mid y]\). The evaluator always uses it, so a score depends on \(f\) alone: it is the lowest cost any second controller can reach with that \(f\).</p>
+  </li>
+  <li>
+    <h3>Evaluation</h3>
+    <p>Closed form except for one integral over \(y\), computed at two resolutions; their difference sets the error estimate. No tail is cut before 14 standard deviations. See the <a href="#formulas">formulas</a> below.</p>
+  </li>
+  <li>
+    <h3>Automatic checks</h3>
+    <p>Every pull request re-scores all controller files and runs the tests, and fails on malformed files or on a claimed cost more than \(10^{-6}\) from the verified one. The site is rebuilt after each merge.</p>
+  </li>
+</ol>
+<div class="prose">
+  <p id="record-rule"><span class="runin">Record rule.</span> A verified submission sets a new record only if its cost is below the standing record by more than \(10^{-9}\) plus both error estimates. Otherwise it ties, and the record stays with the earlier entry.</p>
+</div>
+
+<h2 class="subhead" id="reproducibility">Reproducibility</h2>
+<div class="prose">
+  <p>With Python 3 installed, every verified cost on the leaderboard can be recomputed on your own computer:</p>
+</div>
+<pre class="cmd"><code>git clone __REPO_URL__
+cd witsenhausen-leaderboard
+pip install -r requirements.txt
+python -m witsenhausen score submissions/k0.20_s5/reference-curved-steps.json</code></pre>
+<div class="prose">
+  <p class="after">The last command prints, as JSON, the cost and error estimate of that file, the curved sloped steps at the benchmark: the same number as on the leaderboard. Any other file in <code>submissions/</code>, or one of your own, is scored the same way.</p>
+</div>
+
+<h2 class="subhead" id="validation">Validation</h2>
+<p class="cap above" id="table-1">Each check compares the evaluator with a calculation that shares neither <a href="#eq-12">(12)</a> nor its quadrature.</p>
 <div class="tablewrap"><table class="bt">
   <thead><tr><th>Controller</th><th>Independent calculation</th><th class="num">Required agreement</th></tr></thead>
   <tbody>
@@ -23,3 +54,19 @@
     <tr><td>Benchmark baselines</td><td>Published values: best linear \(0.96\), two-point design \(0.404253\)</td><td class="num">all printed digits</td></tr>
   </tbody>
 </table></div>
+<div class="prose">
+  <p class="after">The evaluator is <a href="__REPO_URL__/blob/main/witsenhausen/evaluator.py"><code>witsenhausen/evaluator.py</code></a>, and these checks are in <a href="__REPO_URL__/blob/main/tests/test_evaluator.py"><code>tests/test_evaluator.py</code></a>. They run on every pull request.</p>
+</div>
+
+<details class="more formulas" id="formulas">
+  <summary>Formulas</summary>
+  <div class="prose">
+    <p>A controller is submitted as a piecewise-affine function with finitely many pieces, \(f(x) = a_i + b_i x\) for \(x \in [t_i, t_{i+1})\), with jumps allowed. Steps and sloped steps are represented exactly; any other controller can be submitted as a piecewise-affine approximation, for example a sampled table. Since \(g_f(y)\) is a conditional mean, <a href="problem.html#eq-6">(6)</a> expands to</p>
+    <div class="eq" id="eq-11">\[ J(f) \;=\; k^2\,\mathbb{E}\!\left[(f(x_0) - x_0)^2\right] + \mathbb{E}\!\left[f(x_0)^2\right] - \mathbb{E}\!\left[g_f(y)^2\right]. \tag{11} \]</div>
+    <p>The first two terms are finite sums of truncated-Gaussian moments and are evaluated in closed form. For the third, each piece contributes in closed form to the density of \(y\):</p>
+    <div class="eq" id="eq-12">\[ w_i(y) \;=\; \int_{t_i}^{t_{i+1}} \varphi_\sigma(x)\,\varphi(y - a_i - b_i x)\,\mathrm{d}x \;=\; \frac{1}{\sqrt{v_i}}\,\varphi\!\Big(\frac{y - a_i}{\sqrt{v_i}}\Big)\big[\Phi(\beta_i) - \Phi(\alpha_i)\big], \tag{12} \]</div>
+    <p>with \(v_i = 1 + b_i^2\sigma^2\), \(\mu_i = b_i\sigma^2 (y - a_i)/v_i\), \(s_i = \sigma/\sqrt{v_i}\), \(\alpha_i = (t_i - \mu_i)/s_i\) and \(\beta_i = (t_{i+1} - \mu_i)/s_i\). The density of \(y\) and the optimal second controller follow as</p>
+    <div class="eq" id="eq-13">\[ p_y(y) = \sum_i w_i(y), \qquad g_f(y) = \frac{1}{p_y(y)} \sum_i w_i(y)\left[a_i + b_i\Big(\mu_i + s_i\,\frac{\varphi(\alpha_i) - \varphi(\beta_i)}{\Phi(\beta_i) - \Phi(\alpha_i)}\Big)\right]. \tag{13} \]</div>
+    <p>The only numerical step is the one-dimensional integral \(\mathbb{E}[g_f(y)^2] = \int p_y(y)\,g_f(y)^2\,\mathrm{d}y\). It is computed with 16-point Gauss–Legendre rules on panels of width \(0.2\), and again on panels of width \(0.1\). The reported error estimate is the difference between the two results plus an allowance for rounding. All weights are handled in log space, so far tails neither underflow nor overflow. For every numerically verified entry on the <a href="leaderboard.html">leaderboard</a> the estimate is below \(10^{-10}\). A result is ranked only if it is finite and non-negative and its error estimate is at most \(10^{-6}\) (relative, for costs above 1).</p>
+  </div>
+</details>
