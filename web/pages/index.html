@@ -1,11 +1,12 @@
 <div class="title">
   <h1>Witsenhausen’s counterexample</h1>
   <p class="subtitle">A verified leaderboard for a control problem that has been open since 1968</p>
+  <p class="actions"><a class="button primary" href="leaderboard.html">See the leaderboard</a><a class="button" href="contribute.html">Submit a controller</a></p>
 </div>
 <div class="hero">
   <div>
     <div class="prose">
-      <p>Two controllers act in turn on a Gaussian state \(x_0\). The first sees \(x_0\) exactly but pays for every push. The second acts for free but sees the result only through noise. The dynamics are linear, the cost is quadratic and the noise is Gaussian, yet Witsenhausen showed in 1968 that the best controllers are not linear. The optimal pair is still unknown.</p>
+      <p>Two controllers act in turn on a Gaussian state \(x_0\). The first sees \(x_0\) exactly and moves it to \(x_1 = f(x_0)\), paying for every push. The second acts for free but sees \(x_1\) only through noise. The dynamics are linear, the cost is quadratic and the noise is Gaussian, yet Witsenhausen showed in 1968 that the best controllers are not linear. The optimal pair is still unknown.</p>
       <p>This site tracks the best controllers found so far and the best proven lower bounds. Every verified cost is recomputed from a controller file by a <a href="verification.html">reference evaluator</a>. At the standard benchmark, \(k = 0.2\) and \(\sigma = 5\), the optimal cost \(J^\star\) is known only to lie in the shaded interval:</p>
     </div>
     <figure>
@@ -15,7 +16,19 @@
     <ul class="claims" id="claims"></ul>
   </div>
   <figure id="figure-1">
+    <p class="hint" aria-hidden="true">Hover over the plot to read values</p>
     <div class="chartbox" id="hero-plot"></div>
     <figcaption class="cap" id="hero-cap"></figcaption>
   </figure>
 </div>
+<section class="toplist" aria-labelledby="top-five">
+  <div class="tablehead">
+    <h2 class="subhead" id="top-five">Leaderboard</h2>
+    <a href="leaderboard.html">Full leaderboard →</a>
+  </div>
+  <p class="cap above">The five lowest costs at the benchmark, \(k = 0.2\), \(\sigma = 5\).</p>
+  <div class="tablewrap"><table class="bt stack" id="top-board">
+    <thead><tr><th class="num">Rank</th><th>Cost \(J(f)\)</th><th>Evidence level</th><th>Controller \(f\)</th><th>Author</th><th>Date</th></tr></thead>
+    <tbody id="top-rows"></tbody>
+  </table></div>
+</section>

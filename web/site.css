@@ -87,6 +87,21 @@ pre, code, .katex, svg { -webkit-text-stroke: 0; }
 .title h1 { font-weight: 400; font-size: clamp(2.1rem, 4.6vw, 3.1rem); line-height: 1.1; margin: 0 0 10px; }
 .subtitle { font-style: italic; font-size: 1.3rem; line-height: 1.3; margin: 0 0 12px; color: var(--ink-2); }
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 52px; padding: 30px 0 44px; align-items: start; }
+/* the two buttons under the title of the home page */
+.actions { display: flex; flex-wrap: wrap; gap: 10px 12px; margin: 20px 0 2px; }
+.button { display: inline-block; padding: 7px 16px 8px; border: 1px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; line-height: 1.3; -webkit-text-stroke: 0; }
+.button:hover { text-decoration: none; background: var(--band); }
+.button.primary { background: var(--ink); color: var(--page); }
+.button.primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+/* "hover over the plot": on the line of the plot's axis label, and only where there is a pointer that can hover */
+.hint { margin: 0 0 -1.45em; text-align: right; font-size: 0.85rem; color: var(--muted); position: relative; pointer-events: none; }
+@media (hover: none) { .hint { display: none; } }
+/* the top of the leaderboard on the home page: one line per entry on a wide screen */
+.toplist .tablehead { margin-top: 0; }
+@media (min-width: 1000px) {
+  #top-board > tbody > tr > td { white-space: nowrap; }
+  #top-board > tbody > tr > td.ctrl { max-width: 0; width: 100%; overflow: hidden; text-overflow: ellipsis; }
+}
 .claims { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; }
 .claims li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; align-items: baseline; }
 .key { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }

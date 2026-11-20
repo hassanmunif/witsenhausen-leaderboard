@@ -339,7 +339,8 @@ function renderHero() {
     rich(["is the best verified cost, from the ", { href: "leaderboard.html", text: rec.short_name || "record entry" }, " (" + rec.date.slice(0, 4)]),
     rec.ai_assistance ? [", ", h("span", { class: "ai-note", title: "AI-assisted: " + plain(rec.ai_assistance), text: "AI-assisted" })] : null, "), ",
     h("span", { class: "sub" }, tex(errTex(rec.result.error_estimate)), "."));
-  if (bestRep) claim(cssVar("--s1"), fmtReported(bestRep),
+  /* a claim is shown here only while it beats the verified record; otherwise the table below lists it */
+  if (bestRep && bestRep.reported_cost < rec.result.cost) claim(cssVar("--s1"), fmtReported(bestRep),
     rich(["is the best claimed cost, by ", { href: "leaderboard.html", text: andJoin(bestRep.authors) + " (" + bestRep.year + ")" }, ". It has not been verified here yet."]));
   var eq = lb.bounds[lb.best].equation, bname = lb.bounds[lb.best].label.split(",")[0];
   claim(ink, fmtBound(lb.best_value),
@@ -347,10 +348,31 @@ function renderHero() {
 
   controllerPlot(clear("hero-plot"), rec, st.sigma, { height: 370 });
   var hc = clear("hero-cap");
-  var lv = (rec.steps.steps || []).filter(function (x) { return x.level > 1e-6; }).slice(0, 3).map(function (x) { return "\\pm" + x.level.toFixed(2); });
-  hc.append(h("b", { text: "The record controller at the benchmark" }), mt(": " + rec.name.replace(/^./, function (c) { return c.toLowerCase(); }) +
-    ". Each step sends a band of initial states to one signalling level" + (lv.length ? " (here $0, " + lv.join(", ") + ", \\dots$)" : "") +
-    ". The levels are far enough apart to be told apart through unit noise, and the slight slope within a step trades some of that separation for less control effort. Thin line: $x_1 = x_0$, no control."));
+  var lv = (rec.steps.steps || []).filter(function (x) { return x.level > 1e-6; }).slice(0, 2).map(function (x) { return "\\pm" + x.level.toFixed(2); });
+  hc.append(h("b", { text: "The record controller at the benchmark." }), mt(" Each step sends a band of initial states to one level" +
+    (lv.length ? " ($0, " + lv.join(", ") + ", \\dots$)" : "") +
+    ", spaced widely enough to be told apart through unit noise; the slight slope within a step trades a little separation for less control effort. Thin line: $x_1 = x_0$, no control."));
+}
+
+/* home: the top of the benchmark leaderboard, ranked exactly as on the leaderboard page, without details */
+function renderTop(n) {
+  var st = setting(D.benchmark), tb = clear("top-rows");
+  var claims = D.literature.filter(function (r) { return r.setting === st.id && !r.verified_by && !r.disputed; });
+  var all = ranked(st.entries.map(function (e) { return { cost: e.result.cost, e: e }; })
+    .concat(claims.map(function (p) { return { cost: p.reported_cost, p: p }; })), st);
+  all.slice(0, n).forEach(function (x) {
+    var e = x.e, p = x.p;
+    tb.append(h("tr", null,
+      h("td", { class: "num", text: String(x.rank) }),
+      e ? valueCell(shortCost(e.result.cost), "J(f) = " + fmtCost(e.result.cost) + " ± " + errPlain(e.result.error_estimate))
+        : valueCell(shortPrinted(fmtReported(p)), "As printed: " + fmtReported(p)),
+      h("td", { class: "evid" }, evidenceTag(e ? "Numerically verified" : "Claimed"),
+        e && e.id === st.record_id ? [" ", tagLabel("record", "record", "Record: the first verified entry to reach this cost, under the record rule on the Verification page")] : null),
+      h("td", { class: "ctrl", title: plain(e ? e.name : p.method), math: shortLabel(e ? e.name : p.method) }),
+      h("td", null, shortAuthors(e ? e.authors || [] : p.authors), aiTag(e ? e.ai_assistance : p.ai_assistance)),
+      h("td", { class: "nowrap", text: e ? shownDate(e) : String(p.year) })));
+  });
+  alignValues(tb);
 }
 
 /* ---------- leaderboard: controllers ranked by cost and lower bounds ranked by value, each with an evidence level.
@@ -754,7 +776,7 @@ function renderContribute() {
 /* ---------- start ---------- */
 var redraw = null, recolor = null;  /* redraw: after a resize; recolor: after the theme changes */
 if (D) {
-  if (PAGE === "index") { renderHero(); redraw = recolor = renderHero; }
+  if (PAGE === "index") { renderHero(); renderTop(5); redraw = recolor = renderHero; }
   else if (PAGE === "leaderboard") { initLeaderboard(); recolor = renderBoard; }
   else if (PAGE === "history") { renderHistory(); redraw = recolor = renderHistoryCharts; }
   else if (PAGE === "theory") renderTheory();

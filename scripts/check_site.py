@@ -240,6 +240,11 @@ def home(page, data, _):
     out = [f"#{i} has no chart" for i in ("gap", "hero-plot") if i not in page.ids or not any(n.tag == "svg" for n in page.ids[i].iter())]
     if len(page.ids["claims"].kids("li") if "claims" in page.ids else []) < 2:
         out.append("#claims shows fewer than two numbers")
+    st = next(s for s in data["settings"] if s["id"] == data["benchmark"])
+    claims = [r for r in data["literature"] if r["setting"] == st["id"] and not r.get("verified_by") and not r.get("disputed")]
+    shown, want = len(rows(page, "top-rows")), min(5, len(st["entries"]) + len(claims))
+    if shown != want:
+        out.append(f"#top-rows shows {shown} entries, expected {want}")
     return out
 
 
