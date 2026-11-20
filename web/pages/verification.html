@@ -43,7 +43,7 @@ python -m witsenhausen score submissions/k0.20_s5/reference-curved-steps.json</c
 
 <h2 class="subhead" id="validation">Validation</h2>
 <p class="cap above" id="table-1">Each check compares the evaluator with a calculation that shares neither <a href="#eq-12">(12)</a> nor its quadrature.</p>
-<div class="tablewrap"><table class="bt">
+<div class="tablewrap"><table class="bt cards" id="checks">
   <thead><tr><th>Controller</th><th>Independent calculation</th><th class="num">Required agreement</th></tr></thead>
   <tbody>
     <tr><td>Linear \(f(x) = \lambda x\), 28 combinations of \(k, \sigma, \lambda\)</td><td>Closed form \(k^2\sigma^2(\lambda - 1)^2 + \lambda^2\sigma^2/(1 + \lambda^2\sigma^2)\)</td><td class="num">\(10^{-10}\)</td></tr>

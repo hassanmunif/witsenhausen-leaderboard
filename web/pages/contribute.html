@@ -5,7 +5,7 @@
   <p>A submission is one JSON file describing \(f\) as a piecewise-affine function. Nothing else is needed, because the <a href="verification.html">evaluator</a> computes \(g_f\) and the cost. The steps below use GitHub; you can also send the file by email (<a href="about.html#contact">About</a>).</p>
 </div>
 <ol class="steps">
-  <li>Fork the repository and add <code>submissions/&lt;setting&gt;/&lt;your-name&gt;.json</code>. The README lists the four controller formats. The example below uses the odd one, which describes \(f\) for \(x \ge 0\) and extends it by \(f(-x) = -f(x)\). If an AI model helped, add <code>"ai_assistance"</code>: one sentence naming the model and what it did. The leaderboard then tags your entry AI-assisted.</li>
+  <li>Fork the repository and add <code>submissions/&lt;setting&gt;/&lt;your-name&gt;.json</code>. The <a href="#formats">controller formats</a> are listed below; the example uses the odd one, which describes \(f\) for \(x \ge 0\) and extends it by \(f(-x) = -f(x)\). If an AI model helped, add <code>"ai_assistance"</code>: one sentence naming the model and what it did. The leaderboard then tags your entry AI-assisted.</li>
   <li>Run <code>python scripts/score_all.py --check</code> to see your verified cost.</li>
   <li>Open a pull request. The check re-scores every submission. It fails on malformed files, on controllers too large to evaluate quickly, on costs that cannot be computed reliably, and on a claimed cost that differs from the verified one by more than \(10^{-6}\).</li>
   <li>After the merge the site rebuilds and your entry appears on the <a href="leaderboard.html">leaderboard</a> with its verified cost.</li>
@@ -17,5 +17,30 @@
   </div>
 __AGENT_PROMPT__
 </div>
+<h2 class="subhead" id="formats">Controller formats</h2>
+<div class="prose"><p>Any controller can be submitted. Steps, sloped steps and other functions made of straight pieces are scored exactly; anything else is submitted as a table of points, and the table’s exact cost is what is verified. For a curved \(f\), place the points densely where it bends.</p></div>
+<div class="tablewrap"><table class="bt cards" id="formats-table">
+  <thead><tr><th><code>type</code></th><th>Fields</th><th>Controller \(f\)</th></tr></thead>
+  <tbody>
+    <tr><td><code>linear</code></td><td><code>gain</code></td><td>\(f(x) = \mathrm{gain} \cdot x\)</td></tr>
+    <tr><td><code>piecewise_affine</code></td><td><code>breakpoints</code> \((n-1)\), <code>intercepts</code> \((n)\), <code>slopes</code> \((n)\)</td><td>\(f(x) = a_i + b_i x\) on \([t_i, t_{i+1})\); the first piece starts at \(-\infty\) and the last ends at \(+\infty\)</td></tr>
+    <tr><td><code>odd_piecewise_affine</code></td><td>the same fields, for \(x \ge 0\)</td><td>pieces \([0, p_1), \dots, [p_m, \infty)\) for breakpoints \(0 &lt; p_1 &lt; \dots &lt; p_m\), extended by \(f(-x) = -f(x)\)</td></tr>
+    <tr><td><code>points</code></td><td><code>x</code>, <code>y</code>; optional <code>odd</code>, <code>extrapolation</code></td><td>linear interpolation through the table; outside it, <code>"linear"</code> continues the end segments and <code>"constant"</code> holds the end values. With <code>"odd": true</code> the table starts at \((0, 0)\) and \(f(-x) = -f(x)\).</td></tr>
+  </tbody>
+</table></div>
+<div class="two formats-example">
+  <div>
+    <div class="prehead"><h2>Table of points</h2></div>
+    <pre><code>"controller": {
+  "type": "points",
+  "odd": true,
+  "extrapolation": "constant",
+  "x": [0, 3.2, 3.3, 9.6, 9.7, 16.1, 16.2],
+  "y": [0, 0.2, 6.4, 6.7, 12.9, 13.2, 19.5]
+}</code></pre>
+  </div>
+</div>
+<div class="prose"><p class="after">The <a href="__REPO_URL__/blob/main/README.md#submitting-a-controller">README</a> specifies every field of a submission file.</p></div>
+
 <h2 class="subhead" id="progress">What would count as progress</h2>
 <div class="prose"><ul id="targets"></ul></div>

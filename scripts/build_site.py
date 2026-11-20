@@ -208,6 +208,7 @@ def main():
     page_values = {
         "AGENT_PROMPT": ('  <div>\n    <div class="prehead"><h2>Prompt for an AI agent</h2><button class="btn" id="copy-prompt">Copy prompt</button></div>\n    <pre class="wrapped"><code id="prompt"></code></pre>\n  </div>' if show_prompt else ""),
         "FIGURE_PROBLEM": (WEB / "figures" / "problem.svg").read_text(encoding="utf-8"),
+        "FIGURE_PROBLEM_NARROW": (WEB / "figures" / "problem-narrow.svg").read_text(encoding="utf-8"),
         "REPO_URL": html.escape(repo.rstrip("/")),
     }
 

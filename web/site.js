@@ -322,7 +322,7 @@ function renderHero() {
     svg.append(s("text", { class: "lbl", x: X(v) + (anchor === "end" ? 4 : -4), y: ty, "text-anchor": anchor, text: label }));
   }
   mark(lb.best_value, ink, "proven lower bound " + fmtBound(lb.best_value), 0, "start");
-  mark(rec.result.cost, cssVar("--s2"), "best verified cost " + rec.result.cost.toFixed(5), 1, "start");
+  mark(rec.result.cost, cssVar("--s2"), "best verified cost " + shortCost(rec.result.cost), 1, "start");
   mark(lin.result.cost, ink2, "best linear " + lin.result.cost.toFixed(2), 0, "end");
   box.append(svg);
   clear("gapcap").append(mt("Its width, $" + (rec.result.cost - lb.best_value).toFixed(4) + "$, measures how far the problem is from solved. The best verified cost is $" +
@@ -335,7 +335,7 @@ function renderHero() {
     for (var i = 2; i < arguments.length; i++) add(body, arguments[i]);
     claims.append(h("li", null, key, body));
   }
-  claim(cssVar("--s2"), fmtCost(rec.result.cost),
+  claim(cssVar("--s2"), shortCost(rec.result.cost),
     rich(["is the best verified cost, from the ", { href: "leaderboard.html", text: rec.short_name || "record entry" }, " (" + rec.date.slice(0, 4)]),
     rec.ai_assistance ? [", ", h("span", { class: "ai-note", title: "AI-assisted: " + plain(rec.ai_assistance), text: "AI-assisted" })] : null, "), ",
     h("span", { class: "sub" }, tex(errTex(rec.result.error_estimate)), "."));
@@ -661,6 +661,12 @@ function historyChart(box, pts, o) {
   o.xTicks.forEach(function (t) { ax.append(s("text", { x: X(t), y: m.t + ih + 18, "text-anchor": "middle", text: String(t) })); });
   yt.ticks.forEach(function (t) { ax.append(s("text", { x: m.l - 7, y: Y(t) + 4.5, "text-anchor": "end", text: tickLabel(t, yt.step) })); });
   svg.append(ax);
+  /* reference lines, such as the strongest proven lower bound: dashed, labelled at the right */
+  (o.refs || []).forEach(function (r) {
+    if (!(r.y >= o.y[0] && r.y <= o.y[1])) return;
+    svg.append(s("line", { class: "refline", x1: m.l, x2: m.l + iw, y1: Y(r.y), y2: Y(r.y) }));
+    svg.append(s("text", { class: "lbl", x: m.l + iw - 4, y: Y(r.y) - 6, "text-anchor": "end", text: r.label }));
+  });
   var rep = pts.filter(function (p) { return p.kind === "reported"; }).sort(function (a, b) { return a.x - b.x || b.y - a.y; });
   var best = Infinity, d = "", started = false;
   rep.forEach(function (p) {
@@ -712,6 +718,7 @@ function renderHistoryCharts() {
   var yNow = new Date().getFullYear(), st = setting(D.benchmark);
   historyChart(clear("hist-all"), HIST, { x: [1964, yNow + 2], y: [0, 1], xTicks: [1970, 1980, 1990, 2000, 2010, 2020],
     aria: "Benchmark costs by year from 1968, claimed and numerically verified",
+    refs: [{ y: st.lower_bounds.best_value, label: "proven lower bound " + fmtBound(st.lower_bounds.best_value) }],
     label: function (p) { return p.kind === "reported" && p.year === 1968 ? "ar" : null; } });
   var place = { "mehmetoglu-2014": "bl", "tseng-tang-2017": "br" };
   historyChart(clear("hist-zoom"), HIST, { x: [2000, yNow + 2], y: [0.16685, 0.16740], xTicks: [2000, 2005, 2010, 2015, 2020, 2025],
@@ -728,7 +735,7 @@ function renderHistory() {
   /* a verified dot sits at the year of the result it recomputes, just right of the paper's own claim */
   st.entries.forEach(function (e) {
     var yr = +e.date.slice(0, 4);
-    HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: "verified here",
+    HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: e.short_name || "verified here",
       note: (e.authors || []).join(", ") + (e.ai_assistance ? ", AI-assisted" : "") + (e.verified_on ? "; verified here on " + e.verified_on.replace(/-/g, "\u2011") : "") });
   });
   var lg = clear("hist-legend");
@@ -743,14 +750,24 @@ function renderHistory() {
 }
 
 /* ---------- theory and contribute ---------- */
+/* "used here as (7)" in a claim refers to an equation on the problem page: the number becomes a link */
+function claimParts(text) {
+  var parts = [], re = /(used here as (?:bound )?)\((\d{1,2})\)/g, last = 0, m;
+  while ((m = re.exec(text))) {
+    parts.push(text.slice(last, m.index + m[1].length), { href: "problem.html#eq-" + m[2], text: "(" + m[2] + ")" });
+    last = m.index + m[0].length;
+  }
+  parts.push(text.slice(last));
+  return parts;
+}
 function renderTheory() {
   var ul = clear("theorylist");
   D.theory.forEach(function (t) {
     ul.append(h("li", null,
       h("span", { text: String(t.year) }),
-      h("div", null, h("div", { math: t.claim }),
+      h("div", null, h("div", null, rich(claimParts(t.claim))),
         h("div", { class: "cite" }, t.authors + ", ", linkOrText(t.title, t.url), (/[.?!]$/.test(t.title) ? " " : ". ") + t.venue + ".")),
-      h("div", { class: "kind" }, h("div", { text: t.kind }), h("span", { class: "tag", text: t.evidence }))));
+      h("div", { class: "kind" }, h("div", { text: t.kind }), h("span", { class: "ev " + (t.evidence === "Peer-reviewed" ? "peer" : "preprint"), text: t.evidence }))));
   });
 }
 function renderContribute() {
@@ -764,12 +781,12 @@ function renderContribute() {
     });
   }
   var st = setting(D.benchmark), rec = recordOf(st), bestRep = bestClaim(D.benchmark);
-  var first = "A verified cost below $" + rec.result.cost.toFixed(7) + "$ at the benchmark.";
-  if (bestRep && bestRep.reported_cost < rec.result.cost) first += " In particular, a controller file that reproduces the $" + fmtReported(bestRep) + "$ claimed by " +
-    andJoin(bestRep.authors) + " would settle whether that value or the verified record is the better one.";
+  var first = ["A verified cost below the benchmark record, $" + shortCost(rec.result.cost) + "$, by the margin of the ", { href: "verification.html#record-rule", text: "record rule" }, "."];
+  if (bestRep && bestRep.reported_cost < rec.result.cost) first.push(" In particular, a controller file that reproduces the $" + fmtReported(bestRep) + "$ claimed by " +
+    andJoin(bestRep.authors) + " would settle whether that value or the verified record is the better one.");
   var ul = clear("targets");
   [
-    [first],
+    first,
     ["A proven lower bound above $" + fmtBound(st.lower_bounds.best_value) + "$ at the benchmark. Bounds are added by pull request to ", h("code", { text: "witsenhausen/bounds.py" }), ", with a reference or a proof."],
     ["A controller file that reproduces one of the ", { href: "leaderboard.html", text: "claimed costs on the leaderboard" }, ", or a check showing that a printed cost is wrong, which marks the claim as disputed."],
     ["A new result about the optimum for the ", { href: "theory.html", text: "theory log" }, ", or a correction to an entry."]

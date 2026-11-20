@@ -13,7 +13,7 @@ A home page shows the gap between the best verified cost and the best proven low
 - **Verification** (`verification.html`): how a cost is computed and checked, how to reproduce it, the evaluator's tests, and its formulas (folded away at the end).
 - **Record history** (`history.html`): a chart of how the best benchmark cost (k = 0.2, σ = 5) has fallen since 1968, separating costs reported in papers from costs verified here.
 - **Theory** (`theory.html`): a log of theoretical results, each marked peer-reviewed or preprint.
-- **Contribute** (`contribute.html`): how to submit, with an example file.
+- **Contribute** (`contribute.html`): how to submit, with an example file and the controller formats.
 - **About** (`about.html`): who maintains the site, how to reach them, what is listed, how disputed claims are handled, and how to cite the leaderboard.
 
 Equations are numbered across the whole site, and references to them link to the right page (for example `problem.html#eq-6`). Mathematics is typeset with KaTeX and the text is set in Latin Modern. Both are bundled in `web/vendor/`, so the site needs no CDN and also works when opened from disk.
@@ -123,7 +123,7 @@ python scripts/build_site.py          # rebuild site/ after changing data/ or we
 
 The site build needs only the Python standard library. It fills `web/layout.html` with each page in `web/pages/`, adds the shared `site.css`, `site.js` and the scores (`data.js`), and copies the fonts, KaTeX and the submission files into `site/`. The pages, their titles and their order are `PAGES` in `scripts/build_site.py`.
 
-**The diagram.** `web/figures/problem.tex` is the TikZ source of the block diagram. The compiled `web/figures/problem.svg` is committed, so neither the build nor CI needs TeX. After editing the `.tex` file, run `python scripts/build_figures.py` (needs `pdflatex` with TikZ and `pdftocairo`).
+**The diagram.** `web/figures/problem.tex` is the TikZ source of the block diagram, and `web/figures/problem-narrow.tex` the same diagram drawn top to bottom, which the problem page shows on a phone. The compiled SVGs are committed, so neither the build nor CI needs TeX. After editing the `.tex` file, run `python scripts/build_figures.py` (needs `pdflatex` with TikZ and `pdftocairo`).
 
 **Link previews.** Every page carries Open Graph and Twitter tags, so a shared link shows its title, description and `web/figures/preview.png`. The tags need the site's full address, `site_url` in `data/site.json`: change it there if the site moves, for example to its own domain. The image holds no numbers, so it does not go stale. Its source is `web/figures/preview.html`; after editing it, run `python scripts/build_preview.py` (needs Chrome, Edge or Chromium).
 
