@@ -43,7 +43,7 @@ PAGES = [
                     "counterexample, and the checks it passes."},
     {"slug": "history", "nav": "History", "title": "Record history on the benchmark", "data": True,
      "description": "How the best cost on the Witsenhausen benchmark k = 0.2, sigma = 5 has fallen since 1968, claimed in papers and numerically verified."},
-    {"slug": "theory", "nav": "Theory", "title": "What is known about the optimum", "data": True,
+    {"slug": "theory", "nav": "Theory", "title": "Theory", "data": True,
      "description": "Results about the optimal controllers for Witsenhausen's counterexample: existence, structure, complexity and bounds."},
     {"slug": "contribute", "nav": "Contribute", "title": "Contribute", "data": True,
      "description": "How to submit a controller for Witsenhausen's counterexample, with an example file and what would count as progress."},

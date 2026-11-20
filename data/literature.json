@@ -295,7 +295,7 @@
       "reported_cost": 0.17077,
       "reported_as": "0.17077",
       "verified_by": "zhu-2026",
-      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$, from the paper's ancillary file continuous_solution.json; the text gives only the solver's estimate, $0.17$.",
+      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$, from the paper's ancillary file continuous_solution.json. The text of the paper reports $0.17$.",
       "short": "Zhu"
     },
     {
@@ -311,7 +311,7 @@
       "reported_cost": 0.0532,
       "reported_as": "0.0532",
       "verified_by": "zhu-2026",
-      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The solver's own objective, $0.0531$, is an estimate, not the cost of a controller.",
+      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The paper also reports the solver's objective, $0.0531$.",
       "short": "Zhu"
     },
     {
@@ -327,7 +327,7 @@
       "reported_cost": 0.3298,
       "reported_as": "0.3298",
       "verified_by": "zhu-2026",
-      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The solver's own objective, $0.3293$, is an estimate, not the cost of a controller.",
+      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The paper also reports the solver's objective, $0.3293$.",
       "short": "Zhu"
     },
     {
@@ -343,7 +343,7 @@
       "reported_cost": 0.4953,
       "reported_as": "0.4953",
       "verified_by": "zhu-2026",
-      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The solver's own objective, $0.4944$, is an estimate, not the cost of a controller.",
+      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The paper also reports the solver's objective, $0.4944$.",
       "short": "Zhu"
     },
     {
@@ -359,7 +359,7 @@
       "reported_cost": 0.6461,
       "reported_as": "0.6461",
       "verified_by": "zhu-2026",
-      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The solver's own objective, $0.6449$, is an estimate, not the cost of a controller.",
+      "notes": "The value of the 181-atom law $\\hat Q_{\\mathrm{grid}}$ evaluated against the Gaussian prior, from the table in Appendix A.8(ii). The paper also reports the solver's objective, $0.6449$.",
       "short": "Zhu"
     }
   ]

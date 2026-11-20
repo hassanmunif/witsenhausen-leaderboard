@@ -368,7 +368,7 @@ function renderTop(n) {
         : valueCell(shortPrinted(fmtReported(p)), "As printed: " + fmtReported(p)),
       h("td", { class: "evid" }, evidenceTag(e ? "Numerically verified" : "Claimed"),
         e && e.id === st.record_id ? [" ", tagLabel("record", "record", "Record: the first verified entry to reach this cost, under the record rule on the Verification page")] : null),
-      h("td", { class: "ctrl", title: plain(e ? e.name : p.method), math: shortLabel(e ? e.name : p.method) }),
+      h("td", { class: "ctrl", title: plain(e ? e.name : p.method), math: e ? entryLabel(e) : shortLabel(p.method) }),
       h("td", null, shortAuthors(e ? e.authors || [] : p.authors), aiTag(e ? e.ai_assistance : p.ai_assistance)),
       h("td", { class: "nowrap", text: e ? shownDate(e) : String(p.year) })));
   });
@@ -502,9 +502,17 @@ function withDetails(row, label, build) {
 }
 /* A controller taken from a paper (it has a verified_on date) is dated by the paper's year, like a claim;
    a new result by its full date. */
+/* An entry made by code in this repository (the reference optimizer) is this site's own baseline: the tables
+   name it by its short name, marked "(this site)". Its authors and AI note are shown as for any entry. */
+function siteOwn(e) { return !!(e && e.source && e.source.kind === "code" && e.source.url && !/^https?:\/\//i.test(e.source.url)); }
+function entryLabel(e) {
+  if (!siteOwn(e)) return shortLabel(e.name);
+  var n = e.short_name || shortLabel(e.name);
+  return n.charAt(0).toUpperCase() + n.slice(1) + " (this site)";
+}
 function shownDate(e) { return e.verified_on ? e.date.slice(0, 4) : e.date; }
 function verifiedRow(e, rank, st, paper) {
-  var r = e.result, label = shortLabel(e.name);
+  var r = e.result, label = entryLabel(e);
   var row = h("tr", { class: "verified" },
     h("td", { class: "num", text: String(rank) }),
     valueCell(shortCost(r.cost), "J(f) = " + fmtCost(r.cost) + " ± " + errPlain(r.error_estimate)),
@@ -592,6 +600,13 @@ function ranked(rows, st) {
   });
   return out;
 }
+/* A few plain words on what each lower bound rests on, after its name (keys as in data/bounds.json). */
+var BOUND_IDEA = {
+  grover_sahai: "information-theoretic",
+  grover_park_sahai: "sphere packing",
+  genie_two_point: "second controller told $|x_0|$",
+  grover_wagner_sahai: "information embedding"
+};
 function renderBoard() {
   var st = setting(current), rec = recordOf(st), lbs = st.lower_bounds;
   var papers = D.literature.filter(function (r) { return r.setting === st.id; });
@@ -636,7 +651,8 @@ function renderBoard() {
       h("td", { class: "num", text: String(i + 1) }),
       valueCell(fmtBound(b.value_rounded_down), "Rounded down from " + b.value.toPrecision(10)),
       h("td", null, evidenceTag(b.evidence, safeHref(b.source))),
-      h("td", null, b.label + " ", h("a", { href: "problem.html#eq-" + b.equation, text: "(" + b.equation + ")" })),
+      h("td", null, b.label + " ", h("a", { href: "problem.html#eq-" + b.equation, text: "(" + b.equation + ")" }),
+        BOUND_IDEA[k] ? [" ", h("span", { class: "idea", math: "· " + BOUND_IDEA[k] })] : null),
       h("td", null, linkOrText(shortAuthors(b.authors), b.source)),
       h("td", { text: String(b.year) })));
   });

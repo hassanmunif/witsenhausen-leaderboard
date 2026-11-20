@@ -23,7 +23,7 @@ __FIGURE_PROBLEM_NARROW__
   <div class="eq" id="eq-4">\[ J^\star(k,\sigma) \;=\; \inf_{\gamma_1,\,\gamma_2}\; J(\gamma_1,\gamma_2) \tag{4} \]</div>
   <p>together with a pair that attains it.</p>
 
-  <h2 class="subhead" id="why-hard">Why it is hard</h2>
+  <h2 class="subhead" id="why-hard">Information structure</h2>
   <p>The second controller knows neither \(x_0\) nor \(u_1\), so it cannot reconstruct what the first controller knew. Under this <em>non-classical information structure</em> the action \(u_1\) does two jobs at once. It moves the state, which costs \(k^2 u_1^2\), and it shapes \(x_1\) so that \(x_1\) can be recognised through the noise \(w\), which is a form of signalling. If the second controller also saw \(x_0\), standard LQG theory would apply and linear controllers would be optimal.</p>
 
   <h2 class="subhead" id="reduction">Reduction to one function</h2>
@@ -33,7 +33,7 @@ __FIGURE_PROBLEM_NARROW__
   <div class="eq" id="eq-6">\[ J(f) \;=\; k^2\,\mathbb{E}\!\left[\big(f(x_0) - x_0\big)^2\right] \;+\; \mathbb{E}\!\left[\big(f(x_0) - g_f(y)\big)^2\right], \tag{6} \]</div>
   <p>which is not convex in \(f\). Every cost on this site is \(J(f)\) as in (6), and a submission is a function \(f\).</p>
 
-  <h2 class="subhead" id="known">What is known</h2>
+  <h2 class="subhead" id="known">Known results</h2>
   <ul>
     <li>An optimal pair exists for every \(k\) and \(\sigma\), and an optimal \(f\) satisfies \(\mathbb{E}[f(x_0)] = 0\) (Witsenhausen 1968, Theorem 1 and Lemma 9).</li>
     <li>Among linear controllers \(f(x) = \lambda x\) the best cost is \(J_{\mathrm{lin}} = \min_{\lambda}\; k^2\sigma^2(1-\lambda)^2 + \lambda^2\sigma^2/(1+\lambda^2\sigma^2)\). For some parameters a nonlinear \(f\) does strictly better (Theorem 2). At the benchmark, \(J_{\mathrm{lin}} = 0.96\), while the two-point design \(f(x) = \sigma\,\mathrm{sgn}(x)\) costs \(0.4043\).</li>
