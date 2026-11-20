@@ -162,6 +162,12 @@ a.ev:hover { color: var(--link); text-decoration-color: currentColor; }
 .ev.numerical::before { background: var(--s2); }
 .ev.peer::before { background: var(--good); }
 ul.evidence { list-style: none; padding-left: 0; }
+/* a disputed claim: a ring, as in the history chart */
+.ev.disputed::before { background: transparent; box-shadow: inset 0 0 0 1.7px var(--s1); }
+.rowhint { color: var(--muted); }
+/* in the leaderboard tables, a link that leaves the site ends in an arrow (not underlined, not read aloud) */
+#board a[href^="http"]::after, #bounds a[href^="http"]::after { content: "\2197"; content: "\2197" / "";
+  display: inline-block; margin-left: 2px; font-size: 0.78em; color: var(--muted); text-decoration: none; }
 ul.evidence .ev { font-weight: 700; }
 details.more { margin: 0 0 0.85em; }
 details.more > summary { cursor: pointer; color: var(--link); width: fit-content; }

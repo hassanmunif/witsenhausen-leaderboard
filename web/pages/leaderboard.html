@@ -2,14 +2,15 @@
   <h1>Leaderboard</h1>
 </header>
 <div class="prose">
-  <p>Controllers are ranked by cost, lower is better, and lower bounds by value, higher is better: no controller can cost less than a proven lower bound. Each entry has an evidence level, which opens the evidence behind it, and a click on a row shows its details:</p>
-  <ul class="evidence">
-    <li><span class="ev numerical">Numerically verified</span>: recomputed here from a controller file by the <a href="verification.html">reference evaluator</a>.</li>
-    <li><span class="ev claimed">Claimed</span>: printed in a paper, not checked.</li>
-    <li><span class="ev peer">Peer-reviewed</span>: a bound with a published proof, computed here and rounded down.</li>
-  </ul>
+  <p>Controllers are ranked by cost, lowest first, and lower bounds by value, highest first; no controller can cost less than a proven lower bound.</p>
   <details class="more">
-    <summary>Disputed claims, records, AI assistance, ties and dates</summary>
+    <summary>Evidence levels, tags, ranks and dates</summary>
+    <ul class="evidence">
+      <li><span class="ev numerical">Numerically verified</span>: recomputed here from a controller file by the <a href="verification.html">reference evaluator</a>.</li>
+      <li><span class="ev claimed">Claimed</span>: printed in a paper, not checked.</li>
+      <li><span class="ev peer">Peer-reviewed</span>: a bound with a published proof, computed here and rounded down.</li>
+    </ul>
+    <p>An evidence level opens the evidence behind its entry: the controller file of a verified cost, the paper of a claimed cost or of a lower bound. Links that leave this site are marked ↗.</p>
     <p>A claimed cost is marked <span class="tag">disputed</span> when there is evidence that the printed number is not the cost of the paper’s controller. Disputed claims are hidden unless you tick Disputed. They are not ranked, and their details give the reason.</p>
     <p>An entry tagged <span class="tag ai">AI-assisted</span> was found with the help of an AI model, as its authors declare. Its tooltip and its details say which model and what it did.</p>
     <p>The verified entry marked <span class="tag record">record</span> holds the record under the <a href="verification.html#record-rule">record rule</a>: it was the first to reach its cost. Verified costs closer together than that rule can separate share a rank, shown as =1, with the record holder listed first. Ranks count every verified entry and every claim that is not disputed, so they stay the same when you untick an evidence level.</p>
@@ -22,11 +23,12 @@
 <div class="tablehead">
   <h2 class="subhead" id="controllers">Controllers</h2>
   <div class="ticks" role="group" aria-label="Evidence levels to show">
-    <label><input type="checkbox" id="show-claimed" checked> Claimed</label>
-    <label><input type="checkbox" id="show-verified" checked> Numerically verified</label>
-    <label id="disputed-toggle"><input type="checkbox" id="show-disputed"> <span>Disputed (<span id="n-disputed">0</span>)</span></label>
+    <label title="Recomputed here from a controller file by the reference evaluator"><input type="checkbox" id="show-verified" checked> <span class="ev numerical">Numerically verified</span></label>
+    <label title="Printed in a paper, not checked here"><input type="checkbox" id="show-claimed" checked> <span class="ev claimed">Claimed</span></label>
+    <label id="disputed-toggle" title="Claimed costs with evidence against them; not ranked"><input type="checkbox" id="show-disputed"> <span class="ev disputed">Disputed (<span id="n-disputed">0</span>)</span></label>
   </div>
 </div>
+<p class="cap above rowhint">Click a row for its plots, cost split and controller file.</p>
 <div class="tablewrap"><table class="bt stack" id="board">
   <thead><tr>
     <th class="num">Rank</th><th>Cost \(J(f)\)</th><th>Evidence level</th><th>Controller \(f\)</th><th>Author</th><th>Date</th><th><span class="sr-only">Details</span></th>

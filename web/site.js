@@ -605,7 +605,10 @@ function renderBoard() {
     h("span", { title: rec ? "J(f) = " + fmtCost(rec.result.cost) + " ± " + errPlain(rec.result.error_estimate) : null },
       "Best verified ", h("b", { text: rec ? shortCost(rec.result.cost) : "none yet" })),
     best ? h("span", { title: "As printed: " + fmtReported(best) }, "Best claimed ", h("b", { text: shortPrinted(fmtReported(best)) })) : null,
-    h("span", null, "Best lower bound ", h("b", { text: fmtBound(lbs.best_value) }))]);
+    h("span", null, "Best lower bound ", h("b", { text: fmtBound(lbs.best_value) })),
+    /* the gap: how many times the best verified cost exceeds the best lower bound (as on the home page) */
+    rec ? h("span", { title: "The best verified cost is " + (rec.result.cost / lbs.best_value).toFixed(2) + " times the best lower bound; they differ by " + (rec.result.cost - lbs.best_value).toFixed(4) },
+      "Gap ", h("b", { text: (rec.result.cost / lbs.best_value).toFixed(2) + "×" })) : null]);
 
   /* Disputed claims are hidden unless their box is ticked; the box says how many there are. */
   document.getElementById("n-disputed").textContent = String(disputed.length);
