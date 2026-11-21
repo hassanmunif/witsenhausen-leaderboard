@@ -170,7 +170,6 @@ ul.evidence { list-style: none; padding-left: 0; }
 /* a disputed claim: a ring, as in the history chart */
 .ev.preprint::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
 .ev.disputed::before { background: transparent; box-shadow: inset 0 0 0 1.7px var(--s1); }
-.rowhint { color: var(--muted); }
 .idea { color: var(--muted); }  /* the plain name of a lower bound */
 /* in the leaderboard tables, a link that leaves the site ends in an arrow (not underlined, not read aloud) */
 #board a[href^="http"]::after, #bounds a[href^="http"]::after { content: "\2197"; content: "\2197" / "";
@@ -210,11 +209,11 @@ a.tag:hover { color: var(--link); border-color: var(--link); text-decoration: no
 tr.expandable { cursor: pointer; }
 tr.expandable:hover, tr.expandable.open { background: var(--band); }
 tr.disputed, tr.disputed .cost { color: var(--muted); }
-button.rowtoggle { display: inline-flex; padding: 3px; margin: -2px 0; border: 0; border-radius: 3px; background: none; color: var(--muted); cursor: pointer; vertical-align: middle; }
-.rowtoggle svg { width: 16px; height: 16px; transition: transform 0.15s ease; }
+button.rowtoggle { display: inline-flex; align-items: center; gap: 3px; padding: 2px 4px; margin: -2px 0; border: 0; border-radius: 3px; background: none; color: var(--link); font: inherit; font-size: 0.9rem; white-space: nowrap; cursor: pointer; vertical-align: middle; }
+.rowtoggle svg { width: 14px; height: 14px; transition: transform 0.15s ease; }
 .rowtoggle path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .rowtoggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-tr.expandable:hover .rowtoggle, .rowtoggle:focus-visible { color: var(--ink); }
+tr.expandable:hover .rowtoggle span, .rowtoggle:focus-visible span { text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) { .rowtoggle svg { transition: none; } }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 /* On a wide screen every leaderboard row is one line: the controller's name gives way, ending in an

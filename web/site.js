@@ -476,12 +476,12 @@ function stepsTable(e) {
     h("table", { class: "mini" }, h("thead", null, h("tr", null, h("th", { math: "$x_0 \\in$" }), h("th", { text: "probability" }), h("th", { math: "$\\mathbb{E}[x_1 \\mid \\text{step}]$" }))), tb));
 }
 /* A click anywhere on a row opens its details in a row underneath, and a second click closes them. Clicks on
-   a link, or while selecting text, are left alone. The arrow at the end of the row is a button, so the
+   a link, or while selecting text, are left alone. The "Details" control at the end of the row is a button, so the
    details can also be opened from the keyboard. */
 function withDetails(row, label, build) {
   var open = null;
-  var btn = h("button", { class: "rowtoggle", type: "button", "aria-expanded": "false", "aria-label": "Details: " + plain(label), title: "Details" },
-    s("svg", { viewBox: "0 0 16 16", "aria-hidden": "true" }, s("path", { d: "M4 6l4 4 4-4" })));
+  var btn = h("button", { class: "rowtoggle", type: "button", "aria-expanded": "false", "aria-label": "Details: " + plain(label) },
+    h("span", { text: "Details" }), s("svg", { viewBox: "0 0 16 16", "aria-hidden": "true" }, s("path", { d: "M4 6l4 4 4-4" })));
   function toggle() {
     if (open) { open.remove(); open = null; btn.setAttribute("aria-expanded", "false"); row.classList.remove("open"); return; }
     btn.setAttribute("aria-expanded", "true");
