@@ -748,8 +748,9 @@ function renderHistory() {
     HIST.push({ kind: r.disputed ? "disputed" : "reported", id: r.id, x: r.year, y: r.reported_cost, year: r.year, value: fmtReported(r),
       label: r.authors, short: (r.short || r.authors) + (r.disputed ? ", disputed" : ""), note: r.disputed ? r.disputed.reason : r.method });
   });
-  /* a verified dot sits at the year of the result it recomputes, just right of the paper's own claim */
-  st.entries.forEach(function (e) {
+  /* a verified dot sits at the year of the result it recomputes, just right of the paper's own claim. The record
+     is drawn last, so it stays on top of entries of the same year whose dots it covers. */
+  st.entries.slice().sort(function (a, b) { return (a.id === st.record_id) - (b.id === st.record_id); }).forEach(function (e) {
     var yr = +e.date.slice(0, 4);
     HIST.push({ kind: "verified", id: e.id, x: yr + 0.25, y: e.result.cost, year: yr, value: fmtCost(e.result.cost), label: e.name, short: e.short_name || "verified here",
       note: (e.authors || []).join(", ") + (e.ai_assistance ? ", AI-assisted" : "") + (e.verified_on ? "; verified here on " + e.verified_on.replace(/-/g, "\u2011") : "") });

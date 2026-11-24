@@ -1,0 +1,46 @@
+{
+ "schema": "witsenhausen-controller/v1",
+ "name": "Zhu's six-step slopey staircase",
+ "short_name": "Zhu's staircase",
+ "authors": [
+  "Q. Zhu"
+ ],
+ "date": "2026-11-23",
+ "setting": {
+  "k": 0.2,
+  "sigma": 5.0
+ },
+ "method": "Optimal-transport and quantization approach",
+ "source": {
+  "kind": "paper",
+  "url": "https://arxiv.org/abs/2609.18992"
+ },
+ "claimed_cost": 0.1669223428898,
+ "notes": "Sent by the author by email in this site's format, together with his value of the cost, $0.1669223428898$, which the evaluator matches to all 13 decimals. Not a published result: the linked paper describes the method, but this controller is not in its arXiv v2.",
+ "controller": {
+  "type": "odd_piecewise_affine",
+  "breakpoints": [
+   3.294625075638931,
+   9.963608574560197,
+   16.87230295336081,
+   24.1687896858163,
+   31.971594663853754
+  ],
+  "intercepts": [
+   0.0,
+   6.335787801602484,
+   12.857694765978525,
+   19.720828492895468,
+   27.045695435040724,
+   34.921037421675194
+  ],
+  "slopes": [
+   0.03551027312061437,
+   0.0350327502646125,
+   0.03385316840945746,
+   0.03242980479552903,
+   0.031041234550355467,
+   0.029903005604868953
+  ]
+ }
+}
