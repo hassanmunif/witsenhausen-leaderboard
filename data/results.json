@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-24T13:14:37Z",
+ "generated_at": "2026-11-24T13:49:47Z",
  "evaluator_version": "1.0.0",
  "record_rule": {
   "tolerance": 1e-09,
@@ -49,7 +49,7 @@
       "n_nodes": 26144,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.338,
+     "eval_seconds": 0.429,
      "plot": {
       "segments": [
        [
@@ -2485,9 +2485,9 @@
     {
      "id": "zhu-2026-slopey6",
      "file": "submissions/k0.20_s5/zhu-2026-slopey6.json",
-     "sha256": "fe9b9869539b1d1a7b711980adac23bfb775da33b87012f360e87230fd46c90f",
-     "name": "Zhu's six-step slopey staircase",
-     "short_name": "Zhu's staircase",
+     "sha256": "fdc6e9aba389c083a9df8f7f7c7bf8e8fd74acfc7930ea588f44d103d2d4373b",
+     "name": "Six-step slopey staircase",
+     "short_name": "slopey staircase",
      "authors": [
       "Q. Zhu"
      ],
@@ -2517,7 +2517,7 @@
       "n_nodes": 24512,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.028,
+     "eval_seconds": 0.027,
      "plot": {
       "segments": [
        [
@@ -4577,7 +4577,7 @@
       "n_nodes": 13488,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.255,
+     "eval_seconds": 0.225,
      "plot": {
       "segments": [
        [
@@ -8006,7 +8006,7 @@
       "n_nodes": 11072,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.007,
+     "eval_seconds": 0.006,
      "plot": {
       "segments": [
        [
@@ -10025,7 +10025,7 @@
       "n_nodes": 8640,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.005,
+     "eval_seconds": 0.004,
      "plot": {
       "segments": [
        [
@@ -12025,7 +12025,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.004,
      "plot": {
       "segments": [
        [
@@ -14025,7 +14025,7 @@
       "n_nodes": 38928,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.015,
+     "eval_seconds": 0.014,
      "plot": {
       "segments": [
        [
@@ -16150,7 +16150,7 @@
       "n_nodes": 30096,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.156,
+     "eval_seconds": 0.16,
      "plot": {
       "segments": [
        [
@@ -18366,7 +18366,7 @@
       "n_nodes": 13952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.273,
+     "eval_seconds": 0.243,
      "plot": {
       "segments": [
        [
@@ -25899,7 +25899,7 @@
       "n_nodes": 26192,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.139,
+     "eval_seconds": 0.134,
      "plot": {
       "segments": [
        [
@@ -28157,7 +28157,7 @@
       "n_nodes": 13376,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.237,
+     "eval_seconds": 0.234,
      "plot": {
       "segments": [
        [
@@ -33585,7 +33585,7 @@
       "n_nodes": 39744,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.005,
+     "eval_seconds": 0.006,
      "plot": {
       "segments": [
        [
@@ -35690,7 +35690,7 @@
       "n_nodes": 23040,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.114,
+     "eval_seconds": 0.112,
      "plot": {
       "segments": [
        [
@@ -38002,7 +38002,7 @@
       "n_nodes": 13328,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.259,
+     "eval_seconds": 0.234,
      "plot": {
       "segments": [
        [
@@ -45535,7 +45535,7 @@
       "n_nodes": 23952,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.123,
+     "eval_seconds": 0.121,
      "plot": {
       "segments": [
        [
@@ -47829,7 +47829,7 @@
       "n_nodes": 17472,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.397,
+     "eval_seconds": 0.335,
      "plot": {
       "segments": [
        [
@@ -51257,7 +51257,7 @@
       "n_nodes": 40128,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.007,
+     "eval_seconds": 0.006,
      "plot": {
       "segments": [
        [
@@ -53251,7 +53251,7 @@
       "n_nodes": 9120,
       "evaluator_version": "1.0.0"
      },
-     "eval_seconds": 0.003,
+     "eval_seconds": 0.004,
      "plot": {
       "segments": [
        [

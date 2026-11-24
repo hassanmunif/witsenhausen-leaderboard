@@ -1,7 +1,7 @@
 {
  "schema": "witsenhausen-controller/v1",
- "name": "Zhu's six-step slopey staircase",
- "short_name": "Zhu's staircase",
+ "name": "Six-step slopey staircase",
+ "short_name": "slopey staircase",
  "authors": [
   "Q. Zhu"
  ],
